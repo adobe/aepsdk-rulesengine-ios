@@ -1,49 +1,65 @@
-# Open Source Starter Repo
+# Rules Egnine
 
-This repository contains templates for project documentation, ensuring necessary
-legal and contributor documentation is explicit. All sections below in this `README.md`
-should be considered a template for a typical project `README.md`.
+## Overview
 
-## PROJECT NAME
+A simple, generic, extensible Rules Engine in Swift.
 
-A short description of what this project does.
 
-## Goals
+## Installation
 
-It is a good idea to provide a mission statement for your project, enshrining
-what the project wants to accomplish so that as more people join your project
-everyone can work in alignment.
+### Swift Package Manager
 
-## Non-Goals
-
-It is also a good idea to declare what are _not_ goals of the project to prevent
-potential feature creep.
-
-### Installation
-
-Instructions for how to download/install the code onto your machine.
+Once you have your Swift package set up, adding RuleEngine as a dependency is as easy as adding it to the dependencies value of your Package.swift.
 
 Example:
 ```
-npm install myProject --save
+dependencies: [
+.package(url: "https://github.com/adobe/aepsdk-rulesengine-ios.git", from: "0.0.1")
+]
 ```
 
-### Usage
+## Usage
 
-Usage instructions for your code.
 
-Example:
+### Initialize Rules Engine
+
+To create a `RuleEngine` instance, first define an `Evaluator` and then use it as the parameter for `RuleEngine`.
+```
+let evaluator = ConditionEvaluator(options: .caseInsensitive)
+let rulesEngine = RulesEngine(evaluator: evaluator)
+```
+
+### Define Rules
+
+Any thing that confroms to the `Rule` protocol can be used as rule. The easiest way is to use the built-in `ConditionRule`.
+```
+let condition = ComparisonExpression(lhs: "abc", operationName: "eq", rhs: "abc")
+let rule = ConditionRule(id: "sample-rule", condition: condition)
+rulesEngine.addRules(rules: [rule])
+```
+However, a rule like this doesn't make much sense, without the ability to dynamically fetch a value it will always be true or false.
 
 ```
-var myMod = require('mymodule');
-
-myMod.foo('hi');
+let mustache = Operand<String>(mustache: "{{company}}")
+let condition = ComparisonExpression(lhs: mustache, operationName: "eq", rhs: "adobe")
+let rule = ConditionRule(id: "sample-rule", condition: condition)
+rulesEngine.addRules(rules: [rule])
 ```
 
-### Contributing
+### Evaluate data
+
+Use the method `evaluate` to run rule engine on the input data that is `Traversable`.
+
+```
+let matchedRules = rulesEngine.evaluate(data: ["company":"adobe"])
+```
+
+
+
+## Contributing
 
 Contributions are welcomed! Read the [Contributing Guide](./.github/CONTRIBUTING.md) for more information.
 
-### Licensing
+## Licensing
 
 This project is licensed under the Apache V2 License. See [LICENSE](LICENSE) for more information.
