@@ -13,8 +13,8 @@ governing permissions and limitations under the License.
 import Foundation
 
 class Strategies {
-    
-    public static func transform<A,B>(origin: A, targetType:B.Type) -> B? {
+
+    public static func transform<A, B>(origin: A, targetType: B.Type) -> B? {
         switch origin {
         case is String:
             switch targetType {
@@ -23,10 +23,10 @@ class Strategies {
             default:
                 return nil
             }
-            
+
         default:
             return nil
         }
-        
+
     }
 }

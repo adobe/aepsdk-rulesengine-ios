@@ -14,96 +14,94 @@ import XCTest
 import Foundation
 
 @testable import RulesEngine
-struct CustomOperand : Traversable{
+struct CustomOperand: Traversable {
     subscript(sub sub: String) -> Any? {
         return sub
     }
 }
 class ExpressionTests: XCTestCase {
-    
+
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-    
-    
+
     func testString() {
         let evaluator = ConditionEvaluator(options: .defaultOptions)
-        
+
         let a = ComparisonExpression(lhs: 3, operationName: "eq", rhs: 3)
-        let result = a.resolve(in: Context(data: [:],evaluator: evaluator, functions: Functions()))
+        let result = a.resolve(in: Context(data: [:], evaluator: evaluator, functions: Functions()))
         XCTAssertTrue(result.value)
     }
-    
+
     func testAnd() {
         let evaluator = ConditionEvaluator(options: .defaultOptions)
-        
+
         let a = ComparisonExpression(lhs: "abc", operationName: "eq", rhs: "abc")
         let b = ComparisonExpression(lhs: "abc", operationName: "eq", rhs: "abc")
         let c = ConjunctionExpression(operationName: "and", operands: a, b)
         let result =  c.resolve(in: Context(data: [:], evaluator: evaluator, functions: Functions()))
         XCTAssertTrue(result.value)
     }
-    
+
     func testMustache() {
         let evaluator = ConditionEvaluator(options: .defaultOptions)
         let mustache = Operand<String>(mustache: "{{key}}")
         let a = ComparisonExpression(lhs: mustache, operationName: "eq", rhs: "abc")
         let b = ComparisonExpression(lhs: "abc", operationName: "eq", rhs: "abc")
         let c = ConjunctionExpression(operationName: "and", operands: a, b)
-        let result =  c.resolve(in: Context(data: ["key":"abc"],evaluator: evaluator, functions: Functions()))
+        let result =  c.resolve(in: Context(data: ["key": "abc"], evaluator: evaluator, functions: Functions()))
         XCTAssertTrue(result.value)
     }
-    
+
     func testMustache_Nil() {
         let evaluator = ConditionEvaluator(options: .defaultOptions)
         let mustache = Operand<String>(mustache: "{{key}}")
         let a = ComparisonExpression(lhs: mustache, operationName: "eq", rhs: "abc")
         let b = ComparisonExpression(lhs: "abc", operationName: "eq", rhs: "abc")
         let c = ConjunctionExpression(operationName: "and", operands: a, b)
-        let result =  c.resolve(in: Context(data: ["someelse":"abc"],evaluator: evaluator, functions: Functions()))
+        let result =  c.resolve(in: Context(data: ["someelse": "abc"], evaluator: evaluator, functions: Functions()))
         XCTAssertFalse(result.value)
     }
-    
+
     func testMustache_Any_isNil_false() {
         let evaluator = ConditionEvaluator(options: .defaultOptions)
         let mustache = Operand<String>(mustache: "{{key}}")
         let a = ComparisonExpression(lhs: mustache, operationName: "nx", rhs: Operand<String>.none)
         let b = ComparisonExpression(lhs: "abc", operationName: "eq", rhs: "abc")
         let c = ConjunctionExpression(operationName: "and", operands: a, b)
-        let result =   c.resolve(in: Context(data: ["key":"abc"],evaluator: evaluator, functions: Functions()))
-        
+        let result =   c.resolve(in: Context(data: ["key": "abc"], evaluator: evaluator, functions: Functions()))
+
         XCTAssertFalse(result.value)
-        
+
     }
-    
+
     func testMustache_Any_isNil_true() {
         let evaluator = ConditionEvaluator(options: .defaultOptions)
         let mustache = Operand<Any>(mustache: "{{other}}")
         let a = ComparisonExpression(lhs: mustache, operationName: "nx", rhs: Operand<Any>.none)
         let b = ComparisonExpression(lhs: "abc", operationName: "eq", rhs: "abc")
         let c = ConjunctionExpression(operationName: "and", operands: a, b)
-        let result =  c.resolve(in: Context(data: ["key":"abc"],evaluator: evaluator, functions: Functions()))
-        
+        let result =  c.resolve(in: Context(data: ["key": "abc"], evaluator: evaluator, functions: Functions()))
+
         XCTAssertTrue(result.value)
     }
-    
-    
+
     func testMustache_Custom() {
         let evaluator = ConditionEvaluator(options: .defaultOptions)
-        evaluator.addUnaryOperator(operation: "isAmazing") { (lhs:CustomOperand) -> Bool in
+        evaluator.addUnaryOperator(operation: "isAmazing") { (lhs: CustomOperand) -> Bool in
             (lhs[sub: "test"] as? String) == "test"
         }
-        
+
         let mustache = Operand<CustomOperand>(mustache: "{{custom}}")
         let a = UnaryExpression(lhs: mustache, operationName: "isAmazing")
         let b = ComparisonExpression(lhs: "abc", operationName: "eq", rhs: "abc")
         let c = ConjunctionExpression(operationName: "and", operands: a, b)
-        let result =  c.resolve(in: Context(data: ["custom":CustomOperand()],evaluator: evaluator, functions: Functions()))
+        let result =  c.resolve(in: Context(data: ["custom": CustomOperand()], evaluator: evaluator, functions: Functions()))
         XCTAssertTrue(result.value)
     }
-    
+
 }

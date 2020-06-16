@@ -26,27 +26,24 @@ class DSLParserTests: XCTestCase {
     }
 
     func testExample() {
-        
+
         let evaluator = ConditionEvaluator(options: .caseInsensitive)
         let engine = RulesEngine(evaluator: evaluator)
-        engine.addRulesFrom{
-            Condition{
+        engine.addRulesFrom {
+            Condition {
 
                 ComparisonExpression(lhs: Operand<String>(mustache: "{{data.blah}}"), operationName: "eq", rhs: "blah")
             }
-            Consequence{
-                ["key":"value"]
+            Consequence {
+                ["key": "value"]
             }
         }
-        
-        let input = ["data": ["blah":"blah"], "context": ["blah":"blah"]]
-        
+
+        let input = ["data": ["blah": "blah"], "context": ["blah": "blah"]]
+
         let output = engine.evaluate(data: input)
         XCTAssertEqual(1, output.count)
-        
-        
-    }
 
-    
+    }
 
 }

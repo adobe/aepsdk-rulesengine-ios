@@ -27,5 +27,5 @@ extension Event: Traversable {
             return Optional<String>.none
         }
     }
-    
+
 }

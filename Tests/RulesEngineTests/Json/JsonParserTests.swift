@@ -10,23 +10,21 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-
 import XCTest
 import Foundation
 
 @testable import RulesEngine
 
-
 class JsonParserTests: XCTestCase {
-    
+
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-    
+
     func testCaseInsensitive() {
         let json = """
         [
@@ -78,21 +76,20 @@ class JsonParserTests: XCTestCase {
         }
         ]
         """
-        
+
         let evaluator = ConditionEvaluator(options: .caseInsensitive)
-        
+
         let engine = RulesEngine(evaluator: evaluator)
-        
-        if let jsonData = json.data(using: .utf8){
+
+        if let jsonData = json.data(using: .utf8) {
             engine.addRulesFrom(json: jsonData)
         }
-        
-        
-        let input = ["data": ["blah":"blah"], "context": ["blah":"blah"]]
+
+        let input = ["data": ["blah": "blah"], "context": ["blah": "blah"]]
         let output = engine.evaluate(data: input)
         XCTAssertEqual(1, output.count)
     }
-    
+
     func testCaseSensitive() {
         let json = """
           [
@@ -177,17 +174,17 @@ class JsonParserTests: XCTestCase {
           """
         let evaluator = ConditionEvaluator(options: .caseInsensitive)
         let engine = RulesEngine(evaluator: evaluator)
-        if let jsonData = json.data(using: .utf8){
+        if let jsonData = json.data(using: .utf8) {
             engine.addRulesFrom(json: jsonData)
         }
 //        engine.traceRule(id: "testid") { (result, rule, conext, error) in
 //            print(error!)
 //        }
-        let input = ["data": ["blah":"blah", "number":3], "context": ["blah":"blah"]]
+        let input = ["data": ["blah": "blah", "number": 3], "context": ["blah": "blah"]]
         let output = engine.evaluate(data: input)
         XCTAssertEqual(1, output.count)
     }
-    
+
     func testCustomOperator() {
         let json = """
           [
@@ -214,22 +211,22 @@ class JsonParserTests: XCTestCase {
           ]
           """
         let evaluator = ConditionEvaluator(options: .caseInsensitive)
-        evaluator.addUnaryOperator(operation: "isOdd") { (a:Any) -> Bool in
-            if let intValue = a as? Int{
+        evaluator.addUnaryOperator(operation: "isOdd") { (a: Any) -> Bool in
+            if let intValue = a as? Int {
                 return intValue % 2 == 1
             }
             return false
         }
         let engine = RulesEngine(evaluator: evaluator)
-        if let jsonData = json.data(using: .utf8){
+        if let jsonData = json.data(using: .utf8) {
             engine.addRulesFrom(json: jsonData)
         }
-        
-        let input = ["data": ["blah":1], "context": ["blah":"blah"]]
+
+        let input = ["data": ["blah": 1], "context": ["blah": "blah"]]
         let output = engine.evaluate(data: input)
         XCTAssertEqual(1, output.count)
     }
-    
+
     func testCustomFunction() {
         let json = """
           [
@@ -263,20 +260,20 @@ class JsonParserTests: XCTestCase {
             return nil
         })
         let evaluator = ConditionEvaluator(options: .caseInsensitive)
-        evaluator.addUnaryOperator(operation: "isEven") { (a:Any) -> Bool in
-            if let intValue = a as? Int{
+        evaluator.addUnaryOperator(operation: "isEven") { (a: Any) -> Bool in
+            if let intValue = a as? Int {
                 return intValue % 2 == 0
             }
             return false
         }
-        let engine = RulesEngine(evaluator: evaluator, functions:functions)
-        if let jsonData = json.data(using: .utf8){
+        let engine = RulesEngine(evaluator: evaluator, functions: functions)
+        if let jsonData = json.data(using: .utf8) {
             engine.addRulesFrom(json: jsonData)
         }
-        
-        let input = ["data": ["blah":1], "context": ["blah":"blah"]]
+
+        let input = ["data": ["blah": 1], "context": ["blah": "blah"]]
         let output = engine.evaluate(data: input)
         XCTAssertEqual(1, output.count)
     }
-    
+
 }

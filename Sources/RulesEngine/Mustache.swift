@@ -12,12 +12,11 @@ governing permissions and limitations under the License.
 
 import Foundation
 
-public protocol Resolvable{
+public protocol Resolvable {
     func resolve(in context: Context) -> Any?
 }
 
-
-extension MustacheToken:Resolvable {
+extension MustacheToken: Resolvable {
     public func resolve(in context: Context) -> Any? {
         switch self {
         case .function(let name, let innerToken):
@@ -30,15 +29,15 @@ extension MustacheToken:Resolvable {
     }
 }
 
-extension Operand{
-    
-        public init(mustache :String){
+extension Operand {
+
+        public init(mustache: String) {
             do {
                 let tokens = try TemplateParser().parse(mustache).get()
                 if case .mustache(let token) = tokens[0].type {
-                    if let token_ = token{
+                    if let token_ = token {
                         self = .template(token_)
-                    } else{
+                    } else {
                         self = .none
                     }
                     return

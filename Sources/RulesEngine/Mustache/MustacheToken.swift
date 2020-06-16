@@ -10,7 +10,7 @@ import Foundation
 public indirect enum MustacheToken {
         /// text
         case variable(text: String)
-        
+
         /// {{ content }}
-    case function(content: String, inner:MustacheToken)
+    case function(content: String, inner: MustacheToken)
 }

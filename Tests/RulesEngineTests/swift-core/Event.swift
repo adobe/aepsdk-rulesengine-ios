@@ -14,28 +14,28 @@ import Foundation
 
 /// An Event to be dispatched by the Event Hub
 public struct Event {
-    
+
     /// Name of the event
     let name: String
-    
+
     /// unique identifier for the event
     private(set) var id = UUID()
-    
+
     /// The `EventType` for the event
     let type: EventType
-    
+
     /// The `EventSource` for the event
     let source: EventSource
-    
+
     /// Optional data associated with this event
     let data: [String: Any]?
-    
+
     /// Date this event was created
     private(set) var timestamp = Date()
-    
+
     /// If `responseID` is not nil, then this event is a response event and `responseID` is the `event.id` of the `triggerEvent`
     let responseID: UUID?
-    
+
     /// Creates a new `Event` with the given parameters
     /// - Parameters:
     ///   - name: Name for the `Event`
@@ -45,7 +45,7 @@ public struct Event {
     init(name: String, type: EventType, source: EventSource, data: [String: Any]?) {
         self.init(name: name, type: type, source: source, data: data, requestEvent: nil)
     }
-    
+
     private init(name: String, type: EventType, source: EventSource, data: [String: Any]?, requestEvent: Event?) {
         self.name = name
         self.type = type
@@ -63,7 +63,7 @@ public struct Event {
     func createResponseEvent(name: String, type: EventType, source: EventSource, data: [String: Any]?) -> Event {
         return Event(name: name, type: type, source: source, data: data, requestEvent: self)
     }
-    
+
 }
 
 extension Event: Decodable, Encodable {
@@ -76,10 +76,10 @@ extension Event: Decodable, Encodable {
         case timestamp
         case responseID
     }
-    
+
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         name = try values.decode(String.self, forKey: .name)
         id = try values.decode(UUID.self, forKey: .id)
         type = try values.decode(EventType.self, forKey: .type)
@@ -89,10 +89,10 @@ extension Event: Decodable, Encodable {
         timestamp = try values.decode(Date.self, forKey: .timestamp)
         responseID = try values.decode(UUID.self, forKey: .responseID)
     }
-    
+
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        
+
         try container.encode(name, forKey: .name)
         try container.encode(id, forKey: .id)
         try container.encode(type, forKey: .type)
@@ -102,5 +102,3 @@ extension Event: Decodable, Encodable {
         try container.encode(responseID, forKey: .responseID)
     }
 }
-
-

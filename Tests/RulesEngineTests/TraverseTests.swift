@@ -16,74 +16,71 @@ import XCTest
 @testable import RulesEngine
 
 extension Array: Traversable {
-    
+
     public subscript(sub sub: String) -> Any? {
             if let index = Int(sub) {
                 return self[index]
             }
             return nil
-       
+
     }
 }
 
-extension Dictionary: Traversable where Key == String{
+extension Dictionary: Traversable where Key == String {
     public subscript(sub sub: String) -> Any? {
         let result = self[sub]
-        if result is AnyCodable{
+        if result is AnyCodable {
             return (result as! AnyCodable).value
         }
            return result
     }
 }
 
-struct CustomTraverse : Traversable{
+struct CustomTraverse: Traversable {
     subscript(sub sub: String) -> Any? {
         return sub
     }
-    
-    
+
 }
 
 class TraverseTests: XCTestCase {
-    
+
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-    
-    
+
     func testEqual_True() {
-        let dict = ["key":"value", "embeded":["blah":"blah"]] as [String : Any]
+        let dict = ["key": "value", "embeded": ["blah": "blah"]] as [String: Any]
         let b = dict[path: ["key"]]
         let c = dict[path: ["embeded", "blah"]]
         XCTAssertEqual(b as! String, "value")
         XCTAssertEqual(c as! String, "blah")
     }
-    
+
     func testCustom() {
         let custom = CustomTraverse()
-        let dict = ["key":"value", "embeded":["blah":"blah"], "custom":custom] as [String : Any]
-        
+        let dict = ["key": "value", "embeded": ["blah": "blah"], "custom": custom] as [String: Any]
+
         let c = dict[path: ["custom", "blah"]]
         let d = dict[path: ["custom", "blah1234"]]
-        
+
         XCTAssertEqual(c as! String, "blah")
         XCTAssertEqual(d as! String, "blah1234")
     }
-    
+
     func testArray() {
         let custom = CustomTraverse()
-        let dict = ["array":["value0", "value1", custom]] as [String : Any]
-        
+        let dict = ["array": ["value0", "value1", custom]] as [String: Any]
+
         let c = dict[path: ["array", "0"]]
         let d = dict[path: ["array", "2", "blah"]]
-        
+
         XCTAssertEqual(c as! String, "value0")
         XCTAssertEqual(d as! String, "blah")
     }
 
 }
-

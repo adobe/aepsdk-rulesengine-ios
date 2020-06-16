@@ -26,7 +26,7 @@ class ParserTests: XCTestCase {
     }
 
     func testExample() {
-        
+
         let parser = TemplateParser(tagDelimiterPair: ("{{", "}}"))
         let result = parser.parse("sdfdfd{{test}}aaa")
         XCTAssertEqual(3, (try! result.get()).count)

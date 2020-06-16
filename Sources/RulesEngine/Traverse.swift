@@ -12,15 +12,14 @@ governing permissions and limitations under the License.
 
 import Foundation
 
-
 public protocol Traversable {
     subscript(sub sub: String) -> Any? { get }
 }
 
-extension Traversable{
+extension Traversable {
     subscript(path path: [String]) -> Any? {
             let result = path.reduce(self as Any?) {
-                switch $0{
+                switch $0 {
                 case is Traversable:
                     return ($0 as! Traversable)[sub: $1]
                 default:

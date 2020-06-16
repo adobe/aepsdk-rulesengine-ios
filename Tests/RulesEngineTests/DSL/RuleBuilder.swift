@@ -13,7 +13,7 @@ governing permissions and limitations under the License.
 import Foundation
 import RulesEngine
 
-open class Step{
+open class Step {
 
     public init() {}
 
@@ -36,13 +36,12 @@ public struct Condition {
 
 public struct Consequence {
 
-    public let consequnce: Dictionary<String, Any>
+    public let consequnce: [String: Any]
 
-    public init(@RuleBuilder _ content: () -> Dictionary<String, Any>) {
+    public init(@RuleBuilder _ content: () -> [String: Any]) {
         consequnce = content()
     }
 }
-
 
 @_functionBuilder public struct RuleBuilder {
 
@@ -51,18 +50,14 @@ public struct Consequence {
     }
 }
 
+extension RulesEngine {
 
-
-
-extension RulesEngine{
-    
-    public func addRulesFrom(@RuleBuilder _ content: () -> (given: Condition, then:Consequence)) {
+    public func addRulesFrom(@RuleBuilder _ content: () -> (given: Condition, then: Consequence)) {
         let content = content()
-        
+
         let rule = ConditionRule(id: "testid", condition: content.given.condition)
-        
+
         self.addRules(rules: [rule])
-        
-        
+
    }
 }

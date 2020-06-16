@@ -12,32 +12,31 @@ governing permissions and limitations under the License.
 
 import Foundation
 
+extension Operand: ExpressibleByBooleanLiteral where T == Bool {
 
-extension Operand: ExpressibleByBooleanLiteral where T == Bool{
-    
     public init(booleanLiteral value: Bool) {
         self = .some(value)
     }
 }
 
-extension Operand: ExpressibleByFloatLiteral where T == Double{
+extension Operand: ExpressibleByFloatLiteral where T == Double {
     public init(floatLiteral value: Double) {
         self = .some(value)
     }
 }
 
-extension Operand: ExpressibleByIntegerLiteral where T == Int{
+extension Operand: ExpressibleByIntegerLiteral where T == Int {
     public init(integerLiteral value: Int) {
         self = .some(value)
     }
 }
 
 extension Operand: ExpressibleByNilLiteral {
-    
+
     public init(nilLiteral: ()) {
         self = .none
     }
-        
+
 }
 
 extension Operand: ExpressibleByUnicodeScalarLiteral where T == String {
@@ -48,9 +47,8 @@ extension Operand: ExpressibleByExtendedGraphemeClusterLiteral where T == String
     public typealias UnicodeScalarLiteralType = String
 }
 
-extension Operand: ExpressibleByStringLiteral where T == String{
-       
-    
+extension Operand: ExpressibleByStringLiteral where T == String {
+
     public init(stringLiteral value: String) {
         self = Operand<String>.some(value)
     }

@@ -13,7 +13,6 @@ governing permissions and limitations under the License.
 import Foundation
 import RulesEngine
 
-
 extension AnyCodable: Traversable {
     public subscript(sub sub: String) -> Any? {
         if value is [String: Any] {
@@ -21,5 +20,5 @@ extension AnyCodable: Traversable {
         }
         return nil
     }
-    
+
 }

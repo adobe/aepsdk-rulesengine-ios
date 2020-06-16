@@ -12,19 +12,17 @@ governing permissions and limitations under the License.
 
 import Foundation
 
+open class ConditionRule: Rule {
 
+    public let id: String
+    public let condition: ConditionExpression
 
-open class ConditionRule:Rule{
-    
-    public let id:String
-    public let condition:ConditionExpression
-
-    public init(id:String, condition: ConditionExpression) {
+    public init(id: String, condition: ConditionExpression) {
         self.id = id
         self.condition = condition
     }
 
-    public func evalate(in context:Context) -> Result<Bool, RulesFailure> {
+    public func evalate(in context: Context) -> Result<Bool, RulesFailure> {
         return self.condition.resolve(in: context)
     }
 }

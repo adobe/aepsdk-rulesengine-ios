@@ -14,23 +14,22 @@ import Foundation
 
 import RulesEngine
 
-
-public class ConstantConditionExpression:ConditionExpression {
-    let value:Bool
-    init(_ value:Bool){
+public class ConstantConditionExpression: ConditionExpression {
+    let value: Bool
+    init(_ value: Bool) {
         self.value = value
     }
-    
-    public func resolve(in context: Context) -> Result<Bool, RulesFailure>{
+
+    public func resolve(in context: Context) -> Result<Bool, RulesFailure> {
         return .success(value)
-        
+
     }
 }
 
 let ConstantTrue = ConstantConditionExpression(true)
 let ConstantFalse = ConstantConditionExpression(false)
 
-struct Converter{
+struct Converter {
     static func convertFrom(json data: [String: Any]) -> ConditionExpression {
         let type = data["type"] as? String
         switch type {
@@ -38,17 +37,17 @@ struct Converter{
             let definition = data["definition"] as? [String: Any]
             let logic = definition?["logic"] as? String
             let conditions = definition?["conditions"] as? [[String: Any]]
-            
-            let conditionExpressions = conditions?.map ({ condition in
+
+            let conditionExpressions = conditions?.map({ condition in
                 Converter.convertFrom(json: condition)
             })
-            
+
             switch logic {
             case "and":
-                return ConjunctionExpression(operationName:"and", operands: conditionExpressions!)
-                
+                return ConjunctionExpression(operationName: "and", operands: conditionExpressions!)
+
             case "or":
-                return ConjunctionExpression(operationName:"or", operands: conditionExpressions!)
+                return ConjunctionExpression(operationName: "or", operands: conditionExpressions!)
             default:
                 return ConstantFalse
             }
@@ -56,82 +55,79 @@ struct Converter{
             let definition = data["definition"] as? [String: Any]
             let key = definition?["key"] as! String
             let matcher = definition?["matcher"] as! String
-            let values = definition?["values"] as! Array<Any>
+            let values = definition?["values"] as! [Any]
             var isKeyMustache = false
-            
+
             do {
                 let regex = try NSRegularExpression(pattern: "\\{\\{(.*)\\}\\}", options: NSRegularExpression.Options.caseInsensitive)
                 let matches = regex.matches(in: key, options: [], range: NSRange(location: 0, length: key.utf8.count))
-                
+
                 isKeyMustache = matches.count > 0
             } catch {
             }
-            
-            
+
             if values.count > 0 {
                 let conditions = values.filter({ (item) -> Bool in
                     item is String || item is Int || item is Double || item is Bool
-                }).map( { (item) -> ConditionExpression in
+                }).map({ (item) -> ConditionExpression in
                     switch item {
                     case is String:
                         return isKeyMustache
-                            ? ComparisonExpression(lhs: Operand<String>(mustache: key) , operationName: matcher, rhs: .some(item as! String))
-                            : ComparisonExpression(lhs: .some(key) , operationName: matcher, rhs: .some(item as! String))
+                            ? ComparisonExpression(lhs: Operand<String>(mustache: key), operationName: matcher, rhs: .some(item as! String))
+                            : ComparisonExpression(lhs: .some(key), operationName: matcher, rhs: .some(item as! String))
                     case is Int:
                         return isKeyMustache
-                            ? ComparisonExpression(lhs: Operand<Int>(mustache: key) , operationName: matcher, rhs: .some(item as! Int))
-                            : ComparisonExpression(lhs: .some(Int(key)) , operationName: matcher, rhs: .some(item as! Int))
+                            ? ComparisonExpression(lhs: Operand<Int>(mustache: key), operationName: matcher, rhs: .some(item as! Int))
+                            : ComparisonExpression(lhs: .some(Int(key)), operationName: matcher, rhs: .some(item as! Int))
                     case is Double:
                         return isKeyMustache
-                            ? ComparisonExpression(lhs: Operand<Double>(mustache: key) , operationName: matcher, rhs: .some(item as! Double))
-                            : ComparisonExpression(lhs: .some(Double(key)) , operationName: matcher, rhs: .some(item as! Double))
+                            ? ComparisonExpression(lhs: Operand<Double>(mustache: key), operationName: matcher, rhs: .some(item as! Double))
+                            : ComparisonExpression(lhs: .some(Double(key)), operationName: matcher, rhs: .some(item as! Double))
                     case is Bool:
                         return isKeyMustache
-                            ? ComparisonExpression(lhs: Operand<Bool>(mustache: key) , operationName: matcher, rhs: .some(item as! Bool))
-                            : ComparisonExpression(lhs: .some(Bool(key)) , operationName: matcher, rhs: .some(item as! Bool))
-                        
+                            ? ComparisonExpression(lhs: Operand<Bool>(mustache: key), operationName: matcher, rhs: .some(item as! Bool))
+                            : ComparisonExpression(lhs: .some(Bool(key)), operationName: matcher, rhs: .some(item as! Bool))
+
                     default:
-                        return ComparisonExpression(lhs: .some("") , operationName: "eq", rhs: .some(""))
+                        return ComparisonExpression(lhs: .some(""), operationName: "eq", rhs: .some(""))
                     }
                 })
-                
-                return ConjunctionExpression(operationName:"or", operands: conditions)
-            }else{
-                return isKeyMustache ? UnaryExpression(lhs:Operand<Any>(mustache: key), operationName: matcher) :ConstantFalse
+
+                return ConjunctionExpression(operationName: "or", operands: conditions)
+            } else {
+                return isKeyMustache ? UnaryExpression(lhs: Operand<Any>(mustache: key), operationName: matcher) :ConstantFalse
             }
         default:
             return ConstantFalse
         }
-        
+
     }
 }
 
-extension ConditionRule{
-    static func createFrom(json data: [String: Any]) -> ConditionRule{
-        
+extension ConditionRule {
+    static func createFrom(json data: [String: Any]) -> ConditionRule {
+
         let id = data["id"] as! String
         let consequence = data["consequences"] as! [Any]
         let condition = Converter.convertFrom(json: data["condition"] as! [String: Any])
-        
+
         return ConditionRule(id: id, condition: condition)
     }
 }
 
-extension RulesEngine{
-    
+extension RulesEngine {
+
     public func addRulesFrom(json data: Data) {
-        
+
         let json = try? JSONSerialization.jsonObject(with: data, options: [])
-        
-        if let array = json as? [[String : Any]] {
+
+        if let array = json as? [[String: Any]] {
             let rules = array.map({ item in
-                ConditionRule.createFrom(json:item)
+                ConditionRule.createFrom(json: item)
             })
-            
+
             self.addRules(rules: rules)
         }
-        
-        
+
     }
 }
-

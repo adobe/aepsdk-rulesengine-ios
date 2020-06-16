@@ -15,49 +15,44 @@ import Foundation
 
 @testable import RulesEngine
 
-
-
-
 class RulesEngineTests: XCTestCase {
-    
+
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-   
-    func testMustache(){
-        
+
+    func testMustache() {
+
         let evaluator = ConditionEvaluator(options: .defaultOptions)
         let rulesEngine = RulesEngine(evaluator: evaluator)
-        
+
         let mustache = Operand<String>(mustache: "{{key}}")
         let condition = ComparisonExpression(lhs: mustache, operationName: "eq", rhs: "abc")
-        
-        
+
         let rule1 = ConditionRule(id: "test", condition: condition)
         rulesEngine.addRules(rules: [rule1])
-        
-        let matchedRules = rulesEngine.evaluate(data: ["key":"abc"])
-        
+
+        let matchedRules = rulesEngine.evaluate(data: ["key": "abc"])
+
         XCTAssertEqual(1, matchedRules.count)
     }
-    
-    func testCaseInsensitive(){
+
+    func testCaseInsensitive() {
         let evaluator = ConditionEvaluator(options: .caseInsensitive)
         let rulesEngine = RulesEngine(evaluator: evaluator)
-        
+
         let condition = ComparisonExpression(lhs: "abc", operationName: "eq", rhs: "ABC")
-        
-        
+
         let rule1 = ConditionRule(id: "test", condition: condition)
         rulesEngine.addRules(rules: [rule1])
-        
+
         let matchedRules = rulesEngine.evaluate(data: [:])
-        
+
         XCTAssertEqual(1, matchedRules.count)
     }
-    
+
 }

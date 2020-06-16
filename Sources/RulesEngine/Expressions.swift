@@ -16,14 +16,13 @@ public protocol ConditionExpression {
     func resolve(in context: Context) -> Result<Bool, RulesFailure>
 }
 
-
 @dynamicCallable
-public enum Operand<T>{
+public enum Operand<T> {
     case none
     case some(T)
     case template(Resolvable)
-    
-    func dynamicallyCall(withArguments args: [Context]) ->  T?{
+
+    func dynamicallyCall(withArguments args: [Context]) -> T? {
         switch self {
         case .none:
             return nil
@@ -38,7 +37,6 @@ public enum Operand<T>{
     }
 }
 
-
 extension Operand: CustomStringConvertible {
     public var description: String {
         switch self {
@@ -52,89 +50,88 @@ extension Operand: CustomStringConvertible {
     }
 }
 
+public struct ConjunctionExpression: ConditionExpression {
+    public let operands: [ConditionExpression]
+    public let operationName: String
 
-public struct ConjunctionExpression:ConditionExpression {
-    public let operands:[ConditionExpression]
-    public let operationName:String
-    
-    public init(operationName:String, operands:ConditionExpression...){
+    public init(operationName: String, operands: ConditionExpression...) {
         self.operands = operands
         self.operationName = operationName
     }
-    
-    public init(operationName:String, operands:[ConditionExpression]){
+
+    public init(operationName: String, operands: [ConditionExpression]) {
         self.operands = operands
         self.operationName = operationName
     }
-    
-    public  func resolve(in context: Context) -> Result<Bool, RulesFailure>{
+
+    public  func resolve(in context: Context) -> Result<Bool, RulesFailure> {
         let operandsResolve = operands.map { conditionExpression in
             conditionExpression.resolve(in: context)
         }
-        
+
         switch operationName {
         case "and":
             if operandsResolve.contains(where: {!$0.value}) {
-                return Result.failure(.innerFailures(message: "`And` returns false", errors:  operandsResolve.filter{ !$0.value}.map{ $0.error!}))
+                return Result.failure(.innerFailures(message: "`And` returns false", errors:  operandsResolve.filter { !$0.value}.map { $0.error!}))
             }
             return .success(true)
         case "or":
             if operandsResolve.contains(where: {$0.value}) {
                 return .success(true)
             }
-            return Result.failure(.innerFailures(message: "`Or` returns false", errors:  operandsResolve.filter{ !$0.value}.map{ $0.error ?? RulesFailure.unknown}))
+            return Result.failure(.innerFailures(message: "`Or` returns false", errors:  operandsResolve.filter { !$0.value}.map { $0.error ?? RulesFailure.unknown}))
         default:
             return .failure(.missingOperator(message: "Unkonwn conjunction operator"))
         }
-        
+
     }
 }
 
-public class UnaryExpression<A>:ConditionExpression{
-    let lhs:Operand<A>
-    let operationName:String
-    
-    public init(lhs:Operand<A>, operationName:String){
+public class UnaryExpression<A>: ConditionExpression {
+    let lhs: Operand<A>
+    let operationName: String
+
+    public init(lhs: Operand<A>, operationName: String) {
         self.lhs = lhs
         self.operationName = operationName
     }
-    
-    public func resolve(in context: Context) -> Result<Bool, RulesFailure>{
+
+    public func resolve(in context: Context) -> Result<Bool, RulesFailure> {
         let resolvedLhs = lhs(context)
-        if let resolvedLhs_ = resolvedLhs{
+        if let resolvedLhs_ = resolvedLhs {
             return context.evaluator.evaluate(operation: operationName, lhs: resolvedLhs_)
         }
         return context.evaluator.evaluate(operation: operationName, lhs: resolvedLhs)
     }
-    
+
 }
 
-public class ComparisonExpression<A,B>:ConditionExpression{
-    let lhs:Operand<A>
-    let rhs:Operand<B>
-    let operationName:String
-    
-    public init(lhs:Operand<A>, operationName:String, rhs:Operand<B>){
+public class ComparisonExpression<A, B>: ConditionExpression {
+    let lhs: Operand<A>
+    let rhs: Operand<B>
+    let operationName: String
+
+    public init(lhs: Operand<A>, operationName: String, rhs: Operand<B>) {
         self.lhs = lhs
         self.rhs = rhs
         self.operationName = operationName
     }
-    
-    public func resolve(in context: Context) -> Result<Bool, RulesFailure>{
+
+    public func resolve(in context: Context) -> Result<Bool, RulesFailure> {
         let resolvedLhs = lhs(context)
         let resolvedRhs = rhs(context)
-        var result : Result<Bool, RulesFailure>
+        var result: Result<Bool, RulesFailure>
         if let resolvedLhs_ = resolvedLhs, let resolvedRhs_ = resolvedRhs {
             result = context.evaluator.evaluate(operation: operationName, lhs: resolvedLhs_, rhs: resolvedRhs_)
-        } else{
+        } else {
             result = context.evaluator.evaluate(operation: operationName, lhs: resolvedLhs, rhs: resolvedRhs)
         }
         switch result {
-        case .success(_):
+        case .success:
             return result
         case .failure(let error):
             return Result.failure(.innerFailure(message: "Comparison (\(lhs) \(operationName) \(rhs)) returns false", error: error))
         }
-        
+
     }
 }
