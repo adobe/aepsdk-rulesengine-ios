@@ -17,3 +17,9 @@ jobs:
       run: swift build -v
     - name: Run tests
       run: swift test -v
+      
+    - name: Upload coverage to Codecov  
+      uses: ./
+      with:
+        flags: unittest
+        name: codecov-1
