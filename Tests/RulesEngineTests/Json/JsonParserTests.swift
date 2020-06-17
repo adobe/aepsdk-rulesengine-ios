@@ -120,26 +120,6 @@ class JsonParserTests: XCTestCase {
                                   ]
                                 }
                               },
-                                {
-                                  "type": "matcher",
-                                  "definition": {
-                                    "key": "{{data.string}}",
-                                    "matcher": "eq",
-                                    "values": [
-                                      "BLAH"
-                                    ]
-                                  }
-                                },
-                        {
-                                 "type": "matcher",
-                                 "definition": {
-                                   "key": "{{data.bool}}",
-                                   "matcher": "eq",
-                                   "values": [
-                                     true
-                                   ]
-                                 }
-                               },
 
                                 {
                                   "type": "matcher",
