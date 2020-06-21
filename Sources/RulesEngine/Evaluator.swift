@@ -10,14 +10,10 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-#import <Foundation/Foundation.h>
+import Foundation
 
-//! Project version number for Swift_Rules.
-FOUNDATION_EXPORT double Swift_RulesVersionNumber;
+public protocol Evaluating {
 
-//! Project version string for Swift_Rules.
-FOUNDATION_EXPORT const unsigned char Swift_RulesVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <Swift_Rules/PublicHeader.h>
-
-
+    func evaluate<A, B>(operation: String, lhs: A, rhs: B)  -> Result<Bool, RulesFailure>
+    func evaluate<A>(operation: String, lhs: A)  -> Result<Bool, RulesFailure>
+}

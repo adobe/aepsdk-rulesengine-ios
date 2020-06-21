@@ -39,7 +39,7 @@ class RulesEngineDebugTests: XCTestCase {
         let andCondition = ConjunctionExpression(operationName: "and", operands: condition1, condition2, condition3)
         let orCondition = ConjunctionExpression(operationName: "or", operands: andCondition, condition1, condition2, condition4)
 
-        let rule1 = ConditionRule(id: "test", condition: orCondition)
+        let rule1 = ConsequenceRule(id: "test", condition: orCondition)
         rulesEngine.addRules(rules: [rule1])
 
         var traceResult: Bool?

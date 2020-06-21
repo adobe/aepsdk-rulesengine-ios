@@ -12,30 +12,30 @@ governing permissions and limitations under the License.
 
 import Foundation
 
-public typealias RuleTracer = (Bool, Rule, Context, RulesFailure?) -> Void
+public typealias RuleTracer = (Bool, Evaluable, Context, RulesFailure?) -> Void
 
 public class RulesEngine {
 
-    let evaluator: Evaluator
-    let functions: Functions
+    let evaluator: Evaluating
+    let transformer: Transforming
     var tracer: RuleTracer?
-    var rules = [Rule]()
+    var rules = [Evaluable]()
 
-    public init(evaluator: Evaluator, functions: Functions = Functions()) {
+    public init(evaluator: Evaluating, transformer: Transforming = Transforms()) {
         self.evaluator = evaluator
-        self.functions = functions
+        self.transformer = transformer
     }
 
     /// Evaluate all the rules against the input data
     /// - Parameter data: input data
     /// - Returns: all the rules that have been matched
-    public func evaluate(data: Traversable) -> [Rule] {
+    public func evaluate(data: Traversable) -> [Evaluable] {
 
-        let context = Context(data: data, evaluator: evaluator, functions: functions)
+        let context = Context(data: data, evaluator: evaluator, transformer: transformer)
         return rules.filter { rule -> Bool in
-            let result = rule.evalate(in: context)
-            if let tracer_ = self.tracer {
-                tracer_(result.value, rule, context, result.error)
+            let result = rule.evaluate(in: context)
+            if let tracer = self.tracer {
+                tracer(result.value, rule, context, result.error)
             }
             return result.value
         }
@@ -44,7 +44,7 @@ public class RulesEngine {
     /// Register a set of rules
     /// - Parameters:
     ///   - rules: array of rules
-    public func addRules(rules: [Rule]) {
+    public func addRules(rules: [Evaluable]) {
         self.rules += rules
     }
 
@@ -57,14 +57,10 @@ public class RulesEngine {
 
 public struct Context {
     public let data: Traversable
-    public let evaluator: Evaluator
-    public let functions: Functions
+    public let evaluator: Evaluating
+    public let transformer: Transforming
 }
 
-public protocol Rule {
-    var id: String { get }
-    func evalate(in context: Context) -> Result<Bool, RulesFailure>
-}
 
 public enum RulesFailure: Error {
     case unknown
@@ -73,51 +69,4 @@ public enum RulesFailure: Error {
     case missingOperator(message: String)
     indirect case innerFailure(message: String, error: RulesFailure)
     indirect case innerFailures(message: String, errors:[RulesFailure])
-}
-
-extension Result where Success == Bool, Failure == RulesFailure {
-    var value: Bool {
-        get {
-            switch self {
-            case .success(let value):
-                return value
-            default:
-                return false
-            }
-        }
-    }
-
-    var error: RulesFailure? {
-        get {
-            switch self {
-            case .failure(let error):
-                return error
-            default:
-                return nil
-            }
-        }
-    }
-}
-
-extension RulesFailure: CustomStringConvertible {
-    public var description: String {
-        return getLines().joined(separator: "\n")
-    }
-
-    func getLines() -> [String] {
-        switch self {
-        case .conditionNotMatched(let message):
-            return [message]
-        case .missingOperator(let message):
-            return [message]
-        case .innerFailure(let message, let innerFailure):
-            return [message] + innerFailure.getLines().map {"   ->"+$0}
-        case .innerFailures(let message, let innerFailures):
-            return [message] + innerFailures.reduce([] as [String], { current, rulesFailure -> [String] in
-                current + rulesFailure.getLines()
-            }).map {"   "+$0}
-        default:
-            return ["unknown failure"]
-        }
-    }
 }

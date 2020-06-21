@@ -10,8 +10,6 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-/// A pair of tag delimiters, such as `("{{", "}}")`.
-public typealias DelimiterPair = (String, String)
 
 public struct MustacheError: Error {
 
@@ -29,7 +27,7 @@ public struct TemplateToken {
         case text(String)
 
         /// {{ content }}
-        case mustache(MustacheToken?)
+        case mustache(MustacheToken)
 
     }
 

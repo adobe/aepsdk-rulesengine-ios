@@ -10,13 +10,8 @@
  governing permissions and limitations under the License.
  */
 
-public protocol Evaluator {
 
-    func evaluate<A, B>(operation: String, lhs: A, rhs: B)  -> Result<Bool, RulesFailure>
-    func evaluate<A>(operation: String, lhs: A)  -> Result<Bool, RulesFailure>
-}
-
-public class ConditionEvaluator: Evaluator {
+public class ConditionEvaluator: Evaluating {
 
     var operators: [String: Any] = [:]
     public func evaluate<A>(operation: String, lhs: A) -> Result<Bool, RulesFailure> {

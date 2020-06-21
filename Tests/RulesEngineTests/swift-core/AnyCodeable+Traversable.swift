@@ -14,9 +14,9 @@ import Foundation
 import RulesEngine
 
 extension AnyCodable: Traversable {
-    public subscript(sub sub: String) -> Any? {
+    public subscript(traverse key: String) -> Any? {
         if value is [String: Any] {
-            return (value as! [String: Any])[sub]
+            return (value as! [String: Any])[key]
         }
         return nil
     }

@@ -13,16 +13,17 @@ governing permissions and limitations under the License.
 
 import Foundation
 
-public class TemplateParser {
-    fileprivate let tagDelimiterPair: DelimiterPair
 
-    init(tagDelimiterPair: DelimiterPair = ("{{", "}}")) {
-        self.tagDelimiterPair = tagDelimiterPair
-    }
+/// A pair of tag delimiters, such as `("{{", "}}")`.
+public typealias DelimiterPair = (String, String)
 
-    public func parse(_ templateString: String) -> Result<[TemplateToken], Error> {
+public struct TemplateParser {
+
+    static let TagDelimiterPair = ("{{", "}}")
+    
+    static func parse(_ templateString: String) -> Result<[TemplateToken], Error> {
         var tokens: [TemplateToken] = []
-        let currentDelimiters = ParserTagDelimiters(tagDelimiterPair: tagDelimiterPair)
+        let currentDelimiters = ParserTagDelimiters(tagDelimiterPair: TemplateParser.TagDelimiterPair)
 
         var state: State = .start
         var i = templateString.startIndex
@@ -58,7 +59,7 @@ public class TemplateParser {
                     let tagInitialIndex = templateString.index(startIndex, offsetBy: currentDelimiters.tagStartLength)
                     let tokenRange = startIndex..<templateString.index(i, offsetBy: currentDelimiters.tagEndLength)
                     let content = String(templateString[tagInitialIndex..<i])
-                    let mustacheToken: MustacheToken? = try? TokenParser.parse(content).get()
+                    let mustacheToken = MustacheToken(content)
 
                     let token = TemplateToken(
                         type: .mustache(mustacheToken),
@@ -93,7 +94,7 @@ public class TemplateParser {
         }
         return .success(tokens)
     }
-    private func index(_ index: String.Index, isAt string: String?, in templateString: String) -> Bool {
+    private static func index(_ index: String.Index, isAt string: String?, in templateString: String) -> Bool {
         guard let string = string else {
             return false
         }

@@ -12,9 +12,6 @@
 
 import Foundation
 
-public protocol ConditionExpression {
-    func resolve(in context: Context) -> Result<Bool, RulesFailure>
-}
 
 @dynamicCallable
 public enum Operand<T> {
@@ -50,23 +47,23 @@ extension Operand: CustomStringConvertible {
     }
 }
 
-public struct ConjunctionExpression: ConditionExpression {
-    public let operands: [ConditionExpression]
+public struct ConjunctionExpression: Evaluable {
+    public let operands: [Evaluable]
     public let operationName: String
 
-    public init(operationName: String, operands: ConditionExpression...) {
+    public init(operationName: String, operands: Evaluable...) {
         self.operands = operands
         self.operationName = operationName
     }
 
-    public init(operationName: String, operands: [ConditionExpression]) {
+    public init(operationName: String, operands: [Evaluable]) {
         self.operands = operands
         self.operationName = operationName
     }
 
-    public  func resolve(in context: Context) -> Result<Bool, RulesFailure> {
-        let operandsResolve = operands.map { conditionExpression in
-            conditionExpression.resolve(in: context)
+    public  func evaluate(in context: Context) -> Result<Bool, RulesFailure> {
+        let operandsResolve = operands.map { Evaluable in
+            Evaluable.evaluate(in: context)
         }
 
         switch operationName {
@@ -87,7 +84,7 @@ public struct ConjunctionExpression: ConditionExpression {
     }
 }
 
-public class UnaryExpression<A>: ConditionExpression {
+public class UnaryExpression<A>: Evaluable {
     let lhs: Operand<A>
     let operationName: String
 
@@ -96,7 +93,7 @@ public class UnaryExpression<A>: ConditionExpression {
         self.operationName = operationName
     }
 
-    public func resolve(in context: Context) -> Result<Bool, RulesFailure> {
+    public func evaluate(in context: Context) -> Result<Bool, RulesFailure> {
         let resolvedLhs = lhs(context)
         if let resolvedLhs_ = resolvedLhs {
             return context.evaluator.evaluate(operation: operationName, lhs: resolvedLhs_)
@@ -106,7 +103,7 @@ public class UnaryExpression<A>: ConditionExpression {
 
 }
 
-public class ComparisonExpression<A, B>: ConditionExpression {
+public class ComparisonExpression<A, B>: Evaluable {
     let lhs: Operand<A>
     let rhs: Operand<B>
     let operationName: String
@@ -117,7 +114,7 @@ public class ComparisonExpression<A, B>: ConditionExpression {
         self.operationName = operationName
     }
 
-    public func resolve(in context: Context) -> Result<Bool, RulesFailure> {
+    public func evaluate(in context: Context) -> Result<Bool, RulesFailure> {
         let resolvedLhs = lhs(context)
         let resolvedRhs = rhs(context)
         var result: Result<Bool, RulesFailure>

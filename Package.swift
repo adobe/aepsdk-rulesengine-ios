@@ -9,7 +9,11 @@ let package = Package(
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
             name: "RulesEngine",
-            targets: ["RulesEngine"])
+            targets: ["RulesEngine"]),
+        
+        .library(
+            name: "RulesDSL",
+            targets: ["RulesDSL"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -24,6 +28,13 @@ let package = Package(
             dependencies: []),
         .testTarget(
             name: "RulesEngineTests",
-            dependencies: ["RulesEngine"])
+            dependencies: ["RulesEngine"]),
+        .target(
+            name: "RulesDSL",
+            dependencies: []),
+        .testTarget(
+            name: "RulesDSLTests",
+            dependencies: ["RulesEngine", "RulesDSL"])
+        
     ]
 )

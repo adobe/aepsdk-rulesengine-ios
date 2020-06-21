@@ -12,28 +12,30 @@ governing permissions and limitations under the License.
 
 
 import Foundation
-public typealias Function = (Any?) -> Any?
+public typealias Transformer = (Any) -> Any
 
-public class Functions {
+public protocol Transforming {
+  func transform(name: String, parameter: Any) -> Any
+}
 
-    var functions: [String: Function] = [:]
+public class Transforms:Transforming {
+
+    var transformers: [String: Transformer] = [:]
 
     public init() {
 
     }
 
-    public func evaluate(name: String, parameter: Any?) -> Any? {
-        let function = functions[name]
-
-        guard let function_ = function else {
+    public func transform(name: String, parameter: Any) -> Any {
+        guard let transformer = transformers[name] else {
 //            return .failure(RulesFailure.missingOperator(message: "Function not defined for \(name)"))
-            return nil
+            return parameter
         }
-        return  function_(parameter)
+        return  transformer(parameter)
 
     }
 
-    public func register(name: String, function :@escaping Function) {
-        functions[name] = function
+    public func register(name: String, transformer :@escaping Transformer) {
+        transformers[name] = transformer
     }
 }

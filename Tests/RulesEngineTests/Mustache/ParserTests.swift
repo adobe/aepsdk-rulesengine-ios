@@ -27,14 +27,29 @@ class ParserTests: XCTestCase {
 
     func testExample() {
 
-        let parser = TemplateParser(tagDelimiterPair: ("{{", "}}"))
-        let result = parser.parse("sdfdfd{{test}}aaa")
+        let result = TemplateParser.parse("sdfdfd{{test}}aaa")
         XCTAssertEqual(3, (try! result.get()).count)
     }
 
     func testPerformanceExample() {
-        let parser = TokenParser()
-//        parser.parse("abc(test)")
+        let template = Template(templateString: "sdfdfd{{test}}aaa")
+        let result = template.render(data: ["test":"value"], transformers: Transforms())
+        XCTAssertEqual("sdfdfdvalueaaa", result)
     }
+    
+        func testTransform() {
+            let template = Template(templateString: "sdfdfd{{dash(test)}}aaa")
+            let tran = Transforms()
+            tran.register(name: "dash", transformer: { value in
+                if value is String {
+                    return "-\(value as! String)-"
+                }
+                return value
+            })
+            let result = template.render(data: ["test":"value"], transformers: tran)
+            XCTAssertEqual("sdfdfd-value-aaa", result)
+    //        let parser = TokenParser()
+    //        parser.parse("abc(test)")
+        }
 
 }

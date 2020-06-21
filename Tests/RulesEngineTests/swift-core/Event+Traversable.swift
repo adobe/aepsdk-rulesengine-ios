@@ -14,7 +14,7 @@ import Foundation
 import RulesEngine
 
 extension Event: Traversable {
-    public subscript(sub sub: String) -> Any? {
+    public subscript(traverse sub: String) -> Any? {
         switch sub {
         case "name":return name
         case "id":return id

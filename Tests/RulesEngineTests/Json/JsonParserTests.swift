@@ -232,12 +232,12 @@ class JsonParserTests: XCTestCase {
           }
           ]
           """
-        let functions = Functions()
-        functions.register(name: "double", function: { value in
+        let functions = Transforms()
+        functions.register(name: "double", transformer: { value in
             if value is Int {
                 return (value as! Int) * 2
             }
-            return nil
+            return value
         })
         let evaluator = ConditionEvaluator(options: .caseInsensitive)
         evaluator.addUnaryOperator(operation: "isEven") { (a: Any) -> Bool in
@@ -246,7 +246,7 @@ class JsonParserTests: XCTestCase {
             }
             return false
         }
-        let engine = RulesEngine(evaluator: evaluator, functions: functions)
+        let engine = RulesEngine(evaluator: evaluator, transformer: functions)
         if let jsonData = json.data(using: .utf8) {
             engine.addRulesFrom(json: jsonData)
         }

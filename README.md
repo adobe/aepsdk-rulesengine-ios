@@ -31,10 +31,10 @@ let rulesEngine = RulesEngine(evaluator: evaluator)
 
 ### Define Rules
 
-Any thing that conforms to the `Rule` protocol can be used as rule. The easiest way is to use the built-in `ConditionRule`.
+Any thing that conforms to the `Rule` protocol can be used as rule. The easiest way is to use the built-in `ConsequenceRule`.
 ```
 let condition = ComparisonExpression(lhs: "abc", operationName: "eq", rhs: "abc")
-let rule = ConditionRule(id: "sample-rule", condition: condition)
+let rule = ConsequenceRule(id: "sample-rule", condition: condition)
 rulesEngine.addRules(rules: [rule])
 ```
 However, a rule like this doesn't make much sense, without the ability to dynamically fetch a value it will always be true or false. 
@@ -42,7 +42,7 @@ However, a rule like this doesn't make much sense, without the ability to dynami
 ```
 let mustache = Operand<String>(mustache: "{{company}}")
 let condition = ComparisonExpression(lhs: mustache, operationName: "eq", rhs: "adobe")
-let rule = ConditionRule(id: "sample-rule", condition: condition)
+let rule = ConsequenceRule(id: "sample-rule", condition: condition)
 rulesEngine.addRules(rules: [rule])
 ```
 

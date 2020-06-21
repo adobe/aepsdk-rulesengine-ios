@@ -14,8 +14,31 @@ governing permissions and limitations under the License.
 import Foundation
 public indirect enum MustacheToken {
         /// text
-        case variable(text: String)
-
+    case variable(text: String)
+    
         /// {{ content }}
     case function(content: String, inner: MustacheToken)
+    
+    public init(_ tokenString: String){
+        if let range = tokenString.range(of: #"\((.*\))+"#,
+                                         options: .regularExpression) {
+            let variable = String(tokenString[(tokenString.index(after: range.lowerBound))..<(tokenString.index(before: range.upperBound))]).trimmingCharacters(in: .whitespacesAndNewlines)
+            let funtionName = String(tokenString[(tokenString.startIndex)...(tokenString.index(before: range.lowerBound))]).trimmingCharacters(in: .whitespacesAndNewlines)
+            self = .function(content: funtionName, inner: .variable(text: variable))
+        } else {
+            self = .variable(text: tokenString)
+        }
+
+    }
+    
+    public func resolve(in transformer: Transforming, data: Traversable) -> Any? {
+        switch self {
+        case .function(let name, let innerToken):
+            let innerValue = innerToken.resolve(in: transformer, data: data)
+            return transformer.transform(name: name, parameter: innerValue)
+        case .variable(let name):
+            let path = name.components(separatedBy: ".")
+            return data[path: path]
+        }
+    }
 }

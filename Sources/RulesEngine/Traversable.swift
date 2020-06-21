@@ -12,8 +12,9 @@ governing permissions and limitations under the License.
 
 import Foundation
 
+/// A type that can be traversed by the rules engine to retrieve a certain key/value pair.
 public protocol Traversable {
-    subscript(sub sub: String) -> Any? { get }
+    subscript(traverse key: String) -> Any? { get }
 }
 
 extension Traversable {
@@ -21,7 +22,7 @@ extension Traversable {
             let result = path.reduce(self as Any?) {
                 switch $0 {
                 case is Traversable:
-                    return ($0 as! Traversable)[sub: $1]
+                    return ($0 as! Traversable)[traverse: $1]
                 default:
                     return nil
                 }

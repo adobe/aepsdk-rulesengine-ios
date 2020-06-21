@@ -12,21 +12,19 @@ governing permissions and limitations under the License.
 
 import Foundation
 
-class Strategies {
+public class ConsequenceRule: Evaluable {
 
-    public static func transform<A, B>(origin: A, targetType: B.Type) -> B? {
-        switch origin {
-        case is String:
-            switch targetType {
-            case is String.Type:
-                return origin as? B
-            default:
-                return nil
-            }
+    public let id: String
+    public let condition: Evaluable
+    public let consequnce: String
 
-        default:
-            return nil
-        }
+    public init(id: String, condition: Evaluable, consequnce: String = "") {
+        self.id = id
+        self.condition = condition
+        self.consequnce = consequnce
+    }
 
+    public func evaluate(in context: Context) -> Result<Bool, RulesFailure> {
+        return self.condition.evaluate(in: context)
     }
 }

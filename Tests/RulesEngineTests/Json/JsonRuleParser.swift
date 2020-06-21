@@ -14,23 +14,23 @@ import Foundation
 
 import RulesEngine
 
-public class ConstantConditionExpression: ConditionExpression {
+public class ConstantEvaluable: Evaluable {
     let value: Bool
     init(_ value: Bool) {
         self.value = value
     }
 
-    public func resolve(in context: Context) -> Result<Bool, RulesFailure> {
+    public func evaluate(in context: Context) -> Result<Bool, RulesFailure> {
         return .success(value)
 
     }
 }
 
-let ConstantTrue = ConstantConditionExpression(true)
-let ConstantFalse = ConstantConditionExpression(false)
+let ConstantTrue = ConstantEvaluable(true)
+let ConstantFalse = ConstantEvaluable(false)
 
 struct Converter {
-    static func convertFrom(json data: [String: Any]) -> ConditionExpression {
+    static func convertFrom(json data: [String: Any]) -> Evaluable {
         let type = data["type"] as? String
         switch type {
         case "group":
@@ -38,16 +38,16 @@ struct Converter {
             let logic = definition?["logic"] as? String
             let conditions = definition?["conditions"] as? [[String: Any]]
 
-            let conditionExpressions = conditions?.map({ condition in
+            let Evaluables = conditions?.map({ condition in
                 Converter.convertFrom(json: condition)
             })
 
             switch logic {
             case "and":
-                return ConjunctionExpression(operationName: "and", operands: conditionExpressions!)
+                return ConjunctionExpression(operationName: "and", operands: Evaluables!)
 
             case "or":
-                return ConjunctionExpression(operationName: "or", operands: conditionExpressions!)
+                return ConjunctionExpression(operationName: "or", operands: Evaluables!)
             default:
                 return ConstantFalse
             }
@@ -69,7 +69,7 @@ struct Converter {
             if values.count > 0 {
                 let conditions = values.filter({ (item) -> Bool in
                     item is String || item is Int || item is Double || item is Bool
-                }).map({ (item) -> ConditionExpression in
+                }).map({ (item) -> Evaluable in
                     switch item {
                     case is String:
                         return isKeyMustache
@@ -104,14 +104,14 @@ struct Converter {
     }
 }
 
-extension ConditionRule {
-    static func createFrom(json data: [String: Any]) -> ConditionRule {
+extension ConsequenceRule {
+    static func createFrom(json data: [String: Any]) -> ConsequenceRule {
 
         let id = data["id"] as! String
         let consequence = data["consequences"] as! [Any]
         let condition = Converter.convertFrom(json: data["condition"] as! [String: Any])
 
-        return ConditionRule(id: id, condition: condition)
+        return ConsequenceRule(id: id, condition: condition)
     }
 }
 
@@ -123,7 +123,7 @@ extension RulesEngine {
 
         if let array = json as? [[String: Any]] {
             let rules = array.map({ item in
-                ConditionRule.createFrom(json: item)
+                ConsequenceRule.createFrom(json: item)
             })
 
             self.addRules(rules: rules)

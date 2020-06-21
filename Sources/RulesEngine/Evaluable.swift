@@ -10,25 +10,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-
 import Foundation
 
-public class TemplateRender {
-    let functions: Functions
-    public init(functions: Functions) {
-        self.functions = functions
-    }
-
-    public func render(tokens: [TemplateToken]) -> String {
-        tokens.map({ token  in
-            switch token.type {
-            case .text(let content):
-                return content
-            case .mustache(let mustache): break
-
-            }
-            return ""
-        }).joined()
-
-    }
+/// A type that can be evaluated to bool type Result
+public protocol Evaluable {
+    func evaluate(in context: Context) -> Result<Bool, RulesFailure>
 }
