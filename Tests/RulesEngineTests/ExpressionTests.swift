@@ -33,7 +33,7 @@ class ExpressionTests: XCTestCase {
         let evaluator = ConditionEvaluator(options: .defaultOptions)
 
         let a = ComparisonExpression(lhs: 3, operationName: "eq", rhs: 3)
-        let result = a.evaluate(in: Context(data: [:], evaluator: evaluator, transformer: Transforms()))
+        let result = a.evaluate(in: Context(data: [:], evaluator: evaluator, transformer: Transform()))
         XCTAssertTrue(result.value)
     }
 
@@ -43,7 +43,7 @@ class ExpressionTests: XCTestCase {
         let a = ComparisonExpression(lhs: "abc", operationName: "eq", rhs: "abc")
         let b = ComparisonExpression(lhs: "abc", operationName: "eq", rhs: "abc")
         let c = ConjunctionExpression(operationName: "and", operands: a, b)
-        let result =  c.evaluate(in: Context(data: [:], evaluator: evaluator, transformer: Transforms()))
+        let result =  c.evaluate(in: Context(data: [:], evaluator: evaluator, transformer: Transform()))
         XCTAssertTrue(result.value)
     }
 
@@ -53,7 +53,7 @@ class ExpressionTests: XCTestCase {
         let a = ComparisonExpression(lhs: mustache, operationName: "eq", rhs: "abc")
         let b = ComparisonExpression(lhs: "abc", operationName: "eq", rhs: "abc")
         let c = ConjunctionExpression(operationName: "and", operands: a, b)
-        let result =  c.evaluate(in: Context(data: ["key": "abc"], evaluator: evaluator, transformer: Transforms()))
+        let result =  c.evaluate(in: Context(data: ["key": "abc"], evaluator: evaluator, transformer: Transform()))
         XCTAssertTrue(result.value)
     }
 
@@ -63,7 +63,7 @@ class ExpressionTests: XCTestCase {
         let a = ComparisonExpression(lhs: mustache, operationName: "eq", rhs: "abc")
         let b = ComparisonExpression(lhs: "abc", operationName: "eq", rhs: "abc")
         let c = ConjunctionExpression(operationName: "and", operands: a, b)
-        let result =  c.evaluate(in: Context(data: ["someelse": "abc"], evaluator: evaluator, transformer: Transforms()))
+        let result =  c.evaluate(in: Context(data: ["someelse": "abc"], evaluator: evaluator, transformer: Transform()))
         XCTAssertFalse(result.value)
     }
 
@@ -73,7 +73,7 @@ class ExpressionTests: XCTestCase {
         let a = ComparisonExpression(lhs: mustache, operationName: "nx", rhs: Operand<String>.none)
         let b = ComparisonExpression(lhs: "abc", operationName: "eq", rhs: "abc")
         let c = ConjunctionExpression(operationName: "and", operands: a, b)
-        let result =   c.evaluate(in: Context(data: ["key": "abc"], evaluator: evaluator, transformer: Transforms()))
+        let result =   c.evaluate(in: Context(data: ["key": "abc"], evaluator: evaluator, transformer: Transform()))
 
         XCTAssertFalse(result.value)
 
@@ -85,7 +85,7 @@ class ExpressionTests: XCTestCase {
         let a = ComparisonExpression(lhs: mustache, operationName: "nx", rhs: Operand<Any>.none)
         let b = ComparisonExpression(lhs: "abc", operationName: "eq", rhs: "abc")
         let c = ConjunctionExpression(operationName: "and", operands: a, b)
-        let result =  c.evaluate(in: Context(data: ["key": "abc"], evaluator: evaluator, transformer: Transforms()))
+        let result =  c.evaluate(in: Context(data: ["key": "abc"], evaluator: evaluator, transformer: Transform()))
 
         XCTAssertTrue(result.value)
     }
@@ -100,7 +100,7 @@ class ExpressionTests: XCTestCase {
         let a = UnaryExpression(lhs: mustache, operationName: "isAmazing")
         let b = ComparisonExpression(lhs: "abc", operationName: "eq", rhs: "abc")
         let c = ConjunctionExpression(operationName: "and", operands: a, b)
-        let result =  c.evaluate(in: Context(data: ["custom": CustomOperand()], evaluator: evaluator, transformer: Transforms()))
+        let result =  c.evaluate(in: Context(data: ["custom": CustomOperand()], evaluator: evaluator, transformer: Transform()))
         XCTAssertTrue(result.value)
     }
 

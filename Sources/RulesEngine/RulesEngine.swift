@@ -21,7 +21,7 @@ public class RulesEngine {
     var tracer: RuleTracer?
     var rules = [Evaluable]()
 
-    public init(evaluator: Evaluating, transformer: Transforming = Transforms()) {
+    public init(evaluator: Evaluating, transformer: Transforming = Transform()) {
         self.evaluator = evaluator
         self.transformer = transformer
     }

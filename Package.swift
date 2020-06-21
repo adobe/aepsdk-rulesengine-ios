@@ -10,10 +10,10 @@ let package = Package(
         .library(
             name: "RulesEngine",
             targets: ["RulesEngine"]),
-        
-        .library(
-            name: "RulesDSL",
-            targets: ["RulesDSL"])
+//        
+//        .library(
+//            name: "RulesDSL",
+//            targets: ["RulesDSL"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -29,12 +29,12 @@ let package = Package(
         .testTarget(
             name: "RulesEngineTests",
             dependencies: ["RulesEngine"]),
-        .target(
-            name: "RulesDSL",
-            dependencies: []),
-        .testTarget(
-            name: "RulesDSLTests",
-            dependencies: ["RulesEngine", "RulesDSL"])
+//        .target(
+//            name: "RulesDSL",
+//            dependencies: []),
+//        .testTarget(
+//            name: "RulesDSLTests",
+//            dependencies: ["RulesEngine", "RulesDSL"])
         
     ]
 )

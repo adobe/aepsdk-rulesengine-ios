@@ -232,7 +232,7 @@ class JsonParserTests: XCTestCase {
           }
           ]
           """
-        let functions = Transforms()
+        let functions = Transform()
         functions.register(name: "double", transformer: { value in
             if value is Int {
                 return (value as! Int) * 2

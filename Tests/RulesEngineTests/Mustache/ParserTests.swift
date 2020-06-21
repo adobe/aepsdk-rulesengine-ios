@@ -33,13 +33,13 @@ class ParserTests: XCTestCase {
 
     func testPerformanceExample() {
         let template = Template(templateString: "sdfdfd{{test}}aaa")
-        let result = template.render(data: ["test":"value"], transformers: Transforms())
+        let result = template.render(data: ["test":"value"], transformers: Transform())
         XCTAssertEqual("sdfdfdvalueaaa", result)
     }
     
         func testTransform() {
             let template = Template(templateString: "sdfdfd{{dash(test)}}aaa")
-            let tran = Transforms()
+            let tran = Transform()
             tran.register(name: "dash", transformer: { value in
                 if value is String {
                     return "-\(value as! String)-"

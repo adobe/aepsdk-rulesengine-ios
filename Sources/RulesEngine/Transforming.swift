@@ -18,7 +18,7 @@ public protocol Transforming {
   func transform(name: String, parameter: Any) -> Any
 }
 
-public class Transforms:Transforming {
+public class Transform:Transforming {
 
     var transformers: [String: Transformer] = [:]
 
