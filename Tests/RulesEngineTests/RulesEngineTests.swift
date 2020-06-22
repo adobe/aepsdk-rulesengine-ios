@@ -28,7 +28,7 @@ class RulesEngineTests: XCTestCase {
     func testMustache() {
 
         let evaluator = ConditionEvaluator(options: .defaultOptions)
-        let rulesEngine = RulesEngine(evaluator: evaluator)
+        let rulesEngine = RulesEngine<ConsequenceRule>(evaluator: evaluator)
 
         let mustache = Operand<String>(mustache: "{{key}}")
         let condition = ComparisonExpression(lhs: mustache, operationName: "eq", rhs: "abc")
@@ -43,7 +43,7 @@ class RulesEngineTests: XCTestCase {
 
     func testCaseInsensitive() {
         let evaluator = ConditionEvaluator(options: .caseInsensitive)
-        let rulesEngine = RulesEngine(evaluator: evaluator)
+        let rulesEngine = RulesEngine<ConsequenceRule>(evaluator: evaluator)
 
         let condition = ComparisonExpression(lhs: "abc", operationName: "eq", rhs: "ABC")
 

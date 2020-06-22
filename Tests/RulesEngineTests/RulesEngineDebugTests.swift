@@ -28,7 +28,7 @@ class RulesEngineDebugTests: XCTestCase {
     func testTrace() {
 
         let evaluator = ConditionEvaluator(options: .defaultOptions)
-        let rulesEngine = RulesEngine(evaluator: evaluator)
+        let rulesEngine = RulesEngine<ConsequenceRule>(evaluator: evaluator)
 
         let mustache = Operand<String>(mustache: "{{key}}")
         let condition1 = ComparisonExpression(lhs: mustache, operationName: "eq", rhs: "wrong")

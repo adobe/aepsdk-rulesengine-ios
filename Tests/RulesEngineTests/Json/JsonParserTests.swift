@@ -79,7 +79,7 @@ class JsonParserTests: XCTestCase {
 
         let evaluator = ConditionEvaluator(options: .caseInsensitive)
 
-        let engine = RulesEngine(evaluator: evaluator)
+        let engine = RulesEngine<ConsequenceRule>(evaluator: evaluator)
 
         if let jsonData = json.data(using: .utf8) {
             engine.addRulesFrom(json: jsonData)
@@ -153,7 +153,7 @@ class JsonParserTests: XCTestCase {
           ]
           """
         let evaluator = ConditionEvaluator(options: .caseInsensitive)
-        let engine = RulesEngine(evaluator: evaluator)
+        let engine = RulesEngine<ConsequenceRule>(evaluator: evaluator)
         if let jsonData = json.data(using: .utf8) {
             engine.addRulesFrom(json: jsonData)
         }
@@ -197,7 +197,7 @@ class JsonParserTests: XCTestCase {
             }
             return false
         }
-        let engine = RulesEngine(evaluator: evaluator)
+        let engine = RulesEngine<ConsequenceRule>(evaluator: evaluator)
         if let jsonData = json.data(using: .utf8) {
             engine.addRulesFrom(json: jsonData)
         }
@@ -246,7 +246,7 @@ class JsonParserTests: XCTestCase {
             }
             return false
         }
-        let engine = RulesEngine(evaluator: evaluator, transformer: functions)
+        let engine = RulesEngine<ConsequenceRule>(evaluator: evaluator, transformer: functions)
         if let jsonData = json.data(using: .utf8) {
             engine.addRulesFrom(json: jsonData)
         }

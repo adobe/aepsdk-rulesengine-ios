@@ -108,14 +108,14 @@ extension ConsequenceRule {
     static func createFrom(json data: [String: Any]) -> ConsequenceRule {
 
         let id = data["id"] as! String
-        let consequence = data["consequences"] as! [String]
+        let consequnces = data["consequences"] as? [String]
         let condition = Converter.convertFrom(json: data["condition"] as! [String: Any])
 
-        return ConsequenceRule(id: id, condition: condition, consequnce: consequence)
+        return ConsequenceRule(id: id, condition: condition, consequnces: consequnces ?? [])
     }
 }
 
-extension RulesEngine {
+extension RulesEngine where R == ConsequenceRule{
 
     public func addRulesFrom(json data: Data) {
 

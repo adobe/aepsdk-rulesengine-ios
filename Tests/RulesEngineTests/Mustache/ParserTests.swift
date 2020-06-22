@@ -63,7 +63,7 @@ class ParserTests: XCTestCase {
         let template = Template(templateString: "sdfdfd{{dash(test)}}aaa{{dash(int)}")
         let tran = Transform()
         let result = template.render(data: ["test":"value", "int":5], transformers: tran)
-        XCTAssertEqual("sdfdfdvalueaaa5", result)
+        XCTAssertEqual("", result)
     }
 
 }

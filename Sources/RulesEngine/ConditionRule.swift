@@ -18,10 +18,10 @@ public class ConsequenceRule: Evaluable {
     public let condition: Evaluable
     public let consequnces: [String]
 
-    public init(id: String, condition: Evaluable, consequnce: [String] = []) {
+    public init(id: String, condition: Evaluable, consequnces: [String] = []) {
         self.id = id
         self.condition = condition
-        self.consequnce = consequnce
+        self.consequnces = consequnces
     }
 
     public func evaluate(in context: Context) -> Result<Bool, RulesFailure> {

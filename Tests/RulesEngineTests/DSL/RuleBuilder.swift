@@ -50,7 +50,7 @@ public struct Consequence {
     }
 }
 
-extension RulesEngine {
+extension RulesEngine where R == ConsequenceRule{
 
     public func addRulesFrom(@RuleBuilder _ content: () -> (given: Condition, then: Consequence)) {
         let content = content()

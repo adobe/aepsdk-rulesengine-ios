@@ -28,7 +28,7 @@ class DSLParserTests: XCTestCase {
     func testExample() {
 
         let evaluator = ConditionEvaluator(options: .caseInsensitive)
-        let engine = RulesEngine(evaluator: evaluator)
+        let engine = RulesEngine<ConsequenceRule>(evaluator: evaluator)
         engine.addRulesFrom {
             Condition {
 

@@ -14,12 +14,12 @@ import Foundation
 
 public typealias RuleTracer = (Bool, Evaluable, Context, RulesFailure?) -> Void
 
-public class RulesEngine {
+public class RulesEngine<R:Evaluable> {
 
     let evaluator: Evaluating
     let transformer: Transforming
     var tracer: RuleTracer?
-    var rules = [Evaluable]()
+    var rules = [R]()
 
     public init(evaluator: Evaluating, transformer: Transforming = Transform()) {
         self.evaluator = evaluator
@@ -44,7 +44,7 @@ public class RulesEngine {
     /// Register a set of rules
     /// - Parameters:
     ///   - rules: array of rules
-    public func addRules(rules: [Evaluable]) {
+    public func addRules(rules: [R]) {
         self.rules += rules
     }
 
