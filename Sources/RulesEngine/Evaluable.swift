@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 import Foundation
 
-/// A type that can be evaluated to bool type Result
+/// A type that can be evaluated to bool
 public protocol Evaluable {
     func evaluate(in context: Context) -> Result<Bool, RulesFailure>
 }

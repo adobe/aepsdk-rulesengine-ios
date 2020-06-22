@@ -16,9 +16,9 @@ public class ConsequenceRule: Evaluable {
 
     public let id: String
     public let condition: Evaluable
-    public let consequnce: String
+    public let consequnces: [String]
 
-    public init(id: String, condition: Evaluable, consequnce: String = "") {
+    public init(id: String, condition: Evaluable, consequnce: [String] = []) {
         self.id = id
         self.condition = condition
         self.consequnce = consequnce

@@ -17,7 +17,7 @@ extension MustacheToken: Resolvable {
         switch self {
         case .function(let name, let innerToken):
             let innerValue = innerToken.resolve(in: context)
-            return context.transformer.transform(name: name, parameter: innerValue)
+            return context.transformer.transform(name: name, parameter: innerValue ?? "")
         case .variable(let name):
             let path = name.components(separatedBy: ".")
             return context.data[path: path]

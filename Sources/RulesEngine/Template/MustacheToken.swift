@@ -35,7 +35,7 @@ public indirect enum MustacheToken {
         switch self {
         case .function(let name, let innerToken):
             let innerValue = innerToken.resolve(in: transformer, data: data)
-            return transformer.transform(name: name, parameter: innerValue)
+            return transformer.transform(name: name, parameter: innerValue ?? "")
         case .variable(let name):
             let path = name.components(separatedBy: ".")
             return data[path: path]

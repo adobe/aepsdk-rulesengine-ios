@@ -108,10 +108,10 @@ extension ConsequenceRule {
     static func createFrom(json data: [String: Any]) -> ConsequenceRule {
 
         let id = data["id"] as! String
-        let consequence = data["consequences"] as! [Any]
+        let consequence = data["consequences"] as! [String]
         let condition = Converter.convertFrom(json: data["condition"] as! [String: Any])
 
-        return ConsequenceRule(id: id, condition: condition)
+        return ConsequenceRule(id: id, condition: condition, consequnce: consequence)
     }
 }
 
