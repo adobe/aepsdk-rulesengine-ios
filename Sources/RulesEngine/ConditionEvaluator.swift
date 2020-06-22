@@ -81,31 +81,31 @@ public extension ConditionEvaluator {
         self.addComparisonOperator(operation: "and", type: Bool.self, closure: {$0 && $1})
         self.addComparisonOperator(operation: "or", type: Bool.self, closure: {$0 || $1})
 
-        self.addComparisonOperator(operation: "eq", type: String.self, closure: ==)
-        self.addComparisonOperator(operation: "eq", type: Int.self, closure: ==)
-        self.addComparisonOperator(operation: "eq", type: Double.self, closure: ==)
-        self.addComparisonOperator(operation: "eq", type: Bool.self, closure: ==)
+        self.addComparisonOperator(operation: "equals", type: String.self, closure: ==)
+        self.addComparisonOperator(operation: "equals", type: Int.self, closure: ==)
+        self.addComparisonOperator(operation: "equals", type: Double.self, closure: ==)
+        self.addComparisonOperator(operation: "equals", type: Bool.self, closure: ==)
 
-        self.addComparisonOperator(operation: "sw", type: String.self, closure: {$0.starts(with: $1)})
-        self.addComparisonOperator(operation: "ew", type: String.self, closure: {$0.hasSuffix($1)})
-        self.addComparisonOperator(operation: "co", type: String.self, closure: {$0.contains($1)})
+        self.addComparisonOperator(operation: "startsWith", type: String.self, closure: {$0.starts(with: $1)})
+        self.addComparisonOperator(operation: "endsWith", type: String.self, closure: {$0.hasSuffix($1)})
+        self.addComparisonOperator(operation: "contains", type: String.self, closure: {$0.contains($1)})
 
-        self.addComparisonOperator(operation: "gt", type: Int.self, closure: >)
-        self.addComparisonOperator(operation: "gt", type: Double.self, closure: >)
+        self.addComparisonOperator(operation: "greaterThan", type: Int.self, closure: >)
+        self.addComparisonOperator(operation: "greaterThan", type: Double.self, closure: >)
 
-        self.addComparisonOperator(operation: "ge", type: Int.self, closure: >=)
-        self.addComparisonOperator(operation: "ge", type: Double.self, closure: >=)
+        self.addComparisonOperator(operation: "greaterEqual", type: Int.self, closure: >=)
+        self.addComparisonOperator(operation: "greaterEqual", type: Double.self, closure: >=)
 
-        self.addComparisonOperator(operation: "le", type: Int.self, closure: <=)
-        self.addComparisonOperator(operation: "le", type: Double.self, closure: <=)
+        self.addComparisonOperator(operation: "lessEqual", type: Int.self, closure: <=)
+        self.addComparisonOperator(operation: "lessEqual", type: Double.self, closure: <=)
 
-        self.addComparisonOperator(operation: "lt", type: Int.self, closure: <)
-        self.addComparisonOperator(operation: "lt", type: Double.self, closure: <)
+        self.addComparisonOperator(operation: "lessThan", type: Int.self, closure: <)
+        self.addComparisonOperator(operation: "lessThan", type: Double.self, closure: <)
 
-        addComparisonOperator(operation: "nx", type: Optional<Any>.self, closure: { lhs, _ in
+        addComparisonOperator(operation: "notExist", type: Optional<Any>.self, closure: { lhs, _ in
             lhs == nil
         })
-        addComparisonOperator(operation: "ex", type: Optional<Any>.self, closure: { lhs, _ in
+        addComparisonOperator(operation: "exists", type: Optional<Any>.self, closure: { lhs, _ in
             lhs != nil
         })
 
@@ -117,10 +117,10 @@ public extension ConditionEvaluator {
 
     private func addCaseInSensitiveOperators() {
 
-        self.addComparisonOperator(operation: "sw", type: String.self, closure: {$0.lowercased().starts(with: $1.lowercased())})
-        self.addComparisonOperator(operation: "eq", type: String.self, closure: {$0.lowercased() ==  $1.lowercased()})
-        self.addComparisonOperator(operation: "ew", type: String.self, closure: {$0.lowercased().hasSuffix($1.lowercased())})
-        self.addComparisonOperator(operation: "co", type: String.self, closure: {$0.lowercased().contains($1.lowercased())})
+        self.addComparisonOperator(operation: "startsWith", type: String.self, closure: {$0.lowercased().starts(with: $1.lowercased())})
+        self.addComparisonOperator(operation: "equals", type: String.self, closure: {$0.lowercased() ==  $1.lowercased()})
+        self.addComparisonOperator(operation: "endsWith", type: String.self, closure: {$0.lowercased().hasSuffix($1.lowercased())})
+        self.addComparisonOperator(operation: "contains", type: String.self, closure: {$0.lowercased().contains($1.lowercased())})
     }
 
 }

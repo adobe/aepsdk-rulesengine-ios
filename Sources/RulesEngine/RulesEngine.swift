@@ -12,13 +12,13 @@ governing permissions and limitations under the License.
 
 import Foundation
 
-public typealias RuleTracer = (Bool, Evaluable, Context, RulesFailure?) -> Void
+public typealias RulesTracer = (Bool, Evaluable, Context, RulesFailure?) -> Void
 
 public class RulesEngine<R:Evaluable> {
 
     let evaluator: Evaluating
     let transformer: Transforming
-    var tracer: RuleTracer?
+    var tracer: RulesTracer?
     var rules = [R]()
 
     public init(evaluator: Evaluating, transformer: Transforming = Transform()) {
@@ -48,7 +48,7 @@ public class RulesEngine<R:Evaluable> {
         self.rules += rules
     }
 
-    public func traceRule(with tracer:@escaping RuleTracer) {
+    public func trace(with tracer:@escaping RulesTracer) {
         self.tracer = tracer
     }
 

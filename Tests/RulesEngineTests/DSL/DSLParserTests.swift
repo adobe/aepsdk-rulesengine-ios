@@ -32,7 +32,7 @@ class DSLParserTests: XCTestCase {
         engine.addRulesFrom {
             Condition {
 
-                ComparisonExpression(lhs: Operand<String>(mustache: "{{data.blah}}"), operationName: "eq", rhs: "blah")
+                ComparisonExpression(lhs: Operand<String>(mustache: "{{data.blah}}"), operationName: "equals", rhs: "blah")
             }
             Consequence {
                 ["key": "value"]

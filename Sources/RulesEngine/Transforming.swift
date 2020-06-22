@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 
 import Foundation
-public typealias Transformer = (Any) -> Any
+public typealias Transformation = (Any) -> Any
 
 public protocol Transforming {
   func transform(name: String, parameter: Any) -> Any
@@ -20,22 +20,21 @@ public protocol Transforming {
 
 public class Transform:Transforming {
 
-    var transformers: [String: Transformer] = [:]
+    var transformations: [String: Transformation] = [:]
 
     public init() {
 
     }
 
     public func transform(name: String, parameter: Any) -> Any {
-        guard let transformer = transformers[name] else {
-//            return .failure(RulesFailure.missingOperator(message: "Function not defined for \(name)"))
+        guard let transformation = transformations[name] else {
             return parameter
         }
-        return  transformer(parameter)
+        return  transformation(parameter)
 
     }
 
-    public func register(name: String, transformer :@escaping Transformer) {
-        transformers[name] = transformer
+    public func register(name: String, transformation :@escaping Transformation) {
+        transformations[name] = transformation
     }
 }

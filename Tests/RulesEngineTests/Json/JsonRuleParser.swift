@@ -28,8 +28,17 @@ public class ConstantEvaluable: Evaluable {
 
 let ConstantTrue = ConstantEvaluable(true)
 let ConstantFalse = ConstantEvaluable(false)
+let matchersMapping = ["eq":"equals"]
+extension String{
+    var matcher:String{
+        get {
+            return matchersMapping[self] ?? ""
+        }
+    }
+}
 
 struct Converter {
+    
     static func convertFrom(json data: [String: Any]) -> Evaluable {
         let type = data["type"] as? String
         switch type {
@@ -73,23 +82,23 @@ struct Converter {
                     switch item {
                     case is String:
                         return isKeyMustache
-                            ? ComparisonExpression(lhs: Operand<String>(mustache: key), operationName: matcher, rhs: .some(item as! String))
-                            : ComparisonExpression(lhs: .some(key), operationName: matcher, rhs: .some(item as! String))
+                            ? ComparisonExpression(lhs: Operand<String>(mustache: key), operationName: matcher.matcher, rhs: .some(item as! String))
+                            : ComparisonExpression(lhs: .some(key), operationName: matcher.matcher, rhs: .some(item as! String))
                     case is Int:
                         return isKeyMustache
-                            ? ComparisonExpression(lhs: Operand<Int>(mustache: key), operationName: matcher, rhs: .some(item as! Int))
-                            : ComparisonExpression(lhs: .some(Int(key)), operationName: matcher, rhs: .some(item as! Int))
+                            ? ComparisonExpression(lhs: Operand<Int>(mustache: key), operationName: matcher.matcher, rhs: .some(item as! Int))
+                            : ComparisonExpression(lhs: .some(Int(key)), operationName: matcher.matcher, rhs: .some(item as! Int))
                     case is Double:
                         return isKeyMustache
-                            ? ComparisonExpression(lhs: Operand<Double>(mustache: key), operationName: matcher, rhs: .some(item as! Double))
-                            : ComparisonExpression(lhs: .some(Double(key)), operationName: matcher, rhs: .some(item as! Double))
+                            ? ComparisonExpression(lhs: Operand<Double>(mustache: key), operationName: matcher.matcher, rhs: .some(item as! Double))
+                            : ComparisonExpression(lhs: .some(Double(key)), operationName: matcher.matcher, rhs: .some(item as! Double))
                     case is Bool:
                         return isKeyMustache
-                            ? ComparisonExpression(lhs: Operand<Bool>(mustache: key), operationName: matcher, rhs: .some(item as! Bool))
-                            : ComparisonExpression(lhs: .some(Bool(key)), operationName: matcher, rhs: .some(item as! Bool))
+                            ? ComparisonExpression(lhs: Operand<Bool>(mustache: key), operationName: matcher.matcher, rhs: .some(item as! Bool))
+                            : ComparisonExpression(lhs: .some(Bool(key)), operationName: matcher.matcher, rhs: .some(item as! Bool))
 
                     default:
-                        return ComparisonExpression(lhs: .some(""), operationName: "eq", rhs: .some(""))
+                        return ComparisonExpression(lhs: .some(""), operationName: "equals", rhs: .some(""))
                     }
                 })
 

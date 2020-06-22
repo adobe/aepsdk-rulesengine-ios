@@ -49,7 +49,7 @@ class EventRulesTests: XCTestCase {
         let rulesEngine = RulesEngine<ConsequenceRule>(evaluator: evaluator)
 
         let mustache = Operand<String>(mustache: "{{map.stringKey}}")
-        let condition = ComparisonExpression(lhs: mustache, operationName: "eq", rhs: "stringValue")
+        let condition = ComparisonExpression(lhs: mustache, operationName: "equals", rhs: "stringValue")
 
         let rule1 = ConsequenceRule(id: "test", condition: condition)
         rulesEngine.addRules(rules: [rule1])
@@ -74,7 +74,7 @@ class EventRulesTests: XCTestCase {
                let rulesEngine = RulesEngine<ConsequenceRule>(evaluator: evaluator)
 
                 let mustache = Operand<String>(mustache: "{{data.map.stringKey}}")
-               let condition = ComparisonExpression(lhs: mustache, operationName: "eq", rhs: "stringValue")
+               let condition = ComparisonExpression(lhs: mustache, operationName: "equals", rhs: "stringValue")
 
                let rule1 = ConsequenceRule(id: "test", condition: condition)
                rulesEngine.addRules(rules: [rule1])
@@ -110,7 +110,7 @@ class EventRulesTests: XCTestCase {
         let rulesEngine = RulesEngine<ConsequenceRule>(evaluator: evaluator)
 
         let mustache = Operand<String>(mustache: "{{state.extension1.statekey}}")
-        let condition = ComparisonExpression(lhs: mustache, operationName: "eq", rhs: "stringValue")
+        let condition = ComparisonExpression(lhs: mustache, operationName: "equals", rhs: "stringValue")
 
         let rule1 = ConsequenceRule(id: "test", condition: condition)
         rulesEngine.addRules(rules: [rule1])

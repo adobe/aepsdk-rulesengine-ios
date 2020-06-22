@@ -33,7 +33,7 @@ let rulesEngine = RulesEngine(evaluator: evaluator)
 
 Any thing that conforms to the `Rule` protocol can be used as rule. The easiest way is to use the built-in `ConsequenceRule`.
 ```
-let condition = ComparisonExpression(lhs: "abc", operationName: "eq", rhs: "abc")
+let condition = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "abc")
 let rule = ConsequenceRule(id: "sample-rule", condition: condition)
 rulesEngine.addRules(rules: [rule])
 ```
@@ -41,7 +41,7 @@ However, a rule like this doesn't make much sense, without the ability to dynami
 
 ```
 let mustache = Operand<String>(mustache: "{{company}}")
-let condition = ComparisonExpression(lhs: mustache, operationName: "eq", rhs: "adobe")
+let condition = ComparisonExpression(lhs: mustache, operationName: "equals", rhs: "adobe")
 let rule = ConsequenceRule(id: "sample-rule", condition: condition)
 rulesEngine.addRules(rules: [rule])
 ```

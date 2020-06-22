@@ -40,7 +40,7 @@ class ParserTests: XCTestCase {
         func testTransform() {
             let template = Template(templateString: "sdfdfd{{dash(test)}}aaa")
             let tran = Transform()
-            tran.register(name: "dash", transformer: { value in
+            tran.register(name: "dash", transformation: { value in
                 if value is String {
                     return "-\(value as! String)-"
                 }

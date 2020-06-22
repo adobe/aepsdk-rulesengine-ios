@@ -31,7 +31,7 @@ class RulesEngineTests: XCTestCase {
         let rulesEngine = RulesEngine<ConsequenceRule>(evaluator: evaluator)
 
         let mustache = Operand<String>(mustache: "{{key}}")
-        let condition = ComparisonExpression(lhs: mustache, operationName: "eq", rhs: "abc")
+        let condition = ComparisonExpression(lhs: mustache, operationName: "equals", rhs: "abc")
 
         let rule1 = ConsequenceRule(id: "test", condition: condition)
         rulesEngine.addRules(rules: [rule1])
@@ -45,7 +45,7 @@ class RulesEngineTests: XCTestCase {
         let evaluator = ConditionEvaluator(options: .caseInsensitive)
         let rulesEngine = RulesEngine<ConsequenceRule>(evaluator: evaluator)
 
-        let condition = ComparisonExpression(lhs: "abc", operationName: "eq", rhs: "ABC")
+        let condition = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "ABC")
 
         let rule1 = ConsequenceRule(id: "test", condition: condition)
         rulesEngine.addRules(rules: [rule1])

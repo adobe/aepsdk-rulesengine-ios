@@ -31,10 +31,10 @@ class RulesEngineDebugTests: XCTestCase {
         let rulesEngine = RulesEngine<ConsequenceRule>(evaluator: evaluator)
 
         let mustache = Operand<String>(mustache: "{{key}}")
-        let condition1 = ComparisonExpression(lhs: mustache, operationName: "eq", rhs: "wrong")
+        let condition1 = ComparisonExpression(lhs: mustache, operationName: "equals", rhs: "wrong")
 
-        let condition2 = ComparisonExpression(lhs: mustache, operationName: "eq", rhs: "another wrong")
-        let condition3 = ComparisonExpression(lhs: mustache, operationName: "eq", rhs: "abc")
+        let condition2 = ComparisonExpression(lhs: mustache, operationName: "equals", rhs: "another wrong")
+        let condition3 = ComparisonExpression(lhs: mustache, operationName: "equals", rhs: "abc")
         let condition4 = ComparisonExpression(lhs: mustache, operationName: "wat", rhs: "abc")
         let andCondition = ConjunctionExpression(operationName: "and", operands: condition1, condition2, condition3)
         let orCondition = ConjunctionExpression(operationName: "or", operands: andCondition, condition1, condition2, condition4)
