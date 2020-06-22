@@ -12,6 +12,7 @@ governing permissions and limitations under the License.
 
 import Foundation
 
+/// A type that can do comparison or unary operation
 public protocol Evaluating {
 
     func evaluate<A, B>(operation: String, lhs: A, rhs: B)  -> Result<Bool, RulesFailure>

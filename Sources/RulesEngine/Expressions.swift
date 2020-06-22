@@ -13,11 +13,12 @@
 import Foundation
 
 
+
 @dynamicCallable
 public enum Operand<T> {
     case none
     case some(T)
-    case template(Resolvable)
+    case token(MustacheToken)
 
     func dynamicallyCall(withArguments args: [Context]) -> T? {
         switch self {
@@ -25,8 +26,9 @@ public enum Operand<T> {
             return nil
         case .some(let value):
             return value
-        case .template(let template):
-            if let result = template.resolve(in: args[0]) {
+        case .token(let token):
+            
+            if let result = token.resolve(in: args[0]) {
                 return result as? T
             }
             return nil
@@ -41,8 +43,8 @@ extension Operand: CustomStringConvertible {
             return "<None>"
         case .some(let value):
             return "<Value:\(value)>"
-        case .template(let mustache):
-            return "<Template:\(mustache)>"
+        case .token(let mustache):
+            return "<Token:\(mustache)>"
         }
     }
 }

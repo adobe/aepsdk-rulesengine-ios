@@ -12,7 +12,7 @@
 
 import Foundation
 
-extension MustacheToken: Resolvable {
+extension MustacheToken {
     public func resolve(in context: Context) -> Any? {
         switch self {
         case .function(let name, let innerToken):
@@ -28,20 +28,13 @@ extension MustacheToken: Resolvable {
 extension Operand {
     
     public init(mustache: String) {
-        do {
-            let tokens = try TemplateParser.parse(mustache).get()
-            if case .mustache(let token) = tokens[0].type {
-//                if let token_ = token {
-//                    self = .template(token_)
-//                } else {
-//                    self = .none
-//                }
-                self = .template(token)
-                return
-            }
-        } catch {
+        let tokens = try? TemplateParser.parse(mustache).get()
+        if let tokens = tokens, tokens.count > 0, case .mustache(let token) = tokens[0].type  {
+            self = .token(token)
+        } else{
+            self = .none
         }
+       
         
-        self = .none
     }
 }
