@@ -29,11 +29,6 @@ class ParserTests: XCTestCase {
         XCTAssertEqual(3, (try! result.get()).count)
     }
 
-    func testTemplateParserWithCustomTag() {
-        let result = TemplateParser.parse("sdfdfd{%test%}aaa", tagDelimiterPair: ("{%", "%}"))
-        XCTAssertEqual(3, (try! result.get()).count)
-    }
-
     func testPerformanceExample() {
         let template = Template(templateString: "sdfdfd{{test}}aaa")
         let result = template.render(data: ["test": "value"], transformers: Transform())
