@@ -11,11 +11,12 @@
  */
 
 import Foundation
+
 import XCTest
 
 @testable import RulesEngine
 
-class DSLParserTests: XCTestCase {
+class TokenReplacementTests: XCTestCase {
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -24,21 +25,23 @@ class DSLParserTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() {
-        let evaluator = ConditionEvaluator(options: .caseInsensitive)
-        let engine = RulesEngine<ConsequenceRule>(evaluator: evaluator)
-        engine.addRulesFrom {
-            Condition {
-                ComparisonExpression(lhs: Operand<String>(mustache: "{{data.blah}}"), operationName: "equals", rhs: "blah")
-            }
-            Consequence {
-                ["key": "value"]
-            }
-        }
+    func testTokenReplacementNormal() {
+        let template = Template(templateString: "aaa{%test%}aaa", tagDelimiterPair: ("{%", "%}"))
+        let tran = Transform()
+        let result = template.render(data: ["test": "_test_"], transformers: tran)
+        XCTAssertEqual("aaa_test_aaa", result)
+    }
 
-        let input = ["data": ["blah": "blah"], "context": ["blah": "blah"]]
-
-        let output = engine.evaluate(data: input)
-        XCTAssertEqual(1, output.count)
+    func testTokenReplacementWithTransformation() {
+        let template = Template(templateString: "aaa/key={%urlenc(test)%}/aaa", tagDelimiterPair: ("{%", "%}"))
+        let tran = Transform()
+        tran.register(name: "urlenc", transformation: { value in
+            if value is String {
+                return (value as! String).addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
+            }
+            return value
+        })
+        let result = template.render(data: ["test": "value 1"], transformers: tran)
+        XCTAssertEqual("aaa/key=value%201/aaa", result)
     }
 }
