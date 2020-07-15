@@ -13,14 +13,12 @@
 import Foundation
 
 /// A pair of tag delimiters, such as `("{{", "}}")`.
-public typealias DelimiterPair = (String, String)
-
 public struct TemplateParser {
-    static let TagDelimiterPair = ("{{", "}}")
+    static let DefaultTagDelimiterPair: DelimiterPair = ("{{", "}}")
 
-    static func parse(_ templateString: String) -> Result<[TemplateToken], Error> {
+    static func parse(_ templateString: String, tagDelimiterPair: DelimiterPair = TemplateParser.DefaultTagDelimiterPair) -> Result<[TemplateToken], Error> {
         var tokens: [TemplateToken] = []
-        let currentDelimiters = ParserTagDelimiters(tagDelimiterPair: TemplateParser.TagDelimiterPair)
+        let currentDelimiters = ParserTagDelimiters(tagDelimiterPair)
 
         var state: State = .start
         var i = templateString.startIndex
@@ -108,17 +106,19 @@ public struct TemplateParser {
         case text(startIndex: String.Index)
         case tag(startIndex: String.Index)
     }
+}
 
-    fileprivate struct ParserTagDelimiters {
-        let tagDelimiterPair: DelimiterPair
-        let tagStartLength: Int
-        let tagEndLength: Int
+/// A pair of tag delimiters, such as `("{{", "}}")`.
+public typealias DelimiterPair = (String, String)
 
-        init(tagDelimiterPair: DelimiterPair) {
-            self.tagDelimiterPair = tagDelimiterPair
+public struct ParserTagDelimiters {
+    let tagDelimiterPair: DelimiterPair
+    let tagStartLength: Int
+    let tagEndLength: Int
+    init(_ tagDelimiterPair: DelimiterPair) {
+        self.tagDelimiterPair = tagDelimiterPair
 
-            tagStartLength = tagDelimiterPair.0.distance(from: tagDelimiterPair.0.startIndex, to: tagDelimiterPair.0.endIndex)
-            tagEndLength = tagDelimiterPair.1.distance(from: tagDelimiterPair.1.startIndex, to: tagDelimiterPair.1.endIndex)
-        }
+        tagStartLength = tagDelimiterPair.0.distance(from: tagDelimiterPair.0.startIndex, to: tagDelimiterPair.0.endIndex)
+        tagEndLength = tagDelimiterPair.1.distance(from: tagDelimiterPair.1.startIndex, to: tagDelimiterPair.1.endIndex)
     }
 }

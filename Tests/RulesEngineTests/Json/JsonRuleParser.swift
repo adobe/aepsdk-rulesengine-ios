@@ -1,14 +1,14 @@
 /*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
+ Copyright 2020 Adobe. All rights reserved.
+ This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License. You may obtain a copy
+ of the License at http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
+ Unless required by applicable law or agreed to in writing, software distributed under
+ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ OF ANY KIND, either express or implied. See the License for the specific language
+ governing permissions and limitations under the License.
+ */
 
 import Foundation
 
@@ -20,25 +20,21 @@ public class ConstantEvaluable: Evaluable {
         self.value = value
     }
 
-    public func evaluate(in context: Context) -> Result<Bool, RulesFailure> {
-        return .success(value)
-
+    public func evaluate(in _: Context) -> Result<Bool, RulesFailure> {
+        .success(value)
     }
 }
 
 let ConstantTrue = ConstantEvaluable(true)
 let ConstantFalse = ConstantEvaluable(false)
-let matchersMapping = ["eq":"equals"]
-extension String{
-    var matcher:String{
-        get {
-            return matchersMapping[self] ?? ""
-        }
+let matchersMapping = ["eq": "equals"]
+extension String {
+    var matcher: String {
+        matchersMapping[self] ?? ""
     }
 }
 
 struct Converter {
-    
     static func convertFrom(json data: [String: Any]) -> Evaluable {
         let type = data["type"] as? String
         switch type {
@@ -47,9 +43,9 @@ struct Converter {
             let logic = definition?["logic"] as? String
             let conditions = definition?["conditions"] as? [[String: Any]]
 
-            let Evaluables = conditions?.map({ condition in
+            let Evaluables = conditions?.map { condition in
                 Converter.convertFrom(json: condition)
-            })
+            }
 
             switch logic {
             case "and":
@@ -72,13 +68,12 @@ struct Converter {
                 let matches = regex.matches(in: key, options: [], range: NSRange(location: 0, length: key.utf8.count))
 
                 isKeyMustache = matches.count > 0
-            } catch {
-            }
+            } catch {}
 
             if values.count > 0 {
-                let conditions = values.filter({ (item) -> Bool in
+                let conditions = values.filter { (item) -> Bool in
                     item is String || item is Int || item is Double || item is Bool
-                }).map({ (item) -> Evaluable in
+                }.map { (item) -> Evaluable in
                     switch item {
                     case is String:
                         return isKeyMustache
@@ -100,22 +95,20 @@ struct Converter {
                     default:
                         return ComparisonExpression(lhs: .some(""), operationName: "equals", rhs: .some(""))
                     }
-                })
+                }
 
                 return ConjunctionExpression(operationName: "or", operands: conditions)
             } else {
-                return isKeyMustache ? UnaryExpression(lhs: Operand<Any>(mustache: key), operationName: matcher) :ConstantFalse
+                return isKeyMustache ? UnaryExpression(lhs: Operand<Any>(mustache: key), operationName: matcher) : ConstantFalse
             }
         default:
             return ConstantFalse
         }
-
     }
 }
 
 extension ConsequenceRule {
     static func createFrom(json data: [String: Any]) -> ConsequenceRule {
-
         let id = data["id"] as! String
         let consequnces = data["consequences"] as? [String]
         let condition = Converter.convertFrom(json: data["condition"] as! [String: Any])
@@ -124,19 +117,16 @@ extension ConsequenceRule {
     }
 }
 
-extension RulesEngine where R == ConsequenceRule{
-
+extension RulesEngine where R == ConsequenceRule {
     public func addRulesFrom(json data: Data) {
-
         let json = try? JSONSerialization.jsonObject(with: data, options: [])
 
         if let array = json as? [[String: Any]] {
-            let rules = array.map({ item in
+            let rules = array.map { item in
                 ConsequenceRule.createFrom(json: item)
-            })
+            }
 
-            self.addRules(rules: rules)
+            addRules(rules: rules)
         }
-
     }
 }
