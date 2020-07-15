@@ -16,8 +16,8 @@ jobs:
       
     - name: Install swiftformat
       run: brew install swiftformat
-    - name: swiftformat --lint Sources
-      run: brew install swiftformat 
+    - name: Linting
+      run: swiftformat --lint Sources 
     - name: Build
       run: swift build -v
     - name: Run tests
