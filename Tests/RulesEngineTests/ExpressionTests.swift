@@ -42,7 +42,7 @@ class ExpressionTests: XCTestCase {
 
         let a = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "abc")
         let b = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "abc")
-        let c = ConjunctionExpression(operationName: "and", operands: a, b)
+        let c = LogicalExpression(operationName: "and", operands: a, b)
         let result = c.evaluate(in: Context(data: [:], evaluator: evaluator, transformer: Transform()))
         XCTAssertTrue(result.value)
     }
@@ -52,7 +52,7 @@ class ExpressionTests: XCTestCase {
         let mustache = Operand<String>(mustache: "{{key}}")
         let a = ComparisonExpression(lhs: mustache, operationName: "equals", rhs: "abc")
         let b = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "abc")
-        let c = ConjunctionExpression(operationName: "and", operands: a, b)
+        let c = LogicalExpression(operationName: "and", operands: a, b)
         let result = c.evaluate(in: Context(data: ["key": "abc"], evaluator: evaluator, transformer: Transform()))
         XCTAssertTrue(result.value)
     }
@@ -62,7 +62,7 @@ class ExpressionTests: XCTestCase {
         let mustache = Operand<String>(mustache: "{{key}}")
         let a = ComparisonExpression(lhs: mustache, operationName: "equals", rhs: "abc")
         let b = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "abc")
-        let c = ConjunctionExpression(operationName: "and", operands: a, b)
+        let c = LogicalExpression(operationName: "and", operands: a, b)
         let result = c.evaluate(in: Context(data: ["someelse": "abc"], evaluator: evaluator, transformer: Transform()))
         XCTAssertFalse(result.value)
     }
@@ -72,7 +72,7 @@ class ExpressionTests: XCTestCase {
         let mustache = Operand<String>(mustache: "{{key}}")
         let a = ComparisonExpression(lhs: mustache, operationName: "nx", rhs: Operand<String>.none)
         let b = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "abc")
-        let c = ConjunctionExpression(operationName: "and", operands: a, b)
+        let c = LogicalExpression(operationName: "and", operands: a, b)
         let result = c.evaluate(in: Context(data: ["key": "abc"], evaluator: evaluator, transformer: Transform()))
 
         XCTAssertFalse(result.value)
@@ -83,7 +83,7 @@ class ExpressionTests: XCTestCase {
         let mustache = Operand<Any>(mustache: "{{other}}")
         let a = ComparisonExpression(lhs: mustache, operationName: "notExist", rhs: Operand<Any>.none)
         let b = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "abc")
-        let c = ConjunctionExpression(operationName: "and", operands: a, b)
+        let c = LogicalExpression(operationName: "and", operands: a, b)
         let result = c.evaluate(in: Context(data: ["key": "abc"], evaluator: evaluator, transformer: Transform()))
 
         XCTAssertTrue(result.value)
@@ -98,7 +98,7 @@ class ExpressionTests: XCTestCase {
         let mustache = Operand<CustomOperand>(mustache: "{{custom}}")
         let a = UnaryExpression(lhs: mustache, operationName: "isAmazing")
         let b = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "abc")
-        let c = ConjunctionExpression(operationName: "and", operands: a, b)
+        let c = LogicalExpression(operationName: "and", operands: a, b)
         let result = c.evaluate(in: Context(data: ["custom": CustomOperand()], evaluator: evaluator, transformer: Transform()))
         XCTAssertTrue(result.value)
     }

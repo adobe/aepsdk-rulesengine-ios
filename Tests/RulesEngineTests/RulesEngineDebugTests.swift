@@ -34,8 +34,8 @@ class RulesEngineDebugTests: XCTestCase {
         let condition2 = ComparisonExpression(lhs: mustache, operationName: "equals", rhs: "another wrong")
         let condition3 = ComparisonExpression(lhs: mustache, operationName: "equals", rhs: "abc")
         let condition4 = ComparisonExpression(lhs: mustache, operationName: "wat", rhs: "abc")
-        let andCondition = ConjunctionExpression(operationName: "and", operands: condition1, condition2, condition3)
-        let orCondition = ConjunctionExpression(operationName: "or", operands: andCondition, condition1, condition2, condition4)
+        let andCondition = LogicalExpression(operationName: "and", operands: condition1, condition2, condition3)
+        let orCondition = LogicalExpression(operationName: "or", operands: andCondition, condition1, condition2, condition4)
 
         let rule1 = ConsequenceRule(id: "test", condition: orCondition)
         rulesEngine.addRules(rules: [rule1])

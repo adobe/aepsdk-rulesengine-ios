@@ -49,10 +49,10 @@ struct Converter {
 
             switch logic {
             case "and":
-                return ConjunctionExpression(operationName: "and", operands: Evaluables!)
+                return LogicalExpression(operationName: "and", operands: Evaluables!)
 
             case "or":
-                return ConjunctionExpression(operationName: "or", operands: Evaluables!)
+                return LogicalExpression(operationName: "or", operands: Evaluables!)
             default:
                 return ConstantFalse
             }
@@ -97,7 +97,7 @@ struct Converter {
                     }
                 }
 
-                return ConjunctionExpression(operationName: "or", operands: conditions)
+                return LogicalExpression(operationName: "or", operands: conditions)
             } else {
                 return isKeyMustache ? UnaryExpression(lhs: Operand<Any>(mustache: key), operationName: matcher) : ConstantFalse
             }

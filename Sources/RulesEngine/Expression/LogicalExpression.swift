@@ -12,7 +12,7 @@
 
 import Foundation
 
-public struct ConjunctionExpression: Evaluable {
+public struct LogicalExpression: Evaluable {
     public let operands: [Evaluable]
     public let operationName: String
 

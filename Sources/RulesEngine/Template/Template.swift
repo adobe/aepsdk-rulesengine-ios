@@ -13,7 +13,7 @@
 import Foundation
 
 public class Template {
-    let tokens: [TemplateToken]
+    let tokens: [Segment]
     public init(templateString: String) {
         let result = TemplateParser.parse(templateString)
         tokens = (try? result.get()) ?? []

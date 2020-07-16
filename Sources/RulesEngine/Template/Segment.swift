@@ -19,7 +19,7 @@ public struct MustacheError: Error {
     }
 }
 
-public struct TemplateToken {
+public struct Segment {
     enum `Type` {
         /// text
         case text(String)

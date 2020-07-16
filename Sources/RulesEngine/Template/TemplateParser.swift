@@ -16,8 +16,8 @@ import Foundation
 public struct TemplateParser {
     static let DefaultTagDelimiterPair: DelimiterPair = ("{{", "}}")
 
-    static func parse(_ templateString: String, tagDelimiterPair: DelimiterPair = TemplateParser.DefaultTagDelimiterPair) -> Result<[TemplateToken], Error> {
-        var tokens: [TemplateToken] = []
+    static func parse(_ templateString: String, tagDelimiterPair: DelimiterPair = TemplateParser.DefaultTagDelimiterPair) -> Result<[Segment], Error> {
+        var tokens: [Segment] = []
         let currentDelimiters = ParserTagDelimiters(tagDelimiterPair)
 
         var state: State = .start
@@ -38,7 +38,7 @@ public struct TemplateParser {
                 if index(i, isAt: currentDelimiters.tagDelimiterPair.0, in: templateString) {
                     if startIndex != i {
                         let range = startIndex ..< i
-                        let token = TemplateToken(
+                        let token = Segment(
                             type: .text(String(templateString[range])),
 
                             templateString: templateString,
@@ -57,7 +57,7 @@ public struct TemplateParser {
                     let content = String(templateString[tagInitialIndex ..< i])
                     let mustacheToken = MustacheToken(content)
 
-                    let token = TemplateToken(
+                    let token = Segment(
                         type: .mustache(mustacheToken),
                         templateString: templateString,
                         range: tokenRange
@@ -78,7 +78,7 @@ public struct TemplateParser {
             break
         case let .text(startIndex):
             let range = startIndex ..< end
-            let token = TemplateToken(
+            let token = Segment(
                 type: .text(String(templateString[range])),
 
                 templateString: templateString,
