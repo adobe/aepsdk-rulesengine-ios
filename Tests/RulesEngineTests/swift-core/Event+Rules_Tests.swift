@@ -1,22 +1,21 @@
 /*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
+ Copyright 2020 Adobe. All rights reserved.
+ This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License. You may obtain a copy
+ of the License at http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
+ Unless required by applicable law or agreed to in writing, software distributed under
+ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ OF ANY KIND, either express or implied. See the License for the specific language
+ governing permissions and limitations under the License.
+ */
 
-import XCTest
 import Foundation
+import XCTest
 
 @testable import RulesEngine
 
 class EventRulesTests: XCTestCase {
-
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -41,8 +40,8 @@ class EventRulesTests: XCTestCase {
                 "intKey": 123,
                 "intKey1": 1,
                 "intKey2": 0,
-                "intKey3": AnyCodable(NSNumber(0))
-            ]
+                "intKey3": AnyCodable(NSNumber(0)),
+            ],
         ]
 
         let evaluator = ConditionEvaluator(options: .defaultOptions)
@@ -57,31 +56,30 @@ class EventRulesTests: XCTestCase {
         let matchedRules = rulesEngine.evaluate(data: dictionary)
 
         XCTAssertEqual(1, matchedRules.count)
-
     }
 
     func testEventAsInputData() {
-         let dictionary: [String: AnyCodable] = [
-                   "stringKey": "stringValue",
-                   "map": [
-                       "stringKey": "stringValue"
-                   ]
-               ]
+        let dictionary: [String: AnyCodable] = [
+            "stringKey": "stringValue",
+            "map": [
+                "stringKey": "stringValue",
+            ],
+        ]
 
-               let requestEvent = Event(name: "testEvent", type: .analytics, source: .requestContent, data: dictionary)
+        let requestEvent = Event(name: "testEvent", type: .analytics, source: .requestContent, data: dictionary)
 
-               let evaluator = ConditionEvaluator(options: .defaultOptions)
-               let rulesEngine = RulesEngine<ConsequenceRule>(evaluator: evaluator)
+        let evaluator = ConditionEvaluator(options: .defaultOptions)
+        let rulesEngine = RulesEngine<ConsequenceRule>(evaluator: evaluator)
 
-                let mustache = Operand<String>(mustache: "{{data.map.stringKey}}")
-               let condition = ComparisonExpression(lhs: mustache, operationName: "equals", rhs: "stringValue")
+        let mustache = Operand<String>(mustache: "{{data.map.stringKey}}")
+        let condition = ComparisonExpression(lhs: mustache, operationName: "equals", rhs: "stringValue")
 
-               let rule1 = ConsequenceRule(id: "test", condition: condition)
-               rulesEngine.addRules(rules: [rule1])
+        let rule1 = ConsequenceRule(id: "test", condition: condition)
+        rulesEngine.addRules(rules: [rule1])
 
-               let matchedRules = rulesEngine.evaluate(data: requestEvent)
+        let matchedRules = rulesEngine.evaluate(data: requestEvent)
 
-               XCTAssertEqual(1, matchedRules.count)
+        XCTAssertEqual(1, matchedRules.count)
     }
 
     struct SharedStatesWrapper: Traversable {
@@ -89,18 +87,17 @@ class EventRulesTests: XCTestCase {
         let maps: [String: SharedState]
 
         public subscript(traverse sub: String) -> Any? {
-            let result =  maps[sub]?.resolve(version: index).value
+            let result = maps[sub]?.resolve(version: index).value
             return result
         }
     }
 
     func testEventAndSharedStateAsInputData() {
-
         let eventdata: [String: AnyCodable] = [
             "stringKey": "stringValue",
             "map": [
-                "stringKey": "stringValue"
-            ]
+                "stringKey": "stringValue",
+            ],
         ]
         let sharedState = SharedState()
         let statesWrapper = SharedStatesWrapper(index: 3, maps: ["extension1": sharedState])
@@ -124,5 +121,4 @@ class EventRulesTests: XCTestCase {
 
         XCTAssertEqual(1, matchedRules2.count)
     }
-
 }

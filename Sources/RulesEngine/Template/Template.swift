@@ -19,6 +19,11 @@ public class Template {
         tokens = (try? result.get()) ?? []
     }
 
+    public init(templateString: String, tagDelimiterPair: DelimiterPair) {
+        let result = TemplateParser.parse(templateString, tagDelimiterPair: tagDelimiterPair)
+        tokens = (try? result.get()) ?? []
+    }
+
     public func render(data: Traversable, transformers: Transforming) -> String {
         tokens.map { token in
             switch token.type {

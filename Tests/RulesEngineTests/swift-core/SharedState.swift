@@ -1,14 +1,14 @@
 /*
-Copyright 2020 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
+ Copyright 2020 Adobe. All rights reserved.
+ This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License. You may obtain a copy
+ of the License at http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
+ Unless required by applicable law or agreed to in writing, software distributed under
+ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ OF ANY KIND, either express or implied. See the License for the specific language
+ governing permissions and limitations under the License.
+ */
 
 import Foundation
 
@@ -18,11 +18,11 @@ public enum SharedStateStatus {
 }
 
 class SharedState {
-
     private let queue: DispatchQueue /// Allows multi-threaded access to shared state.  Reads are concurrent, Add/Updates act as barriers.
     private var head: Node?
 
     // MARK: Internal API
+
     init(_ name: String = "anonymous") {
         queue = DispatchQueue(label: "com.adobe.mobile.sharedstate(\(name))", qos: .default, attributes: .concurrent)
         head = nil
@@ -89,6 +89,7 @@ class SharedState {
     }
 
     // MARK: Private API
+
     private func add(version: Int, data: [String: Any]?, status: SharedStateStatus) {
         queue.async(flags: .barrier) {
             if let unwrapped = self.head {
@@ -104,6 +105,7 @@ class SharedState {
     }
 
     // MARK: Internal Class (Node definition)
+
     /// Node class defines a specific version of a SharedState
     private class Node {
         var nodeStatus: SharedStateStatus = .pending
@@ -121,7 +123,7 @@ class SharedState {
         init(version: Int, data: [String: Any]?, status: SharedStateStatus) {
             self.version = version
             self.data = data
-            self.nodeStatus = status
+            nodeStatus = status
         }
     }
 }
