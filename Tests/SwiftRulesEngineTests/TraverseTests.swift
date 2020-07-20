@@ -12,7 +12,7 @@
 
 import Foundation
 
-@testable import RulesEngine
+@testable import SwiftRulesEngine
 import XCTest
 
 extension Array: Traversable {

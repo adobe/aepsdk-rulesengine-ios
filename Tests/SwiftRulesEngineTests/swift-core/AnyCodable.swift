@@ -11,7 +11,7 @@
  */
 
 import Foundation
-import RulesEngine
+import SwiftRulesEngine
 
 /// A type erasing struct that can allow for dynamic `Codable` types
 public struct AnyCodable: Codable {
