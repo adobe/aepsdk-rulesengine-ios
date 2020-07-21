@@ -127,18 +127,6 @@ struct Consequence: Codable {
     let detail: Detail
 }
 
-class LaunchRulesParser {
-    static func parse(_ json: String) -> LaunchRuleRoot? {
-        let jsonDecoder = JSONDecoder()
-        do {
-            return try jsonDecoder.decode(LaunchRuleRoot.self, from: json.data(using: .utf8)!)
-        } catch {
-            print("caught: \(error)")
-            return nil
-        }
-    }
-}
-
 public class AEPRule: Rule {
     public let condition: Evaluable
     fileprivate init(condition: Evaluable) {
@@ -146,10 +134,20 @@ public class AEPRule: Rule {
     }
 
     public static func generateRules(json: String) -> [AEPRule] {
-        if let launchRulesRoot = LaunchRulesParser.parse(json) {
+        if let launchRulesRoot = parse(json) {
             return launchRulesRoot.convert()
         } else {
             return []
+        }
+    }
+
+    static func parse(_ json: String) -> LaunchRuleRoot? {
+        let jsonDecoder = JSONDecoder()
+        do {
+            return try jsonDecoder.decode(LaunchRuleRoot.self, from: json.data(using: .utf8)!)
+        } catch {
+            print("caught: \(error)")
+            return nil
         }
     }
 
