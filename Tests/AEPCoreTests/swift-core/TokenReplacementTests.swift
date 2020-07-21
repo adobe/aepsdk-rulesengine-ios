@@ -14,7 +14,7 @@ import Foundation
 
 import XCTest
 
-@testable import RulesEngine
+@testable import SwiftRulesEngine
 
 class TokenReplacementTests: XCTestCase {
     override func setUp() {
@@ -28,7 +28,7 @@ class TokenReplacementTests: XCTestCase {
     func testTokenReplacementNormal() {
         let template = Template(templateString: "aaa{%test%}aaa", tagDelimiterPair: ("{%", "%}"))
         let tran = Transform()
-        let result = template.render(data: ["test": "_test_"], transformers: tran)
+        let result = template.render(data: ["test": "_test_"] as! Traversable, transformers: tran)
         XCTAssertEqual("aaa_test_aaa", result)
     }
 
@@ -41,7 +41,7 @@ class TokenReplacementTests: XCTestCase {
             }
             return value
         })
-        let result = template.render(data: ["test": "value 1"], transformers: tran)
+        let result = template.render(data: ["test": "value 1"] as! Traversable, transformers: tran)
         XCTAssertEqual("aaa/key=value%201/aaa", result)
     }
 }

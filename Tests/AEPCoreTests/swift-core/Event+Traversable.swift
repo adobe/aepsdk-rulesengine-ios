@@ -11,19 +11,20 @@
  */
 
 import Foundation
+import SwiftRulesEngine
 
-public class ConsequenceRule: Evaluable {
-    public let id: String
-    public let condition: Evaluable
-    public let consequnces: [String]
-
-    public init(id: String, condition: Evaluable, consequnces: [String] = []) {
-        self.id = id
-        self.condition = condition
-        self.consequnces = consequnces
-    }
-
-    public func evaluate(in context: Context) -> Result<Bool, RulesFailure> {
-        condition.evaluate(in: context)
+extension Event: Traversable {
+    public subscript(traverse sub: String) -> Any? {
+        switch sub {
+        case "name": return name
+        case "id": return id
+        case "type": return type
+        case "source": return source
+        case "timestamp": return timestamp
+        case "responseID": return responseID
+        case "data": return data
+        default:
+            return Optional<String>.none
+        }
     }
 }
