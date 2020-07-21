@@ -11,7 +11,7 @@
  */
 
 import Foundation
-import RulesEngine
+import SwiftRulesEngine
 
 extension AnyCodable: Traversable {
     public subscript(traverse key: String) -> Any? {

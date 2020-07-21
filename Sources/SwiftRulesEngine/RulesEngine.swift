@@ -14,11 +14,11 @@ import Foundation
 
 public typealias RulesTracer = (Bool, Evaluable, Context, RulesFailure?) -> Void
 
-public class RulesEngine<R: Evaluable> {
+public class RulesEngine<T: Rule> {
     let evaluator: Evaluating
     let transformer: Transforming
     var tracer: RulesTracer?
-    var rules = [R]()
+    var rules = [T]()
 
     public init(evaluator: Evaluating, transformer: Transforming = Transform()) {
         self.evaluator = evaluator
@@ -28,12 +28,12 @@ public class RulesEngine<R: Evaluable> {
     /// Evaluate all the rules against the input data
     /// - Parameter data: input data
     /// - Returns: all the rules that have been matched
-    public func evaluate(data: Traversable) -> [Evaluable] {
+    public func evaluate(data: Traversable) -> [T] {
         let context = Context(data: data, evaluator: evaluator, transformer: transformer)
         return rules.filter { rule -> Bool in
-            let result = rule.evaluate(in: context)
+            let result = rule.condition.evaluate(in: context)
             if let tracer = self.tracer {
-                tracer(result.value, rule, context, result.error)
+                tracer(result.value, rule.condition, context, result.error)
             }
             return result.value
         }
@@ -42,7 +42,7 @@ public class RulesEngine<R: Evaluable> {
     /// Register a set of rules
     /// - Parameters:
     ///   - rules: array of rules
-    public func addRules(rules: [R]) {
+    public func addRules(rules: [T]) {
         self.rules += rules
     }
 
