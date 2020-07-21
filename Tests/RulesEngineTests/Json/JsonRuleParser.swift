@@ -12,7 +12,7 @@
 
 import Foundation
 
-import SwiftRulesEngine
+import RulesEngine
 
 public class ConstantEvaluable: Evaluable {
     let value: Bool

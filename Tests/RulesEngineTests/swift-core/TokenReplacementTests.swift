@@ -14,7 +14,7 @@ import Foundation
 
 import XCTest
 
-@testable import SwiftRulesEngine
+@testable import RulesEngine
 
 class TokenReplacementTests: XCTestCase {
     override func setUp() {

@@ -13,7 +13,7 @@
 import Foundation
 import XCTest
 
-@testable import SwiftRulesEngine
+@testable import RulesEngine
 
 class RulesEngineTests: XCTestCase {
     override func setUp() {

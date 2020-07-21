@@ -11,13 +11,20 @@
  */
 
 import Foundation
-import SwiftRulesEngine
+import RulesEngine
 
-extension AnyCodable: Traversable {
-    public subscript(traverse key: String) -> Any? {
-        if value is [String: Any] {
-            return (value as! [String: Any])[key]
+extension Event: Traversable {
+    public subscript(traverse sub: String) -> Any? {
+        switch sub {
+        case "name": return name
+        case "id": return id
+        case "type": return type
+        case "source": return source
+        case "timestamp": return timestamp
+        case "responseID": return responseID
+        case "data": return data
+        default:
+            return Optional<String>.none
         }
-        return nil
     }
 }

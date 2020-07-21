@@ -13,7 +13,7 @@
 import Foundation
 import XCTest
 
-@testable import SwiftRulesEngine
+@testable import RulesEngine
 struct CustomOperand: Traversable {
     subscript(traverse sub: String) -> Any? {
         sub
