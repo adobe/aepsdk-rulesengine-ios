@@ -9,10 +9,12 @@ let package = Package(
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
             name: "SwiftRulesEngine",
-            targets: ["SwiftRulesEngine"]),
+            targets: ["SwiftRulesEngine"]
+        ),
         .library(
             name: "AEPCore",
-            targets: ["AEPCore"]),
+            targets: ["AEPCore"]
+        ),
 //
 //        .library(
 //            name: "RulesDSL",
@@ -28,20 +30,25 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "SwiftRulesEngine",
-            dependencies: []),
+            dependencies: []
+        ),
         .target(
             name: "AEPCore",
-            dependencies: ["SwiftRulesEngine"]),
+            dependencies: ["SwiftRulesEngine"]
+        ),
         .testTarget(
             name: "AEPCoreTests",
-            dependencies: ["SwiftRulesEngine", "AEPCore"]),
+            dependencies: ["SwiftRulesEngine", "AEPCore"]
+        ),
         .testTarget(
             name: "SwiftRulesEngineTests",
-            dependencies: ["SwiftRulesEngine"]),
+            dependencies: ["SwiftRulesEngine"]
+        ),
 //        .target(
 //            name: "RulesDSL",
 //            dependencies: []),
 //        .testTarget(
 //            name: "RulesDSLTests",
 //            dependencies: ["RulesEngine", "RulesDSL"])
-    ])
+    ]
+)
