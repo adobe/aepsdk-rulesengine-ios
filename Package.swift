@@ -10,11 +10,7 @@ let package = Package(
         .library(
             name: "SwiftRulesEngine",
             targets: ["SwiftRulesEngine"]
-        ),
-        .library(
-            name: "AEPCore",
-            targets: ["AEPCore"]
-        ),
+        )
 //
 //        .library(
 //            name: "RulesDSL",
@@ -31,14 +27,6 @@ let package = Package(
         .target(
             name: "SwiftRulesEngine",
             dependencies: []
-        ),
-        .target(
-            name: "AEPCore",
-            dependencies: ["SwiftRulesEngine"]
-        ),
-        .testTarget(
-            name: "AEPCoreTests",
-            dependencies: ["SwiftRulesEngine", "AEPCore"]
         ),
         .testTarget(
             name: "SwiftRulesEngineTests",
