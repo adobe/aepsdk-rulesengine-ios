@@ -16,6 +16,25 @@ import XCTest
 
 @testable import SwiftRulesEngine
 
+extension Array: Traversable {
+    public subscript(traverse sub: String) -> Any? {
+        if let index = Int(sub) {
+            return self[index]
+        }
+        return nil
+    }
+}
+
+extension Dictionary: Traversable where Key == String {
+    public subscript(traverse sub: String) -> Any? {
+        let result = self[sub]
+        if result is AnyCodable {
+            return (result as! AnyCodable).value
+        }
+        return result
+    }
+}
+
 class TokenReplacementTests: XCTestCase {
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
