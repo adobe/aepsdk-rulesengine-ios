@@ -23,6 +23,7 @@ class RulesEngineDebugTests: XCTestCase {
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
+
 //
 //    func testTrace() {
 //        let evaluator = ConditionEvaluator(options: .defaultOptions)
@@ -42,14 +43,14 @@ class RulesEngineDebugTests: XCTestCase {
 //
 //        var traceResult: Bool?
 //        var traceError: RulesFailure?
-////        rulesEngine.traceRule(id: "test") { (result, rule, conext, error) in
-////            traceResult = result
-////            traceError = error
-////            print(traceError!)
-////        }
+    ////        rulesEngine.traceRule(id: "test") { (result, rule, conext, error) in
+    ////            traceResult = result
+    ////            traceError = error
+    ////            print(traceError!)
+    ////        }
 //
 //        let result = rulesEngine.evaluate(data: ["key": "abc"])
 //        XCTAssertEqual(0, result.count)
-////        XCTAssertFalse(traceResult!)
+    ////        XCTAssertFalse(traceResult!)
 //    }
 }

@@ -33,8 +33,9 @@ extension String {
         matchersMapping[self] ?? ""
     }
 }
+
 //
-//struct Converter {
+// struct Converter {
 //    static func convertFrom(json data: [String: Any]) -> Evaluable {
 //        let type = data["type"] as? String
 //        switch type {
@@ -105,9 +106,9 @@ extension String {
 //            return ConstantFalse
 //        }
 //    }
-//}
+// }
 //
-//extension ConsequenceRule {
+// extension ConsequenceRule {
 //    static func createFrom(json data: [String: Any]) -> ConsequenceRule {
 //        let id = data["id"] as! String
 //        let consequences = data["consequences"] as? [String]
@@ -115,9 +116,9 @@ extension String {
 //
 //        return ConsequenceRule(id: id, condition: condition, consequences: consequences ?? [])
 //    }
-//}
+// }
 //
-//extension RulesEngine where R == ConsequenceRule {
+// extension RulesEngine where R == ConsequenceRule {
 //    public func addRulesFrom(json data: Data) {
 //        let json = try? JSONSerialization.jsonObject(with: data, options: [])
 //
@@ -129,4 +130,4 @@ extension String {
 //            addRules(rules: rules)
 //        }
 //    }
-//}
+// }

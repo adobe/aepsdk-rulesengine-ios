@@ -44,7 +44,7 @@ class JsonParserTests: XCTestCase {
     func testJson() {
         let jsonDecoder = JSONDecoder()
         do {
-            let rs = try jsonDecoder.decode(Rule.self, from: self.json.data(using: .utf8)!)
+            let rs = try jsonDecoder.decode(Rule.self, from: json.data(using: .utf8)!)
             print(rs)
         } catch {
             print("caught: \(error)")
