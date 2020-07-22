@@ -26,8 +26,11 @@ class LaunchRulesTests: XCTestCase {
     }
 
     func testLaunchRuleParser() {
-        if let launchRulesRoot = LaunchRulesParser.parse(json) {
+        if let launchRulesRoot = JSONRulesParser.parse(json) {
             XCTAssertEqual(1, launchRulesRoot.version)
+            let rules = launchRulesRoot.convert()
+            XCTAssertEqual(2, rules.count)
+
         } else {
             XCTAssertTrue(false)
         }
@@ -189,11 +192,19 @@ class LaunchRulesTests: XCTestCase {
           },
           "consequences": [
             {
-              "id": "RC32e02c4d81984b1c8469fdc165fe1fc5",
-              "type": "url",
-              "detail": {
-                "url": "https://adobe.com"
-              }
+                "id"        : "48181acd22b3edaebc8a447868a7df7ce629920a",
+                "type"      : "add",
+                "detail"    : {
+                    "eventdata" : {
+                        "key" : "value",
+                        "key.subkey" : "subvalue",
+                        "ecid" : "{%%ECID DATA ELEMENT%%}",
+                        "mySharedKey" : "{%~state.com.myExtension/sharedKey%}",
+                        "myObject" : {
+                            "objKey" : "objValue"
+                        }
+                    }
+                }
             }
           ]
         }
