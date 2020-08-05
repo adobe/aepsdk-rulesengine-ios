@@ -19,8 +19,7 @@ public indirect enum MustacheToken {
     case function(content: String, inner: MustacheToken)
 
     public init(_ tokenString: String) {
-        if let range = tokenString.range(of: #"\((.*\))+"#,
-                                         options: .regularExpression) {
+        if let range = tokenString.range(of: #"\((.*\))+"#, options: .regularExpression) {
             let variable = String(tokenString[tokenString.index(after: range.lowerBound) ..< tokenString.index(before: range.upperBound)]).trimmingCharacters(in: .whitespacesAndNewlines)
             let funtionName = String(tokenString[tokenString.startIndex ... tokenString.index(before: range.lowerBound)]).trimmingCharacters(in: .whitespacesAndNewlines)
             self = .function(content: funtionName, inner: .variable(text: variable))
@@ -35,8 +34,7 @@ public indirect enum MustacheToken {
             let innerValue = innerToken.resolve(in: transformer, data: data)
             return transformer.transform(name: name, parameter: innerValue ?? "")
         case let .variable(name):
-            let path = name.components(separatedBy: ".")
-            return data[path: path]
+            return data.get(key: name)
         }
     }
 }

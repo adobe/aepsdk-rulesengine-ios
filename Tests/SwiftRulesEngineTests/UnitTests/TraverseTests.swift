@@ -16,8 +16,8 @@ import Foundation
 import XCTest
 
 extension Array: Traversable {
-    public subscript(traverse sub: String) -> Any? {
-        if let index = Int(sub) {
+    public func get(key: String) -> Any? {
+        if let index = Int(key) {
             return self[index]
         }
         return nil
@@ -25,18 +25,15 @@ extension Array: Traversable {
 }
 
 extension Dictionary: Traversable where Key == String {
-    public subscript(traverse sub: String) -> Any? {
-        let result = self[sub]
-        if result is AnyCodable {
-            return (result as! AnyCodable).value
-        }
+    public func get(key: String) -> Any? {
+        let result = self[key]
         return result
     }
 }
 
 struct CustomTraverse: Traversable {
-    subscript(traverse sub: String) -> Any? {
-        sub
+    public func get(key: String) -> Any? {
+        key
     }
 }
 

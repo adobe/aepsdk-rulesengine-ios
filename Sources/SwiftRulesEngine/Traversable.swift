@@ -14,7 +14,7 @@ import Foundation
 
 /// A type that can be traversed by the rules engine to retrieve a certain key/value pair.
 public protocol Traversable {
-    subscript(traverse _: String) -> Any? { get }
+    func get(key: String) -> Any?
 }
 
 extension Traversable {
@@ -22,7 +22,7 @@ extension Traversable {
         let result = path.reduce(self as Any?) {
             switch $0 {
             case is Traversable:
-                return ($0 as! Traversable)[traverse: $1]
+                return ($0 as! Traversable).get(key: $1)
             default:
                 return nil
             }
