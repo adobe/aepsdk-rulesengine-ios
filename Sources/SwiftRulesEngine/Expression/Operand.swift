@@ -64,9 +64,8 @@ extension MustacheToken {
         case let .function(name, innerToken):
             let innerValue = innerToken.resolve(in: context)
             return context.transformer.transform(name: name, parameter: innerValue ?? "")
-        case let .variable(name):
-            let path = name.components(separatedBy: ".")
-            return context.data[path: path]
+        case let .variable(path):
+            return context.data.get(key: path)
         }
     }
 }

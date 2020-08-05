@@ -15,8 +15,8 @@ import XCTest
 
 @testable import SwiftRulesEngine
 struct CustomOperand: Traversable {
-    subscript(traverse sub: String) -> Any? {
-        sub
+    func get(key:String) -> Any? {
+        return key
     }
 }
 
@@ -92,7 +92,7 @@ class ExpressionTests: XCTestCase {
     func testMustache_Custom() {
         let evaluator = ConditionEvaluator(options: .defaultOptions)
         evaluator.addUnaryOperator(operation: "isAmazing") { (lhs: CustomOperand) -> Bool in
-            (lhs[traverse: "test"] as? String) == "test"
+            (lhs.get(key: "test") as? String) == "test"
         }
 
         let mustache = Operand<CustomOperand>(mustache: "{{custom}}")
