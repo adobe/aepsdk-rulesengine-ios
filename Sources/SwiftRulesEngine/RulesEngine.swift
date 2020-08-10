@@ -12,7 +12,7 @@
 
 import Foundation
 
-public typealias RulesTracer = (Bool, Evaluable, Context, RulesFailure?) -> Void
+public typealias RulesTracer = (Bool, Rule, Context, RulesFailure?) -> Void
 
 public class RulesEngine<T: Rule> {
     let evaluator: Evaluating
@@ -33,7 +33,7 @@ public class RulesEngine<T: Rule> {
         return rules.filter { rule -> Bool in
             let result = rule.condition.evaluate(in: context)
             if let tracer = self.tracer {
-                tracer(result.value, rule.condition, context, result.error)
+                tracer(result.value, rule, context, result.error)
             }
             return result.value
         }
@@ -45,12 +45,19 @@ public class RulesEngine<T: Rule> {
     public func addRules(rules: [T]) {
         self.rules += rules
     }
-
+    
+    
+    /// clear the current rules set
+    public func clearRules() {
+        rules = [T]()
+    }
+    
+    /// trace the result of each rule eveluation
+    /// - Parameter tracer: the rules tracer will be called after each rule eveluation
     public func trace(with tracer: @escaping RulesTracer) {
         self.tracer = tracer
     }
 
-    // TODO: Query of rules?
 }
 
 public struct Context {
