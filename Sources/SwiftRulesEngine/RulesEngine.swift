@@ -45,19 +45,17 @@ public class RulesEngine<T: Rule> {
     public func addRules(rules: [T]) {
         self.rules += rules
     }
-    
-    
+
     /// clear the current rules set
     public func clearRules() {
         rules = [T]()
     }
-    
+
     /// trace the result of each rule eveluation
     /// - Parameter tracer: the rules tracer will be called after each rule eveluation
     public func trace(with tracer: @escaping RulesTracer) {
         self.tracer = tracer
     }
-
 }
 
 public struct Context {
