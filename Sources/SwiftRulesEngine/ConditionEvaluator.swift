@@ -80,6 +80,11 @@ public extension ConditionEvaluator {
         addComparisonOperator(operation: "equals", type: Int.self, closure: ==)
         addComparisonOperator(operation: "equals", type: Double.self, closure: ==)
         addComparisonOperator(operation: "equals", type: Bool.self, closure: ==)
+        
+        addComparisonOperator(operation: "notEquals", type: String.self, closure: !=)
+        addComparisonOperator(operation: "notEquals", type: Int.self, closure: !=)
+        addComparisonOperator(operation: "notEquals", type: Double.self, closure: !=)
+        addComparisonOperator(operation: "notEquals", type: Bool.self, closure: !=)
 
         addComparisonOperator(operation: "startsWith", type: String.self, closure: { $0.starts(with: $1) })
         addComparisonOperator(operation: "endsWith", type: String.self, closure: { $0.hasSuffix($1) })
