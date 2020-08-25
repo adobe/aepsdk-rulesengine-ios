@@ -89,6 +89,7 @@ public extension ConditionEvaluator {
         addComparisonOperator(operation: "startsWith", type: String.self, closure: { $0.starts(with: $1) })
         addComparisonOperator(operation: "endsWith", type: String.self, closure: { $0.hasSuffix($1) })
         addComparisonOperator(operation: "contains", type: String.self, closure: { $0.contains($1) })
+        addComparisonOperator(operation: "notContains", type: String.self, closure: { !$0.contains($1) })
 
         addComparisonOperator(operation: "greaterThan", type: Int.self, closure: >)
         addComparisonOperator(operation: "greaterThan", type: Double.self, closure: >)
