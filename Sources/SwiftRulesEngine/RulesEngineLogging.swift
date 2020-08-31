@@ -32,7 +32,7 @@ public enum RulesEngineLogLevel: Int, Comparable {
     ///   - rhs: the second `RulesEngineLogLevel` to be compared
     /// - Returns: true, only if the second `LogLevel` is more critical
     public static func < (lhs: RulesEngineLogLevel, rhs: RulesEngineLogLevel) -> Bool {
-        return lhs.rawValue < rhs.rawValue
+        lhs.rawValue < rhs.rawValue
     }
 
     public func toString() -> String {
