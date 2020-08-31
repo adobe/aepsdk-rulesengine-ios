@@ -13,6 +13,7 @@
 import Foundation
 
 public struct ComparisonExpression<A, B>: Evaluable {
+    private let LOG_TAG = "ComparisonExpression<\(A.self),\(B.self)>"
     let lhs: Operand<A>
     let rhs: Operand<B>
     let operationName: String
@@ -24,6 +25,7 @@ public struct ComparisonExpression<A, B>: Evaluable {
     }
 
     public func evaluate(in context: Context) -> Result<Bool, RulesFailure> {
+        RulesEngineLog.trace(label: LOG_TAG, "Evaluating \(lhs) - \(operationName) - \(rhs)")
         let resolvedLhs = lhs(context)
         let resolvedRhs = rhs(context)
         var result: Result<Bool, RulesFailure>
@@ -36,6 +38,7 @@ public struct ComparisonExpression<A, B>: Evaluable {
         case .success:
             return result
         case let .failure(error):
+            RulesEngineLog.debug(label: LOG_TAG, "Failed to evaluate \(String(describing: resolvedLhs)) - \(operationName) - \(String(describing: resolvedRhs))")
             return Result.failure(.innerFailure(message: "Comparison (\(lhs) \(operationName) \(rhs)) returns false", error: error))
         }
     }

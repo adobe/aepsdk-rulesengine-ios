@@ -11,11 +11,14 @@
  */
 
 public class ConditionEvaluator: Evaluating {
+    fileprivate let LOG_TAG = "ConditionEvaluator"
     var operators: [String: Any] = [:]
     public func evaluate<A>(operation: String, lhs: A) -> Result<Bool, RulesFailure> {
         let op = operators[getHash(operation: operation, typeA: A.self)] as? ((A) -> Bool)
         guard let op_ = op else {
-            return Result.failure(RulesFailure.missingOperator(message: "Operator not defined for \(getHash(operation: operation, typeA: A.self))"))
+            let message = "Operator not defined for \(getHash(operation: operation, typeA: A.self))"
+            RulesEngineLog.trace(label: LOG_TAG, message)
+            return Result.failure(RulesFailure.missingOperator(message: message))
         }
         return op_(lhs) ? Result.success(true) : Result.failure(.conditionNotMatched(message: "(\(String(describing: A.self))(\(lhs)) \(operation))"))
     }
@@ -24,7 +27,9 @@ public class ConditionEvaluator: Evaluating {
         let op = operators[getHash(operation: operation, typeA: A.self, typeB: B.self)] as? ((A, B) -> Bool)
 
         guard let op_ = op else {
-            return Result.failure(RulesFailure.missingOperator(message: "Operator not defined for \(getHash(operation: operation, typeA: A.self, typeB: B.self))"))
+            let message = "Operator not defined for \(getHash(operation: operation, typeA: A.self, typeB: B.self))"
+            RulesEngineLog.trace(label: LOG_TAG, message)
+            return Result.failure(RulesFailure.missingOperator(message: message))
         }
         return op_(lhs, rhs) ? Result.success(true) : Result.failure(.conditionNotMatched(message: "\(String(describing: A.self))(\(lhs)) \(operation) \(String(describing: B.self))(\(rhs))"))
     }
