@@ -12,9 +12,9 @@
 
 import Foundation
 
-class Log {
-    static var filter: RulesEngineLogLevel = RulesEngineLogLevel.error
-    static var logging: RulesEngineLogging?
+public class RulesEngineLog {
+    public static var filter: RulesEngineLogLevel = RulesEngineLogLevel.error
+    public static var logging: RulesEngineLogging?
     /// Used to print more verbose information.
     /// - Parameters:
     ///   - label: the name of the label to localize message

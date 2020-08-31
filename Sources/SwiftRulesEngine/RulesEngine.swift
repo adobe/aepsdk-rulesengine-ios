@@ -20,11 +20,9 @@ public class RulesEngine<T: Rule> {
     var tracer: RulesTracer?
     var rules = [T]()
 
-    public init(evaluator: Evaluating, transformer: Transforming = Transform(), logging: RulesEngineLogging, logFilter: RulesEngineLogLevel) {
+    public init(evaluator: Evaluating, transformer: Transforming = Transform()) {
         self.evaluator = evaluator
         self.transformer = transformer
-        Log.logging = logging
-        Log.filter = logFilter
     }
 
     /// Evaluate all the rules against the input data

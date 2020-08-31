@@ -17,7 +17,7 @@ public class ConditionEvaluator: Evaluating {
         let op = operators[getHash(operation: operation, typeA: A.self)] as? ((A) -> Bool)
         guard let op_ = op else {
             let message = "Operator not defined for \(getHash(operation: operation, typeA: A.self))"
-            Log.trace(label: LOG_TAG, message)
+            RulesEngineLog.trace(label: LOG_TAG, message)
             return Result.failure(RulesFailure.missingOperator(message: message))
         }
         return op_(lhs) ? Result.success(true) : Result.failure(.conditionNotMatched(message: "(\(String(describing: A.self))(\(lhs)) \(operation))"))
@@ -28,7 +28,7 @@ public class ConditionEvaluator: Evaluating {
 
         guard let op_ = op else {
             let message = "Operator not defined for \(getHash(operation: operation, typeA: A.self, typeB: B.self))"
-            Log.trace(label: LOG_TAG, message)
+            RulesEngineLog.trace(label: LOG_TAG, message)
             return Result.failure(RulesFailure.missingOperator(message: message))
         }
         return op_(lhs, rhs) ? Result.success(true) : Result.failure(.conditionNotMatched(message: "\(String(describing: A.self))(\(lhs)) \(operation) \(String(describing: B.self))(\(rhs))"))
