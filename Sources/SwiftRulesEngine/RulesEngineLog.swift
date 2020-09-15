@@ -13,16 +13,13 @@
 import Foundation
 
 public class RulesEngineLog {
-    public static var filter: RulesEngineLogLevel = RulesEngineLogLevel.error
     public static var logging: RulesEngineLogging?
     /// Used to print more verbose information.
     /// - Parameters:
     ///   - label: the name of the label to localize message
     ///   - message: the string to be logged
     static func trace(label: String, _ message: String) {
-        if filter >= .trace {
-            logging?.log(level: .trace, label: label, message: message)
-        }
+        logging?.log(level: .trace, label: label, message: message)
     }
 
     /// Information provided to the debug method should contain high-level details about the data being processed
@@ -30,9 +27,7 @@ public class RulesEngineLog {
     ///   - label: the name of the label to localize message
     ///   - message: the string to be logged
     static func debug(label: String, _ message: String) {
-        if filter >= .debug {
-            logging?.log(level: .debug, label: label, message: message)
-        }
+        logging?.log(level: .debug, label: label, message: message)
     }
 
     /// Information provided to the warning method indicates that a request has been made to the SDK, but the SDK will be unable to perform the requested task
@@ -40,9 +35,7 @@ public class RulesEngineLog {
     ///   - label: the name of the label to localize message
     ///   - message: the string to be logged
     static func warning(label: String, _ message: String) {
-        if filter >= .warning {
-            logging?.log(level: .warning, label: label, message: message)
-        }
+        logging?.log(level: .warning, label: label, message: message)
     }
 
     /// Information provided to the error method indicates that there has been an unrecoverable error
@@ -50,8 +43,6 @@ public class RulesEngineLog {
     ///   - label: the name of the label to localize message
     ///   - message: the string to be logged
     static func error(label: String, _ message: String) {
-        if filter >= .error {
-            logging?.log(level: .error, label: label, message: message)
-        }
+        logging?.log(level: .error, label: label, message: message)
     }
 }
