@@ -1,4 +1,4 @@
-# Rules Engine
+# AEPRulesEngine
 
 ## Overview
 
@@ -37,7 +37,7 @@ let condition = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "
 let rule = ConsequenceRule(id: "sample-rule", condition: condition)
 rulesEngine.addRules(rules: [rule])
 ```
-However, a rule like this doesn't make much sense, without the ability to dynamically fetch a value it will always be true or false. 
+However, a rule like this doesn't make much sense, without the ability to dynamically fetch a value it will always be true or false.
 
 ```
 let mustache = Operand<String>(mustache: "{{company}}")

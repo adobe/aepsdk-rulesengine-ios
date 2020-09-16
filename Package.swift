@@ -4,17 +4,11 @@
 import PackageDescription
 
 let package = Package(
-    name: "SwiftRulesEngine",
+    name: "AEPRulesEngine",
     products: [
-        // Products define the executables and libraries produced by a package, and make them visible to other packages.
-        .library(
-            name: "SwiftRulesEngine",
-            targets: ["SwiftRulesEngine"]
-        )
-//
-//        .library(
-//            name: "RulesDSL",
-//            targets: ["RulesDSL"])
+        .library(name: "AEPRulesEngine", targets: ["AEPRulesEngine"]),
+        .library(name: "AEPRulesEngineDynamic", type: .dynamic, targets: ["AEPRulesEngine"]),
+        .library(name: "AEPRulesEngineStatic", type: .static, targets: ["AEPRulesEngine"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -22,21 +16,7 @@ let package = Package(
 //        .package(url: "https://github.com/Realm/SwiftLint", from: "0.28.1")
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages which this package depends on.
-        .target(
-            name: "SwiftRulesEngine",
-            dependencies: []
-        ),
-        .testTarget(
-            name: "SwiftRulesEngineTests",
-            dependencies: ["SwiftRulesEngine"]
-        ),
-//        .target(
-//            name: "RulesDSL",
-//            dependencies: []),
-//        .testTarget(
-//            name: "RulesDSLTests",
-//            dependencies: ["RulesEngine", "RulesDSL"])
+        .target(name: "AEPRulesEngine", dependencies: []),
+        .testTarget(name: "AEPRulesEngineTests", dependencies: ["AEPRulesEngine"]),
     ]
 )
