@@ -13,7 +13,7 @@
 import Foundation
 import XCTest
 
-@testable import SwiftRulesEngine
+@testable import AEPRulesEngine
 struct CustomOperand: Traversable {
     func get(key:String) -> Any? {
         return key
