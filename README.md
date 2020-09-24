@@ -1,20 +1,36 @@
 # AEPRulesEngine
 
+## BETA
+
+AEPRulesEngine is currently in beta. Use of this code is by invitation only and not otherwise supported by Adobe. Please contact your Adobe Customer Success Manager to learn more.
+
 ## Overview
 
 A simple, generic, extensible Rules Engine in Swift.
-
 
 ## Installation
 
 ### Swift Package Manager
 
-Once you have your Swift package set up, adding RuleEngine as a dependency is as easy as adding it to the dependencies value of your Package.swift.
+To add the AEPRulesEngine Package to your application, from the Xcode menu select:
 
-Example:
+`File > Swift Packages > Add Package Dependency...`
+
+Enter the URL for the AEPRulesEngine package repository: `https://github.com/adobe/aepsdk-rulesengine-ios.git`.
+
+When prompted, make sure you change the branch to `main`. 
+
+There are three options for selecting your dependencies as identified by the *suffix* of the library name:
+
+- "Dynamic" - the library will be linked dynamically
+- "Static" - the library will be linked statically
+- *(none)* - (default) SPM will determine whether the library will be linked dynamically or statically
+
+Alternatively, if your project has a `Package.swift` file, you can add AEPRulesEngine directly to your dependencies:
+
 ```
 dependencies: [
-.package(url: "https://github.com/adobe/aepsdk-rulesengine-ios.git", from: "0.0.1")
+    .package(url: "https://github.com/adobe/aepsdk-rulesengine-ios.git", .branch("main"))
 ]
 ```
 
@@ -53,7 +69,6 @@ Use the method `evaluate` to run rule engine on the input data that is `Traversa
 ```
 let matchedRules = rulesEngine.evaluate(data: ["company":"adobe"])
 ```
-
 
 
 ## Contributing
