@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
-  s.name             = "SwiftRulesEngine"
+  s.name             = "AEPRulesEngine"
   s.version          = "0.0.1"
-  s.summary          = "SwiftRulesEngine"
+  s.summary          = "AEPRulesEngine"
   s.description      = <<-DESC
                       A simple, generic, extensible Rules Engine in Swift
                         DESC
@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '10.0'
 
   s.swift_version = '5.0'
-  s.source_files          = 'Sources/SwiftRulesEngine/**/*.swift'
+  s.source_files          = 'Sources/AEPRulesEngine/**/*.swift'
 
 
 end
