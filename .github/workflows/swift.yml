@@ -21,4 +21,9 @@ jobs:
     - name: Build
       run: swift build -v
     - name: Run tests
-      run: swift test -v      
+      run: swift test -v --enable-code-coverage  
+    - name: Upload Code Coverage 
+      run: |
+       xcrun llvm-cov export -format="lcov" .build/debug/AEPRulesEnginePackageTests.xctest/Contents/MacOS/AEPRulesEnginePackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov  
+       bash <(curl -s https://codecov.io/bash)
+     
