@@ -47,7 +47,17 @@ class ExpressionTests: XCTestCase {
         XCTAssertTrue(result.value)
     }
 
-    func testOr() {
+    func testOrSuccess() {
+        let evaluator = ConditionEvaluator(options: .defaultOptions)
+
+        let a = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "abc1")
+        let b = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "abc")
+        let c = LogicalExpression(operationName: "or", operands: a, b)
+        let result = c.evaluate(in: Context(data: [:], evaluator: evaluator, transformer: Transform()))
+        XCTAssertTrue(result.value)
+    }
+
+    func testOrFail() {
         let evaluator = ConditionEvaluator(options: .defaultOptions)
 
         let a = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "abc1")
@@ -69,8 +79,8 @@ class ExpressionTests: XCTestCase {
 
     func testUnaryExpression() {
         let evaluator = ConditionEvaluator(options: .defaultOptions)
-        evaluator.addUnaryOperator(operation: "isTrue") { (lhs: CustomOperand) -> Bool in
-            return true
+        evaluator.addUnaryOperator(operation: "isTrue") { (_: CustomOperand) -> Bool in
+            true
         }
 
         let mustache = Operand<CustomOperand>(mustache: "{{custom}}")
@@ -146,5 +156,4 @@ class ExpressionTests: XCTestCase {
         let result = c.evaluate(in: Context(data: ["custom": CustomOperand()], evaluator: evaluator, transformer: Transform()))
         XCTAssertTrue(result.value)
     }
-    
 }

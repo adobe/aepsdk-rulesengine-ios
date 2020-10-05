@@ -26,7 +26,7 @@ public enum Operand<T> {
             return value
         case let .token(token):
 
-            if let result = token.resolve(in: args[0]) {
+            if let result = token.resolve(in: args[0].transformer, data:args[0].data) {
                 return result as? T
             }
             return nil
@@ -58,14 +58,3 @@ extension Operand: CustomStringConvertible {
     }
 }
 
-extension MustacheToken {
-    public func resolve(in context: Context) -> Any? {
-        switch self {
-        case let .function(name, innerToken):
-            let innerValue = innerToken.resolve(in: context)
-            return context.transformer.transform(name: name, parameter: innerValue ?? "")
-        case let .variable(path):
-            return context.data.get(key: path)
-        }
-    }
-}
