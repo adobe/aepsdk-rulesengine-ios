@@ -46,6 +46,26 @@ class ExpressionTests: XCTestCase {
         let result = c.evaluate(in: Context(data: [:], evaluator: evaluator, transformer: Transform()))
         XCTAssertTrue(result.value)
     }
+    
+    func testOr() {
+        let evaluator = ConditionEvaluator(options: .defaultOptions)
+
+        let a = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "abc1")
+        let b = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "abc1")
+        let c = LogicalExpression(operationName: "or", operands: a, b)
+        let result = c.evaluate(in: Context(data: [:], evaluator: evaluator, transformer: Transform()))
+        XCTAssertTrue(!result.value)
+    }
+    
+    func testUnknownOperation() {
+        let evaluator = ConditionEvaluator(options: .defaultOptions)
+
+        let a = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "abc1")
+        let b = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "abc1")
+        let c = LogicalExpression(operationName: "unkonwn", operands: a, b)
+        let result = c.evaluate(in: Context(data: [:], evaluator: evaluator, transformer: Transform()))
+        XCTAssertTrue(!result.value)
+    }
 
     func testMustache() {
         let evaluator = ConditionEvaluator(options: .defaultOptions)
@@ -62,7 +82,7 @@ class ExpressionTests: XCTestCase {
         let mustache = Operand<String>(mustache: "{{key}}")
         let a = ComparisonExpression(lhs: mustache, operationName: "equals", rhs: "abc")
         let b = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "abc")
-        let c = LogicalExpression(operationName: "and", operands: a, b)
+        let c = LogicalExpression(operationName: "and", operands: [a, b])
         let result = c.evaluate(in: Context(data: ["someelse": "abc"], evaluator: evaluator, transformer: Transform()))
         XCTAssertFalse(result.value)
     }
