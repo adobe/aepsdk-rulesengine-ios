@@ -156,4 +156,14 @@ class ExpressionTests: XCTestCase {
         let result = c.evaluate(in: Context(data: ["custom": CustomOperand()], evaluator: evaluator, transformer: Transform()))
         XCTAssertTrue(result.value)
     }
+
+    func testComparisonExpressionWithDifferentTypes() {
+        let evaluator = ConditionEvaluator(options: .defaultOptions)
+        evaluator.addComparisonOperator(operation: "equals") { (_: String, _: Int) -> Bool in
+            true
+        }
+        let a = ComparisonExpression(lhs: "3", operationName: "equals", rhs: 3)
+        let result = a.evaluate(in: Context(data: [:], evaluator: evaluator, transformer: Transform()))
+        XCTAssertTrue(result.value)
+    }
 }
