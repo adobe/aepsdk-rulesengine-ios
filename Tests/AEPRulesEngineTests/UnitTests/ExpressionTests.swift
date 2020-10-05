@@ -46,7 +46,7 @@ class ExpressionTests: XCTestCase {
         let result = c.evaluate(in: Context(data: [:], evaluator: evaluator, transformer: Transform()))
         XCTAssertTrue(result.value)
     }
-    
+
     func testOr() {
         let evaluator = ConditionEvaluator(options: .defaultOptions)
 
@@ -56,7 +56,7 @@ class ExpressionTests: XCTestCase {
         let result = c.evaluate(in: Context(data: [:], evaluator: evaluator, transformer: Transform()))
         XCTAssertTrue(!result.value)
     }
-    
+
     func testUnknownOperation() {
         let evaluator = ConditionEvaluator(options: .defaultOptions)
 
@@ -64,6 +64,20 @@ class ExpressionTests: XCTestCase {
         let b = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "abc1")
         let c = LogicalExpression(operationName: "unkonwn", operands: a, b)
         let result = c.evaluate(in: Context(data: [:], evaluator: evaluator, transformer: Transform()))
+        XCTAssertTrue(!result.value)
+    }
+
+    func testUnaryExpression() {
+        let evaluator = ConditionEvaluator(options: .defaultOptions)
+        evaluator.addUnaryOperator(operation: "isTrue") { (lhs: CustomOperand) -> Bool in
+            return true
+        }
+
+        let mustache = Operand<CustomOperand>(mustache: "{{custom}}")
+        let a = UnaryExpression(lhs: mustache, operationName: "isTrue")
+        let b = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "abc")
+        let c = LogicalExpression(operationName: "and", operands: a, b)
+        let result = c.evaluate(in: Context(data: ["custom1": CustomOperand()], evaluator: evaluator, transformer: Transform()))
         XCTAssertTrue(!result.value)
     }
 
@@ -75,6 +89,16 @@ class ExpressionTests: XCTestCase {
         let c = LogicalExpression(operationName: "and", operands: a, b)
         let result = c.evaluate(in: Context(data: ["key": "abc"], evaluator: evaluator, transformer: Transform()))
         XCTAssertTrue(result.value)
+    }
+
+    func testMustacheNotFound() {
+        let evaluator = ConditionEvaluator(options: .defaultOptions)
+        let mustache = Operand<String>(mustache: "{{key}}")
+        let a = ComparisonExpression(lhs: mustache, operationName: "equals", rhs: "abc")
+        let b = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "abc")
+        let c = LogicalExpression(operationName: "and", operands: a, b)
+        let result = c.evaluate(in: Context(data: ["key1": "abc"], evaluator: evaluator, transformer: Transform()))
+        XCTAssertTrue(!result.value)
     }
 
     func testMustache_Nil() {
@@ -122,4 +146,5 @@ class ExpressionTests: XCTestCase {
         let result = c.evaluate(in: Context(data: ["custom": CustomOperand()], evaluator: evaluator, transformer: Transform()))
         XCTAssertTrue(result.value)
     }
+    
 }
