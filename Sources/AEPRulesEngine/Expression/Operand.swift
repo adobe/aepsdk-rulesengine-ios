@@ -26,7 +26,7 @@ public enum Operand<T> {
             return value
         case let .token(token):
 
-            if let result = token.resolve(in: args[0].transformer, data:args[0].data) {
+            if let result = token.resolve(in: args[0].transformer, data: args[0].data) {
                 return result as? T
             }
             return nil
@@ -57,4 +57,3 @@ extension Operand: CustomStringConvertible {
         }
     }
 }
-
