@@ -59,7 +59,7 @@ rulesEngine.addRules(rules: [rule])
 ```
 However, a rule like this doesn't make much sense, without the ability to dynamically fetch a value it will always be true or false.
 
-```
+``` Swift
 let mustache = Operand<String>(mustache: "{{company}}")
 let condition = ComparisonExpression(lhs: mustache, operationName: "equals", rhs: "adobe")
 let rule = MobileRule(condition: condition)
