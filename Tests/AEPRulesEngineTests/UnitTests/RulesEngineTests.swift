@@ -50,13 +50,16 @@ class RulesEngineTests: XCTestCase {
         let rule = TestRule(condition: andCondition)
         rulesEngine.addRules(rules: [rule])
         var passed = true
-        rulesEngine.trace { result, _, _, _ in
+        var error:RulesFailure?
+        rulesEngine.trace { result, _, _, failure in
             passed = result
+            error = failure
         }
 
         let result = rulesEngine.evaluate(data: [])
         XCTAssertEqual(0, result.count)
         XCTAssertTrue(!passed)
+        XCTAssertTrue(!String(describing: error).isEmpty)
     }
 }
 
