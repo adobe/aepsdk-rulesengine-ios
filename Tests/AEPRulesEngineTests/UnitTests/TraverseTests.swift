@@ -75,4 +75,13 @@ class TraverseTests: XCTestCase {
         XCTAssertEqual(c as! String, "value0")
         XCTAssertEqual(d as! String, "blah")
     }
+
+    func testNil() {
+        let custom = ""
+        let dict = ["array": ["value0", "value1", custom]] as [String: Any]
+
+        let c = dict[path: ["array", "2", "1"]]
+
+        XCTAssertTrue(c == nil)
+    }
 }

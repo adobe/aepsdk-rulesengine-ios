@@ -1,3 +1,21 @@
 included: # paths to include during linting. `--path` is ignored if present.
   - Sources
-  - Tests
+
+line_length: 1000
+function_body_length: 500
+disabled_rules: # rule identifiers to exclude from running
+  - identifier_name
+  - force_cast
+  - todo
+  - multiple_closures_with_trailing_closure
+  - cyclomatic_complexity
+  - file_length
+  - unused_optional_binding
+  - implicit_getter
+  - shorthand_operator
+  - nesting
+  - switch_case_alignment
+  - orphaned_doc_comment
+  - type_name
+  - large_tuple
+  - trailing_comma
