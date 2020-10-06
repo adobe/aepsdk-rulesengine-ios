@@ -16,8 +16,24 @@ import XCTest
 @testable import AEPRulesEngine
 
 class OperandTests: XCTestCase {
+    
     func testMustacheNoneValue() {
         let mustache = Operand<String>(mustache: "")
         XCTAssertEqual("<None>", String(describing: mustache))
+    }
+    
+    func testDoubleValue(){
+        let operand = Operand(floatLiteral: 1.2)
+        XCTAssertEqual("<Value:1.2>", String(describing: operand))
+    }
+    
+    func testBoolValue(){
+        let operand = Operand(booleanLiteral: true)
+        XCTAssertEqual("<Value:true>", String(describing: operand))
+    }
+    
+    func testNilValue(){
+        let operand: Operand<String> = nil
+        XCTAssertEqual("<None>", String(describing: operand))
     }
 }

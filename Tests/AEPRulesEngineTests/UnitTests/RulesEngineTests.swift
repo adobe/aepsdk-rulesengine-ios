@@ -24,33 +24,43 @@ class RulesEngineTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-//
-//    func testMustache() {
-//        let evaluator = ConditionEvaluator(options: .defaultOptions)
-//        let rulesEngine = RulesEngine<ConsequenceRule>(evaluator: evaluator)
-//
-//        let mustache = Operand<String>(mustache: "{{key}}")
-//        let condition = ComparisonExpression(lhs: mustache, operationName: "equals", rhs: "abc")
-//
-//        let rule1 = ConsequenceRule(id: "test", condition: condition)
-//        rulesEngine.addRules(rules: [rule1])
-//
-//        let matchedRules = rulesEngine.evaluate(data: ["key": "abc"])
-//
-//        XCTAssertEqual(1, matchedRules.count)
-//    }
-//
-//    func testCaseInsensitive() {
-//        let evaluator = ConditionEvaluator(options: .caseInsensitive)
-//        let rulesEngine = RulesEngine<ConsequenceRule>(evaluator: evaluator)
-//
-//        let condition = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "ABC")
-//
-//        let rule1 = ConsequenceRule(id: "test", condition: condition)
-//        rulesEngine.addRules(rules: [rule1])
-//
-//        let matchedRules = rulesEngine.evaluate(data: [:])
-//
-//        XCTAssertEqual(1, matchedRules.count)
-//    }
+    func testNormal() {
+        let evaluator = ConditionEvaluator(options: .defaultOptions)
+        let rulesEngine = RulesEngine<TestRule>(evaluator: evaluator)
+
+        let mustache = Operand<String>(mustache: "{{key}}")
+        let condition = ComparisonExpression(lhs: mustache, operationName: "equals", rhs: "abc")
+        rulesEngine.clearRules()
+        let rule1 = TestRule(condition: condition)
+        rulesEngine.addRules(rules: [rule1])
+
+        let matchedRules = rulesEngine.evaluate(data: ["key": "abc"])
+
+        XCTAssertEqual(1, matchedRules.count)
+    }
+
+    func testTrace() {
+        let evaluator = ConditionEvaluator(options: .defaultOptions)
+        let rulesEngine = RulesEngine<TestRule>(evaluator: evaluator)
+
+        let condition1 = ComparisonExpression(lhs: "right", operationName: "equals", rhs: "wrong")
+        let condition2 = ComparisonExpression(lhs: "right", operationName: "equals", rhs: "wrong")
+        let andCondition = LogicalExpression(operationName: "and", operands: condition1, condition2)
+
+        let rule = TestRule(condition: andCondition)
+        rulesEngine.addRules(rules: [rule])
+        var passed = true
+        rulesEngine.trace { result, _, _, _ in
+            passed = result
+        }
+
+        let result = rulesEngine.evaluate(data: [])
+        XCTAssertEqual(0, result.count)
+        XCTAssertTrue(!passed)
+    }
+}
+
+private class TestRule: Rule {
+    init(condition: Evaluable) { self.condition = condition }
+    var condition: Evaluable
 }
