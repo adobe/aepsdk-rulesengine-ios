@@ -114,11 +114,6 @@ public extension ConditionEvaluator {
         addComparisonOperator(operation: "exists", type: Any?.self, closure: { lhs, _ in
             lhs != nil
         })
-
-//        self.addComparisonOperator(operation: "co", closure: { (lhs:Array<String>, rhs:String) in
-//            return lhs.contains(rhs)
-//        })
-//        self.addComparisonOperator(operation: "eq", type: AnyObject.self, closure: {$0.isEqual($1)})
     }
 
     private func addCaseInSensitiveOperators() {

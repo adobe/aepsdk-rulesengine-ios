@@ -31,5 +31,4 @@ public struct Segment {
     let type: Type
     let templateString: String
     let range: Range<String.Index>
-    var templateSubstring: String { String(templateString[range]) }
 }
