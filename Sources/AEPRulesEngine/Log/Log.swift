@@ -1,5 +1,5 @@
 /*
- Copyright 2020 Adobe. All rights reserved.
+ Copyright 2021 Adobe. All rights reserved.
  This file is licensed to you under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License. You may obtain a copy
  of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -12,8 +12,11 @@
 
 import Foundation
 
-public class RulesEngineLog {
-    public static var logging: RulesEngineLogging?
+/// The `Log` class will be dormant unless its static `logging` variable is initialized.
+/// To enable logging from the RulesEngine, implement a class that conforms to the
+/// `Logging` protocol and use an instance of it to set the `Log.logging` variable.
+public class Log {
+    public static var logging: Logging?
     /// Used to print more verbose information.
     /// - Parameters:
     ///   - label: the name of the label to localize message

@@ -1,9 +1,9 @@
 /*
- Copyright 2020 Adobe. All rights reserved.
+ Copyright 2021 Adobe. All rights reserved.
  This file is licensed to you under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License. You may obtain a copy
  of the License at http://www.apache.org/licenses/LICENSE-2.0
-
+ 
  Unless required by applicable law or agreed to in writing, software distributed under
  the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
  OF ANY KIND, either express or implied. See the License for the specific language
@@ -12,7 +12,26 @@
 
 import Foundation
 
-/// A type that can be evaluated to a boolean
-public protocol Evaluable {
-    func evaluate(in context: Context) -> Result<Bool, RulesFailure>
+struct ParserTagDelimiters {
+    let tagDelimiterPair: DelimiterPair
+    
+    init(_ tagDelimiterPair: DelimiterPair) {
+        self.tagDelimiterPair = tagDelimiterPair
+    }
+    
+    var startTag: String {
+        return tagDelimiterPair.0
+    }
+    
+    var startTagLength: Int {
+        return startTag.count
+    }
+    
+    var endTag: String {
+        return tagDelimiterPair.1
+    }
+    
+    var endTagLength: Int {
+        return endTag.count
+    }
 }

@@ -1,5 +1,5 @@
 /*
- Copyright 2020 Adobe. All rights reserved.
+ Copyright 2021 Adobe. All rights reserved.
  This file is licensed to you under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License. You may obtain a copy
  of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -13,11 +13,14 @@
 public class ConditionEvaluator: Evaluating {
     fileprivate let LOG_TAG = "ConditionEvaluator"
     var operators: [String: Any] = [:]
+    
+    // MARK: - Evaluating
     public func evaluate<A>(operation: String, lhs: A) -> Result<Bool, RulesFailure> {
         let op = operators[getHash(operation: operation, typeA: A.self)] as? ((A) -> Bool)
+        
         guard let op_ = op else {
-            let message = "Operator not defined for \(getHash(operation: operation, typeA: A.self))"
-            RulesEngineLog.trace(label: LOG_TAG, message)
+            let message = "No operator defined for \(getHash(operation: operation, typeA: A.self))"
+            Log.trace(label: LOG_TAG, message)
             return Result.failure(RulesFailure.missingOperator(message: message))
         }
         return op_(lhs) ? Result.success(true) : Result.failure(.conditionNotMatched(message: "(\(String(describing: A.self))(\(lhs)) \(operation))"))
@@ -27,8 +30,8 @@ public class ConditionEvaluator: Evaluating {
         let op = operators[getHash(operation: operation, typeA: A.self, typeB: B.self)] as? ((A, B) -> Bool)
 
         guard let op_ = op else {
-            let message = "Operator not defined for \(getHash(operation: operation, typeA: A.self, typeB: B.self))"
-            RulesEngineLog.trace(label: LOG_TAG, message)
+            let message = "No operator defined for \(getHash(operation: operation, typeA: A.self, typeB: B.self))"
+            Log.trace(label: LOG_TAG, message)
             return Result.failure(RulesFailure.missingOperator(message: message))
         }
         return op_(lhs, rhs) ? Result.success(true) : Result.failure(.conditionNotMatched(message: "\(String(describing: A.self))(\(lhs)) \(operation) \(String(describing: B.self))(\(rhs))"))
@@ -78,6 +81,7 @@ public extension ConditionEvaluator {
     }
 
     private func addDefaultOperators() {
+        
         addComparisonOperator(operation: "and", type: Bool.self, closure: { $0 && $1 })
         addComparisonOperator(operation: "or", type: Bool.self, closure: { $0 || $1 })
 
@@ -117,9 +121,11 @@ public extension ConditionEvaluator {
     }
 
     private func addCaseInSensitiveOperators() {
-        addComparisonOperator(operation: "startsWith", type: String.self, closure: { $0.lowercased().starts(with: $1.lowercased()) })
         addComparisonOperator(operation: "equals", type: String.self, closure: { $0.lowercased() == $1.lowercased() })
+        addComparisonOperator(operation: "notEquals", type: String.self, closure: { $0.lowercased() != $1.lowercased() })
+        addComparisonOperator(operation: "startsWith", type: String.self, closure: { $0.lowercased().starts(with: $1.lowercased()) })
         addComparisonOperator(operation: "endsWith", type: String.self, closure: { $0.lowercased().hasSuffix($1.lowercased()) })
         addComparisonOperator(operation: "contains", type: String.self, closure: { $0.lowercased().contains($1.lowercased()) })
+        addComparisonOperator(operation: "notContains", type: String.self, closure: { !$0.lowercased().contains($1.lowercased()) })
     }
 }

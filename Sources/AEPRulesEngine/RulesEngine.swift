@@ -1,5 +1,5 @@
 /*
- Copyright 2020 Adobe. All rights reserved.
+ Copyright 2021 Adobe. All rights reserved.
  This file is licensed to you under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License. You may obtain a copy
  of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -20,7 +20,7 @@ public class RulesEngine<T: Rule> {
     var tracer: RulesTracer?
     var rules = [T]()
 
-    public init(evaluator: Evaluating, transformer: Transforming = Transform()) {
+    public init(evaluator: Evaluating, transformer: Transforming = Transformer()) {
         self.evaluator = evaluator
         self.transformer = transformer
     }
@@ -51,24 +51,9 @@ public class RulesEngine<T: Rule> {
         rules = [T]()
     }
 
-    /// trace the result of each rule eveluation
-    /// - Parameter tracer: the rules tracer will be called after each rule eveluation
+    /// trace the result of each rule evaluation
+    /// - Parameter tracer: the `RulesTracer` which will be called after each rule evaluation
     public func trace(with tracer: @escaping RulesTracer) {
         self.tracer = tracer
     }
-}
-
-public struct Context {
-    public let data: Traversable
-    public let evaluator: Evaluating
-    public let transformer: Transforming
-}
-
-public enum RulesFailure: Error {
-    case unknown
-    case conditionNotMatched(message: String)
-    case typeMismatched(message: String)
-    case missingOperator(message: String)
-    indirect case innerFailure(message: String, error: RulesFailure)
-    indirect case innerFailures(message: String, errors: [RulesFailure])
 }

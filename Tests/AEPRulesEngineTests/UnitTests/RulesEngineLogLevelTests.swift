@@ -1,5 +1,5 @@
 /*
- Copyright 2020 Adobe. All rights reserved.
+ Copyright 2021 Adobe. All rights reserved.
  This file is licensed to you under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License. You may obtain a copy
  of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -16,15 +16,15 @@ import XCTest
 class RulesEngineLogLevelTests: XCTestCase {
     
     func testLogLevelComparison() {
-        XCTAssertTrue(RulesEngineLogLevel.error < RulesEngineLogLevel.warning)
-        XCTAssertTrue(RulesEngineLogLevel.warning < RulesEngineLogLevel.debug)
-        XCTAssertTrue(RulesEngineLogLevel.debug < RulesEngineLogLevel.trace)
+        XCTAssertTrue(LogLevel.error < LogLevel.warning)
+        XCTAssertTrue(LogLevel.warning < LogLevel.debug)
+        XCTAssertTrue(LogLevel.debug < LogLevel.trace)
     }
 
     func testLogLevelToString() {
-        XCTAssertEqual(RulesEngineLogLevel.error.toString(), "ERROR")
-        XCTAssertEqual(RulesEngineLogLevel.warning.toString(), "WARNING")
-        XCTAssertEqual(RulesEngineLogLevel.debug.toString(), "DEBUG")
-        XCTAssertEqual(RulesEngineLogLevel.trace.toString(), "TRACE")
+        XCTAssertEqual(LogLevel.error.toString(), "ERROR")
+        XCTAssertEqual(LogLevel.warning.toString(), "WARNING")
+        XCTAssertEqual(LogLevel.debug.toString(), "DEBUG")
+        XCTAssertEqual(LogLevel.trace.toString(), "TRACE")
     }
 }

@@ -1,5 +1,5 @@
 /*
- Copyright 2020 Adobe. All rights reserved.
+ Copyright 2021 Adobe. All rights reserved.
  This file is licensed to you under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License. You may obtain a copy
  of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -24,8 +24,10 @@ public struct ComparisonExpression<A, B>: Evaluable {
         self.operationName = operationName
     }
 
+    // MARK: - Evaluable
+    
     public func evaluate(in context: Context) -> Result<Bool, RulesFailure> {
-        RulesEngineLog.trace(label: LOG_TAG, "Evaluating \(lhs) - \(operationName) - \(rhs)")
+        Log.trace(label: LOG_TAG, "Evaluating \(lhs) - \(operationName) - \(rhs)")
         let resolvedLhs = lhs(context)
         let resolvedRhs = rhs(context)
         var result: Result<Bool, RulesFailure>
@@ -38,8 +40,8 @@ public struct ComparisonExpression<A, B>: Evaluable {
         case .success:
             return result
         case let .failure(error):
-            RulesEngineLog.debug(label: LOG_TAG, "Failed to evaluate \(String(describing: resolvedLhs)) - \(operationName) - \(String(describing: resolvedRhs))")
-            return Result.failure(.innerFailure(message: "Comparison (\(lhs) \(operationName) \(rhs)) returns false", error: error))
+            Log.debug(label: LOG_TAG, "Failed to evaluate \(String(describing: resolvedLhs)) - \(operationName) - \(String(describing: resolvedRhs))")
+            return Result.failure(.innerFailure(message: "Comparison (\(lhs) \(operationName) \(rhs)) returned false", error: error))
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- Copyright 2020 Adobe. All rights reserved.
+ Copyright 2021 Adobe. All rights reserved.
  This file is licensed to you under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License. You may obtain a copy
  of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -24,12 +24,12 @@ class OperandTests: XCTestCase {
     
     func testDoubleValue(){
         let operand = Operand(floatLiteral: 1.2)
-        XCTAssertEqual("<Value:1.2>", String(describing: operand))
+        XCTAssertEqual("<Value: 1.2>", String(describing: operand))
     }
     
     func testBoolValue(){
         let operand = Operand(booleanLiteral: true)
-        XCTAssertEqual("<Value:true>", String(describing: operand))
+        XCTAssertEqual("<Value: true>", String(describing: operand))
     }
     
     func testNilValue(){

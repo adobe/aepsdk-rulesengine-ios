@@ -8,11 +8,43 @@ AEPRulesEngine is currently in beta. Use of this code is by invitation only and 
 
 A simple, generic, extensible Rules Engine in Swift.
 
+## Requirements
+- Xcode 11.0 (or newer)
+- Swift 5.0 (or newer)
+
 ## Installation
+
+### [CocoaPods](https://guides.cocoapods.org/using/using-cocoapods.html)
+```ruby
+# Podfile
+use_frameworks!
+
+# for app development, include all the following pods
+target 'YOUR_TARGET_NAME' do
+    pod 'AEPRulesEngine', :git => 'https://github.com/adobe/aepsdk-rulesengine-ios.git', :branch => 'main'
+    pod 'AEPCore', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'main'
+    pod 'AEPServices', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'main'
+    pod 'AEPLifecycle', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'main'
+    pod 'AEPIdentity', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'main'    
+end
+
+# for extension development, include AEPCore and its dependencies
+target 'YOUR_TARGET_NAME' do
+    pod 'AEPRulesEngine', :git => 'https://github.com/adobe/aepsdk-rulesengine-ios.git', :branch => 'main'
+    pod 'AEPCore', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'main'
+    pod 'AEPServices', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'main'    
+end
+```
+
+Replace `YOUR_TARGET_NAME` and then, in the `Podfile` directory, type:
+
+```bash
+$ pod install
+```
 
 ### Swift Package Manager
 
-To add the AEPRulesEngine Package to your application, from the Xcode menu select:
+To add the AEPRulesEngine package to your application, from the Xcode menu select:
 
 `File > Swift Packages > Add Package Dependency...`
 
@@ -37,9 +69,9 @@ dependencies: [
 ## Usage
 
 
-### Initialize Rules Engine
+### Initialize the Rules Engine
 
-To create a `RuleEngine` instance, first define an `Evaluator` and then use it as the parameter for `RuleEngine`.
+To create a `RulesEngine` instance, define an `Evaluator` and pass it to the `RulesEngine`'s initializer:
 ```
 let evaluator = ConditionEvaluator(options: .caseInsensitive)
 let rulesEngine = RulesEngine(evaluator: evaluator)
@@ -47,7 +79,7 @@ let rulesEngine = RulesEngine(evaluator: evaluator)
 
 ### Define Rules
 
-Any thing that conforms to the `Rule` protocol can be used as rule. 
+Anything that conforms to the `Rule` protocol can be used as rule:
 ``` Swift
 public class MobileRule: Rule {
     init(condition: Evaluable) { self.condition = condition }
@@ -57,7 +89,7 @@ let condition = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "
 let rule = MobileRule(condition: condition)
 rulesEngine.addRules(rules: [rule])
 ```
-However, a rule like this doesn't make much sense, without the ability to dynamically fetch a value it will always be true or false.
+A rule without the flexibility to dynamically fetch a value will always evaluate to true or false.  To fetch the value for a rule at runtime, use a Mustache Token:
 
 ``` Swift
 let mustache = Operand<String>(mustache: "{{company}}")
@@ -68,7 +100,7 @@ rulesEngine.addRules(rules: [rule])
 
 ### Evaluate data
 
-Use the method `evaluate` to run rule engine on the input data that is `Traversable`.
+Use the `evaluate` method to process `Traversable` data through the `RulesEngine`:
 
 ```
 let matchedRules = rulesEngine.evaluate(data: ["company":"adobe"])

@@ -1,5 +1,5 @@
 /*
- Copyright 2020 Adobe. All rights reserved.
+ Copyright 2021 Adobe. All rights reserved.
  This file is licensed to you under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License. You may obtain a copy
  of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -31,19 +31,19 @@ class ParserTests: XCTestCase {
 
     func testPerformanceExample() {
         let template = Template(templateString: "sdfdfd{{test}}aaa")
-        let result = template.render(data: ["test": "value"], transformers: Transform())
+        let result = template.render(data: ["test": "value"], transformers: Transformer())
         XCTAssertEqual("sdfdfdvalueaaa", result)
     }
     
     func testCustomizedTokenFormat() {
         let template = Template(templateString: "sdfdfd[[test]]aaa", tagDelimiterPair: ("[[","]]"))
-        let result = template.render(data: ["test": "value"], transformers: Transform())
+        let result = template.render(data: ["test": "value"], transformers: Transformer())
         XCTAssertEqual("sdfdfdvalueaaa", result)
     }
 
     func testTransform() {
         let template = Template(templateString: "sdfdfd{{dash(test)}}aaa")
-        let tran = Transform()
+        let tran = Transformer()
         tran.register(name: "dash", transformation: { value in
             if value is String {
                 return "-\(value as! String)-"
@@ -58,21 +58,21 @@ class ParserTests: XCTestCase {
 
     func testTransform1() {
         let template = Template(templateString: "sdfdfd{{dash(test)}}aaa{{dash(int)}}")
-        let tran = Transform()
+        let tran = Transformer()
         let result = template.render(data: ["test": "value", "int": 5], transformers: tran)
         XCTAssertEqual("sdfdfdvalueaaa5", result)
     }
 
     func testTransform12() {
         let template = Template(templateString: "sdfdfd{{dash(test)}}aaa{{dash(int)}")
-        let tran = Transform()
+        let tran = Transformer()
         let result = template.render(data: ["test": "value", "int": 5], transformers: tran)
         XCTAssertEqual("", result)
     }
 
     func testTransform123() {
         let template = Template(templateString: "sdfdfd{{}}")
-        let tran = Transform()
+        let tran = Transformer()
         let result = template.render(data: ["test": "value", "int": 5], transformers: tran)
         XCTAssertEqual("sdfdfd", result)
     }

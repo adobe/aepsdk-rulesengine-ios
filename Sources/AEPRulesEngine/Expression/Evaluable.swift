@@ -12,9 +12,7 @@
 
 import Foundation
 
-public typealias Transformation = (Any) -> Any
-
-public protocol Transforming {
-    func transform(name: String, parameter: Any) -> Any
+/// A type that can be evaluated to a boolean
+public protocol Evaluable {
+    func evaluate(in context: Context) -> Result<Bool, RulesFailure>
 }
-

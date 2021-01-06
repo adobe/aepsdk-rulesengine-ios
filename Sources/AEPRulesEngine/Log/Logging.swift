@@ -12,9 +12,11 @@
 
 import Foundation
 
-public typealias Transformation = (Any) -> Any
-
-public protocol Transforming {
-    func transform(name: String, parameter: Any) -> Any
+public protocol Logging {
+    /// Logs a message
+    /// - Parameters:
+    ///   - level: A `LogLevel` identifying the severity of the log. e.g. - `.debug`
+    ///   - label: Label for the log
+    ///   - message: The `String` message
+    func log(level: LogLevel, label: String, message: String)
 }
-
