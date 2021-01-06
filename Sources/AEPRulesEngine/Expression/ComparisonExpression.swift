@@ -25,7 +25,7 @@ public struct ComparisonExpression<A, B>: Evaluable {
     }
 
     // MARK: - Evaluable
-    
+
     public func evaluate(in context: Context) -> Result<Bool, RulesFailure> {
         Log.trace(label: LOG_TAG, "Evaluating \(lhs) - \(operationName) - \(rhs)")
         let resolvedLhs = lhs(context)

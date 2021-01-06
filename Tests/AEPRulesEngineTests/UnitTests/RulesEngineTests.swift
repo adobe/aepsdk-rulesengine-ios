@@ -50,7 +50,7 @@ class RulesEngineTests: XCTestCase {
         let rule = TestRule(condition: andCondition)
         rulesEngine.addRules(rules: [rule])
         var passed = true
-        var error:RulesFailure?
+        var error: RulesFailure?
         rulesEngine.trace { result, _, _, failure in
             passed = result
             error = failure

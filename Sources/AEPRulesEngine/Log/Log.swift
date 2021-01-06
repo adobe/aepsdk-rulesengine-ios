@@ -15,7 +15,7 @@ import Foundation
 /// The `Log` class will be dormant unless its static `logging` variable is initialized.
 /// To enable logging from the RulesEngine, implement a class that conforms to the
 /// `Logging` protocol and use an instance of it to set the `Log.logging` variable.
-public class Log {
+public enum Log {
     public static var logging: Logging?
     /// Used to print more verbose information.
     /// - Parameters:

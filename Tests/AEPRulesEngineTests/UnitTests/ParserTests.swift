@@ -34,9 +34,9 @@ class ParserTests: XCTestCase {
         let result = template.render(data: ["test": "value"], transformers: Transformer())
         XCTAssertEqual("sdfdfdvalueaaa", result)
     }
-    
+
     func testCustomizedTokenFormat() {
-        let template = Template(templateString: "sdfdfd[[test]]aaa", tagDelimiterPair: ("[[","]]"))
+        let template = Template(templateString: "sdfdfd[[test]]aaa", tagDelimiterPair: ("[[", "]]"))
         let result = template.render(data: ["test": "value"], transformers: Transformer())
         XCTAssertEqual("sdfdfdvalueaaa", result)
     }

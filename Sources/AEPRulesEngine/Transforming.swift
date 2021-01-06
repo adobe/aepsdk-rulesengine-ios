@@ -17,4 +17,3 @@ public typealias Transformation = (Any) -> Any
 public protocol Transforming {
     func transform(name: String, parameter: Any) -> Any
 }
-

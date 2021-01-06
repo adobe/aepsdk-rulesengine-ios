@@ -15,7 +15,7 @@ import Foundation
 /// A pair of tag delimiters, such as `("{{", "}}")`.
 public typealias DelimiterPair = (String, String)
 
-public struct TemplateParser {
+public enum TemplateParser {
     static let DefaultTagDelimiterPair: DelimiterPair = ("{{", "}}")
 
     static func parse(_ templateString: String, tagDelimiterPair: DelimiterPair = TemplateParser.DefaultTagDelimiterPair) -> Result<[Segment], Error> {

@@ -13,11 +13,12 @@
 public class ConditionEvaluator: Evaluating {
     fileprivate let LOG_TAG = "ConditionEvaluator"
     var operators: [String: Any] = [:]
-    
+
     // MARK: - Evaluating
+
     public func evaluate<A>(operation: String, lhs: A) -> Result<Bool, RulesFailure> {
         let op = operators[getHash(operation: operation, typeA: A.self)] as? ((A) -> Bool)
-        
+
         guard let op_ = op else {
             let message = "No operator defined for \(getHash(operation: operation, typeA: A.self))"
             Log.trace(label: LOG_TAG, message)
@@ -38,16 +39,16 @@ public class ConditionEvaluator: Evaluating {
     }
 }
 
-extension ConditionEvaluator {
-    public func addUnaryOperator<A>(operation: String, closure: @escaping (A) -> Bool) {
+public extension ConditionEvaluator {
+    func addUnaryOperator<A>(operation: String, closure: @escaping (A) -> Bool) {
         operators[getHash(operation: operation, typeA: A.self)] = closure
     }
 
-    public func addComparisonOperator<A, B>(operation: String, closure: @escaping (A, B) -> Bool) {
+    func addComparisonOperator<A, B>(operation: String, closure: @escaping (A, B) -> Bool) {
         operators[getHash(operation: operation, typeA: A.self, typeB: B.self)] = closure
     }
 
-    public func addComparisonOperator<A>(operation: String, type _: A.Type, closure: @escaping (A, A) -> Bool) {
+    func addComparisonOperator<A>(operation: String, type _: A.Type, closure: @escaping (A, A) -> Bool) {
         operators[getHash(operation: operation, typeA: A.self, typeB: A.self)] = closure
     }
 
@@ -81,7 +82,6 @@ public extension ConditionEvaluator {
     }
 
     private func addDefaultOperators() {
-        
         addComparisonOperator(operation: "and", type: Bool.self, closure: { $0 && $1 })
         addComparisonOperator(operation: "or", type: Bool.self, closure: { $0 || $1 })
 

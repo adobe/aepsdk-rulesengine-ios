@@ -14,7 +14,6 @@
 import XCTest
 
 class RulesEngineLogLevelTests: XCTestCase {
-    
     func testLogLevelComparison() {
         XCTAssertTrue(LogLevel.error < LogLevel.warning)
         XCTAssertTrue(LogLevel.warning < LogLevel.debug)

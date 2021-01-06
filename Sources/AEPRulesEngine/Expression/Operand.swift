@@ -34,8 +34,8 @@ public enum Operand<T> {
     }
 }
 
-extension Operand {
-    public init(mustache: String) {
+public extension Operand {
+    init(mustache: String) {
         let tokens = try? TemplateParser.parse(mustache).get()
         if let tokens = tokens, tokens.count > 0, case let .mustache(token) = tokens[0].type {
             self = .token(token)
