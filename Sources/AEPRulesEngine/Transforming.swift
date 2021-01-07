@@ -1,5 +1,5 @@
 /*
- Copyright 2020 Adobe. All rights reserved.
+ Copyright 2021 Adobe. All rights reserved.
  This file is licensed to you under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License. You may obtain a copy
  of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -11,25 +11,9 @@
  */
 
 import Foundation
+
 public typealias Transformation = (Any) -> Any
 
 public protocol Transforming {
     func transform(name: String, parameter: Any) -> Any
-}
-
-public class Transform: Transforming {
-    var transformations: [String: Transformation] = [:]
-
-    public init() {}
-
-    public func transform(name: String, parameter: Any) -> Any {
-        guard let transformation = transformations[name] else {
-            return parameter
-        }
-        return transformation(parameter)
-    }
-
-    public func register(name: String, transformation: @escaping Transformation) {
-        transformations[name] = transformation
-    }
 }

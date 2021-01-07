@@ -10,20 +10,23 @@
  governing permissions and limitations under the License.
  */
 
-@testable import AEPRulesEngine
-import XCTest
+import Foundation
 
-class RulesEngineLogLevelTests: XCTestCase {
-    func testLogLevelComparison() {
-        XCTAssertTrue(LogLevel.error < LogLevel.warning)
-        XCTAssertTrue(LogLevel.warning < LogLevel.debug)
-        XCTAssertTrue(LogLevel.debug < LogLevel.trace)
+public class Transformer: Transforming {
+    var transformations: [String: Transformation] = [:]
+
+    public init() {}
+
+    public func register(name: String, transformation: @escaping Transformation) {
+        transformations[name] = transformation
     }
 
-    func testLogLevelToString() {
-        XCTAssertEqual(LogLevel.error.toString(), "ERROR")
-        XCTAssertEqual(LogLevel.warning.toString(), "WARNING")
-        XCTAssertEqual(LogLevel.debug.toString(), "DEBUG")
-        XCTAssertEqual(LogLevel.trace.toString(), "TRACE")
+    // MARK: - Transforming
+
+    public func transform(name: String, parameter: Any) -> Any {
+        guard let transformation = transformations[name] else {
+            return parameter
+        }
+        return transformation(parameter)
     }
 }

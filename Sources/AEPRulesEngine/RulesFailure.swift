@@ -10,20 +10,13 @@
  governing permissions and limitations under the License.
  */
 
-@testable import AEPRulesEngine
-import XCTest
+import Foundation
 
-class RulesEngineLogLevelTests: XCTestCase {
-    func testLogLevelComparison() {
-        XCTAssertTrue(LogLevel.error < LogLevel.warning)
-        XCTAssertTrue(LogLevel.warning < LogLevel.debug)
-        XCTAssertTrue(LogLevel.debug < LogLevel.trace)
-    }
-
-    func testLogLevelToString() {
-        XCTAssertEqual(LogLevel.error.toString(), "ERROR")
-        XCTAssertEqual(LogLevel.warning.toString(), "WARNING")
-        XCTAssertEqual(LogLevel.debug.toString(), "DEBUG")
-        XCTAssertEqual(LogLevel.trace.toString(), "TRACE")
-    }
+public enum RulesFailure: Error {
+    case unknown
+    case conditionNotMatched(message: String)
+    case typeMismatched(message: String)
+    case missingOperator(message: String)
+    indirect case innerFailure(message: String, error: RulesFailure)
+    indirect case innerFailures(message: String, errors: [RulesFailure])
 }

@@ -1,5 +1,5 @@
 /*
- Copyright 2020 Adobe. All rights reserved.
+ Copyright 2021 Adobe. All rights reserved.
  This file is licensed to you under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License. You may obtain a copy
  of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -11,27 +11,19 @@
  */
 
 import Foundation
-public protocol RulesEngineLogging {
-    /// Logs a message
-    /// - Parameters:
-    ///   - level: One of the message level identifiers, e.g., DEBUG
-    ///   - label: Name of a label to localize message
-    ///   - message: The string message
-    func log(level: RulesEngineLogLevel, label: String, message: String)
-}
 
-public enum RulesEngineLogLevel: Int, Comparable {
+public enum LogLevel: Int, Comparable {
     case error = 0
     case warning = 1
     case debug = 2
     case trace = 3
 
-    /// Compares two `RulesEngineLogLevel`s for order
+    /// Compares two `LogLevel`s for order
     /// - Parameters:
-    ///   - lhs: the first `RulesEngineLogLevel` to be compared
-    ///   - rhs: the second `RulesEngineLogLevel` to be compared
-    /// - Returns: true, only if the second `LogLevel` is more critical
-    public static func < (lhs: RulesEngineLogLevel, rhs: RulesEngineLogLevel) -> Bool {
+    ///   - lhs: the first `LogLevel` to be compared
+    ///   - rhs: the second `LogLevel` to be compared
+    /// - Returns: true if the second `LogLevel` is more critical
+    public static func < (lhs: LogLevel, rhs: LogLevel) -> Bool {
         lhs.rawValue < rhs.rawValue
     }
 

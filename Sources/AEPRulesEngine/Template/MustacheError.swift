@@ -10,20 +10,13 @@
  governing permissions and limitations under the License.
  */
 
-@testable import AEPRulesEngine
-import XCTest
+import Foundation
 
-class RulesEngineLogLevelTests: XCTestCase {
-    func testLogLevelComparison() {
-        XCTAssertTrue(LogLevel.error < LogLevel.warning)
-        XCTAssertTrue(LogLevel.warning < LogLevel.debug)
-        XCTAssertTrue(LogLevel.debug < LogLevel.trace)
-    }
+public struct MustacheError: Error {
+    /// Eventual error message
+    public let message: String?
 
-    func testLogLevelToString() {
-        XCTAssertEqual(LogLevel.error.toString(), "ERROR")
-        XCTAssertEqual(LogLevel.warning.toString(), "WARNING")
-        XCTAssertEqual(LogLevel.debug.toString(), "DEBUG")
-        XCTAssertEqual(LogLevel.trace.toString(), "TRACE")
+    public init(message: String? = nil) {
+        self.message = message
     }
 }

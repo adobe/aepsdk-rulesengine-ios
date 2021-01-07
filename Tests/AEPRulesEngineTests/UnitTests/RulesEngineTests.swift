@@ -1,5 +1,5 @@
 /*
- Copyright 2020 Adobe. All rights reserved.
+ Copyright 2021 Adobe. All rights reserved.
  This file is licensed to you under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License. You may obtain a copy
  of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -50,7 +50,7 @@ class RulesEngineTests: XCTestCase {
         let rule = TestRule(condition: andCondition)
         rulesEngine.addRules(rules: [rule])
         var passed = true
-        var error:RulesFailure?
+        var error: RulesFailure?
         rulesEngine.trace { result, _, _, failure in
             passed = result
             error = failure

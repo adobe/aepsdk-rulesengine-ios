@@ -10,20 +10,9 @@
  governing permissions and limitations under the License.
  */
 
-@testable import AEPRulesEngine
-import XCTest
+import Foundation
 
-class RulesEngineLogLevelTests: XCTestCase {
-    func testLogLevelComparison() {
-        XCTAssertTrue(LogLevel.error < LogLevel.warning)
-        XCTAssertTrue(LogLevel.warning < LogLevel.debug)
-        XCTAssertTrue(LogLevel.debug < LogLevel.trace)
-    }
-
-    func testLogLevelToString() {
-        XCTAssertEqual(LogLevel.error.toString(), "ERROR")
-        XCTAssertEqual(LogLevel.warning.toString(), "WARNING")
-        XCTAssertEqual(LogLevel.debug.toString(), "DEBUG")
-        XCTAssertEqual(LogLevel.trace.toString(), "TRACE")
-    }
+/// A type that can be evaluated to a boolean
+public protocol Evaluable {
+    func evaluate(in context: Context) -> Result<Bool, RulesFailure>
 }

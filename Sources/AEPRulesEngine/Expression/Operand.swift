@@ -1,5 +1,5 @@
 /*
- Copyright 2020 Adobe. All rights reserved.
+ Copyright 2021 Adobe. All rights reserved.
  This file is licensed to you under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License. You may obtain a copy
  of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -34,8 +34,8 @@ public enum Operand<T> {
     }
 }
 
-extension Operand {
-    public init(mustache: String) {
+public extension Operand {
+    init(mustache: String) {
         let tokens = try? TemplateParser.parse(mustache).get()
         if let tokens = tokens, tokens.count > 0, case let .mustache(token) = tokens[0].type {
             self = .token(token)
@@ -51,9 +51,9 @@ extension Operand: CustomStringConvertible {
         case .none:
             return "<None>"
         case let .some(value):
-            return "<Value:\(value)>"
+            return "<Value: \(value)>"
         case let .token(mustache):
-            return "<Token:\(mustache)>"
+            return "<Token: \(mustache)>"
         }
     }
 }
