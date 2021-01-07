@@ -2,9 +2,9 @@ name: Swift
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ main, dev ]
   pull_request:
-    branches: [ dev ]
+    branches: [ main, dev ]
 
 jobs:
   build:
@@ -13,23 +13,21 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      
+
     - name: Install swiftformat
       run: brew install swiftformat
 
     - name: Install SwiftLint
       run: brew install swiftlint
-       
+
     - name: Linting
       run: make lint; make check-format
-        
+
     - name: Build
       run: swift build -v
-      
-    - name: Run tests
-      run: swift test -v --enable-code-coverage  
 
-    - name: Upload Code Coverage 
-      run: make generate-lcov; bash <(curl -s https://codecov.io/bash)  
-       
-     
+    - name: Run tests
+      run: swift test -v --enable-code-coverage
+
+    - name: Upload Code Coverage
+      run: make generate-lcov; bash <(curl -s https://codecov.io/bash)
