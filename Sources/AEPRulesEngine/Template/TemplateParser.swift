@@ -1,5 +1,5 @@
 /*
- Copyright 2020 Adobe. All rights reserved.
+ Copyright 2021 Adobe. All rights reserved.
  This file is licensed to you under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License. You may obtain a copy
  of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -13,7 +13,9 @@
 import Foundation
 
 /// A pair of tag delimiters, such as `("{{", "}}")`.
-public struct TemplateParser {
+public typealias DelimiterPair = (String, String)
+
+public enum TemplateParser {
     static let DefaultTagDelimiterPair: DelimiterPair = ("{{", "}}")
 
     static func parse(_ templateString: String, tagDelimiterPair: DelimiterPair = TemplateParser.DefaultTagDelimiterPair) -> Result<[Segment], Error> {
@@ -27,15 +29,15 @@ public struct TemplateParser {
         while i < end {
             switch state {
             case .start:
-                if index(i, isAt: currentDelimiters.tagDelimiterPair.0, in: templateString) {
+                if index(i, isAt: currentDelimiters.startTag, in: templateString) {
                     state = .tag(startIndex: i)
-                    i = templateString.index(i, offsetBy: currentDelimiters.tagStartLength)
+                    i = templateString.index(i, offsetBy: currentDelimiters.startTagLength)
                     i = templateString.index(before: i)
                 } else {
                     state = .text(startIndex: i)
                 }
             case let .text(startIndex):
-                if index(i, isAt: currentDelimiters.tagDelimiterPair.0, in: templateString) {
+                if index(i, isAt: currentDelimiters.startTag, in: templateString) {
                     if startIndex != i {
                         let range = startIndex ..< i
                         let token = Segment(
@@ -47,13 +49,13 @@ public struct TemplateParser {
                         tokens.append(token)
                     }
                     state = .tag(startIndex: i)
-                    i = templateString.index(i, offsetBy: currentDelimiters.tagStartLength)
+                    i = templateString.index(i, offsetBy: currentDelimiters.startTagLength)
                     i = templateString.index(before: i)
                 }
             case let .tag(startIndex):
-                if index(i, isAt: currentDelimiters.tagDelimiterPair.1, in: templateString) {
-                    let tagInitialIndex = templateString.index(startIndex, offsetBy: currentDelimiters.tagStartLength)
-                    let tokenRange = startIndex ..< templateString.index(i, offsetBy: currentDelimiters.tagEndLength)
+                if index(i, isAt: currentDelimiters.endTag, in: templateString) {
+                    let tagInitialIndex = templateString.index(startIndex, offsetBy: currentDelimiters.startTagLength)
+                    let tokenRange = startIndex ..< templateString.index(i, offsetBy: currentDelimiters.endTagLength)
                     let content = String(templateString[tagInitialIndex ..< i])
                     let mustacheToken = MustacheToken(content)
 
@@ -65,7 +67,7 @@ public struct TemplateParser {
                     tokens.append(token)
 
                     state = .start
-                    i = templateString.index(i, offsetBy: currentDelimiters.tagEndLength)
+                    i = templateString.index(i, offsetBy: currentDelimiters.endTagLength)
                     i = templateString.index(before: i)
                 }
             }
@@ -105,20 +107,5 @@ public struct TemplateParser {
         case start
         case text(startIndex: String.Index)
         case tag(startIndex: String.Index)
-    }
-}
-
-/// A pair of tag delimiters, such as `("{{", "}}")`.
-public typealias DelimiterPair = (String, String)
-
-public struct ParserTagDelimiters {
-    let tagDelimiterPair: DelimiterPair
-    let tagStartLength: Int
-    let tagEndLength: Int
-    init(_ tagDelimiterPair: DelimiterPair) {
-        self.tagDelimiterPair = tagDelimiterPair
-
-        tagStartLength = tagDelimiterPair.0.distance(from: tagDelimiterPair.0.startIndex, to: tagDelimiterPair.0.endIndex)
-        tagEndLength = tagDelimiterPair.1.distance(from: tagDelimiterPair.1.startIndex, to: tagDelimiterPair.1.endIndex)
     }
 }

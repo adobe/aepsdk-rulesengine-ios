@@ -10,20 +10,13 @@
  governing permissions and limitations under the License.
  */
 
-@testable import AEPRulesEngine
-import XCTest
+import Foundation
 
-class RulesEngineLogLevelTests: XCTestCase {
-    func testLogLevelComparison() {
-        XCTAssertTrue(LogLevel.error < LogLevel.warning)
-        XCTAssertTrue(LogLevel.warning < LogLevel.debug)
-        XCTAssertTrue(LogLevel.debug < LogLevel.trace)
-    }
-
-    func testLogLevelToString() {
-        XCTAssertEqual(LogLevel.error.toString(), "ERROR")
-        XCTAssertEqual(LogLevel.warning.toString(), "WARNING")
-        XCTAssertEqual(LogLevel.debug.toString(), "DEBUG")
-        XCTAssertEqual(LogLevel.trace.toString(), "TRACE")
-    }
+public protocol Logging {
+    /// Logs a message
+    /// - Parameters:
+    ///   - level: A `LogLevel` identifying the severity of the log. e.g. - `.debug`
+    ///   - label: Label for the log
+    ///   - message: The `String` message
+    func log(level: LogLevel, label: String, message: String)
 }

@@ -1,5 +1,12 @@
 # AEPRulesEngine
 
+<!--
+on [![Cocoapods](https://img.shields.io/cocoapods/v/AEPRulesEngine.svg?color=orange&label=AEPCore&logo=apple&logoColor=white)](https://cocoapods.org/pods/AEPRulesEngine)
+-->
+[![SPM](https://img.shields.io/badge/SPM-Supported-orange.svg?logo=apple&logoColor=white)](https://swift.org/package-manager/)
+[![CircleCI](https://img.shields.io/circleci/project/github/adobe/aepsdk-rulesengine-ios/main.svg?logo=circleci)](https://circleci.com/gh/adobe/workflows/aepsdk-rulesengine-ios)
+[![Code Coverage](https://img.shields.io/codecov/c/github/adobe/aepsdk-rulesengine-ios/main.svg?logo=codecov)](https://codecov.io/gh/adobe/aepsdk-rulesengine-ios/branch/main)
+
 ## BETA
 
 AEPRulesEngine is currently in beta. Use of this code is by invitation only and not otherwise supported by Adobe. Please contact your Adobe Customer Success Manager to learn more.
@@ -8,17 +15,37 @@ AEPRulesEngine is currently in beta. Use of this code is by invitation only and 
 
 A simple, generic, extensible Rules Engine in Swift.
 
+## Requirements
+- Xcode 11.0 (or newer)
+- Swift 5.1 (or newer)
+
 ## Installation
+
+### [CocoaPods](https://guides.cocoapods.org/using/using-cocoapods.html)
+```ruby
+# Podfile
+use_frameworks!
+
+target 'YOUR_TARGET_NAME' do
+    pod 'AEPRulesEngine', :git => 'https://github.com/adobe/aepsdk-rulesengine-ios.git', :branch => 'main'    
+end
+```
+
+Replace `YOUR_TARGET_NAME` and then, in the `Podfile` directory, type:
+
+```bash
+$ pod install
+```
 
 ### Swift Package Manager
 
-To add the AEPRulesEngine Package to your application, from the Xcode menu select:
+To add the AEPRulesEngine package to your application, from the Xcode menu select:
 
 `File > Swift Packages > Add Package Dependency...`
 
 Enter the URL for the AEPRulesEngine package repository: `https://github.com/adobe/aepsdk-rulesengine-ios.git`.
 
-When prompted, make sure you change the branch to `main`. 
+When prompted, make sure you change the branch to `main`.
 
 There are three options for selecting your dependencies as identified by the *suffix* of the library name:
 
@@ -36,10 +63,9 @@ dependencies: [
 
 ## Usage
 
+### Initialize the Rules Engine
 
-### Initialize Rules Engine
-
-To create a `RuleEngine` instance, first define an `Evaluator` and then use it as the parameter for `RuleEngine`.
+To create a `RulesEngine` instance, define an `Evaluator` and pass it to the `RulesEngine`'s initializer:
 ```
 let evaluator = ConditionEvaluator(options: .caseInsensitive)
 let rulesEngine = RulesEngine(evaluator: evaluator)
@@ -47,7 +73,7 @@ let rulesEngine = RulesEngine(evaluator: evaluator)
 
 ### Define Rules
 
-Any thing that conforms to the `Rule` protocol can be used as rule. 
+Anything that conforms to the `Rule` protocol can be used as rule:
 ``` Swift
 public class MobileRule: Rule {
     init(condition: Evaluable) { self.condition = condition }
@@ -57,7 +83,7 @@ let condition = ComparisonExpression(lhs: "abc", operationName: "equals", rhs: "
 let rule = MobileRule(condition: condition)
 rulesEngine.addRules(rules: [rule])
 ```
-However, a rule like this doesn't make much sense, without the ability to dynamically fetch a value it will always be true or false.
+A rule without the flexibility to dynamically fetch a value will always evaluate to true or false.  To fetch the value for a rule at runtime, use a Mustache Token:
 
 ``` Swift
 let mustache = Operand<String>(mustache: "{{company}}")
@@ -68,7 +94,7 @@ rulesEngine.addRules(rules: [rule])
 
 ### Evaluate data
 
-Use the method `evaluate` to run rule engine on the input data that is `Traversable`.
+Use the `evaluate` method to process `Traversable` data through the `RulesEngine`:
 
 ```
 let matchedRules = rulesEngine.evaluate(data: ["company":"adobe"])
