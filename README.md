@@ -1,5 +1,3 @@
-[![codecov](https://codecov.io/gh/yangyansong-adbe/aepsdk-rulesengine-ios/branch/dev/graph/badge.svg?token=T8LRU71KTB)](undefined)
-
 # AEPRulesEngine
 
 <!--
