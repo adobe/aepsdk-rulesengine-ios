@@ -1,5 +1,12 @@
 # AEPRulesEngine
 
+<!--
+on [![Cocoapods](https://img.shields.io/cocoapods/v/AEPRulesEngine.svg?color=orange&label=AEPCore&logo=apple&logoColor=white)](https://cocoapods.org/pods/AEPRulesEngine)
+-->
+[![SPM](https://img.shields.io/badge/SPM-Supported-orange.svg?logo=apple&logoColor=white)](https://swift.org/package-manager/)
+[![CircleCI](https://img.shields.io/circleci/project/github/adobe/aepsdk-rulesengine-ios/main.svg?logo=circleci)](https://circleci.com/gh/adobe/workflows/aepsdk-rulesengine-ios)
+[![Code Coverage](https://img.shields.io/codecov/c/github/adobe/aepsdk-rulesengine-ios/main.svg?logo=codecov)](https://codecov.io/gh/adobe/aepsdk-rulesengine-ios/branch/main)
+
 ## BETA
 
 AEPRulesEngine is currently in beta. Use of this code is by invitation only and not otherwise supported by Adobe. Please contact your Adobe Customer Success Manager to learn more.
@@ -10,7 +17,7 @@ A simple, generic, extensible Rules Engine in Swift.
 
 ## Requirements
 - Xcode 11.0 (or newer)
-- Swift 5.0 (or newer)
+- Swift 5.1 (or newer)
 
 ## Installation
 
@@ -19,20 +26,8 @@ A simple, generic, extensible Rules Engine in Swift.
 # Podfile
 use_frameworks!
 
-# for app development, include all the following pods
 target 'YOUR_TARGET_NAME' do
-    pod 'AEPRulesEngine', :git => 'https://github.com/adobe/aepsdk-rulesengine-ios.git', :branch => 'main'
-    pod 'AEPCore', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'main'
-    pod 'AEPServices', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'main'
-    pod 'AEPLifecycle', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'main'
-    pod 'AEPIdentity', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'main'    
-end
-
-# for extension development, include AEPCore and its dependencies
-target 'YOUR_TARGET_NAME' do
-    pod 'AEPRulesEngine', :git => 'https://github.com/adobe/aepsdk-rulesengine-ios.git', :branch => 'main'
-    pod 'AEPCore', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'main'
-    pod 'AEPServices', :git => 'https://github.com/adobe/aepsdk-core-ios.git', :branch => 'main'    
+    pod 'AEPRulesEngine', :git => 'https://github.com/adobe/aepsdk-rulesengine-ios.git', :branch => 'main'    
 end
 ```
 
@@ -50,7 +45,7 @@ To add the AEPRulesEngine package to your application, from the Xcode menu selec
 
 Enter the URL for the AEPRulesEngine package repository: `https://github.com/adobe/aepsdk-rulesengine-ios.git`.
 
-When prompted, make sure you change the branch to `main`. 
+When prompted, make sure you change the branch to `main`.
 
 There are three options for selecting your dependencies as identified by the *suffix* of the library name:
 
@@ -67,7 +62,6 @@ dependencies: [
 ```
 
 ## Usage
-
 
 ### Initialize the Rules Engine
 
