@@ -1,0 +1,28 @@
+name: Publish Podspec Main
+
+# on:
+#   release:
+#     types: [published]
+on: 
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Test scenario tags' 
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Cocoapods
+      run: gem install cocoapods
+      
+    - name: Deploy to Cocoapods
+      run: |
+        pod lib lint --allow-warnings  
