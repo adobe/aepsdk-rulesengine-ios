@@ -16,7 +16,7 @@ import XCTest
 @testable import AEPRulesEngine
 struct CustomOperand: Traversable {
     func get(key: String) -> Any? {
-        return key
+        key
     }
 }
 

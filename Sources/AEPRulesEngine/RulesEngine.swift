@@ -15,7 +15,7 @@ import Foundation
 public typealias RulesTracer = (Bool, Rule, Context, RulesFailure?) -> Void
 
 public class RulesEngine<T: Rule> {
-    public let version = "1.0.0-beta.1"
+    public let version = "1.0.0-beta.2"
     let evaluator: Evaluating
     let transformer: Transforming
     var tracer: RulesTracer?

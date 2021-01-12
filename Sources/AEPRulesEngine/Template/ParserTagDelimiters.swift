@@ -20,18 +20,18 @@ struct ParserTagDelimiters {
     }
 
     var startTag: String {
-        return tagDelimiterPair.0
+        tagDelimiterPair.0
     }
 
     var startTagLength: Int {
-        return startTag.count
+        startTag.count
     }
 
     var endTag: String {
-        return tagDelimiterPair.1
+        tagDelimiterPair.1
     }
 
     var endTagLength: Int {
-        return endTag.count
+        endTag.count
     }
 }
