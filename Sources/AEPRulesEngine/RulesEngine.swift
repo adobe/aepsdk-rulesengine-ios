@@ -20,7 +20,7 @@ public class RulesEngine<T: Rule> {
     let transformer: Transforming
     var tracer: RulesTracer?
     var rules = [T]()
-    
+
     public init(evaluator: Evaluating, transformer: Transforming = Transformer()) {
         self.evaluator = evaluator
         self.transformer = transformer
