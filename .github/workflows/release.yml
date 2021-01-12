@@ -16,6 +16,9 @@ jobs:
     - uses: actions/checkout@v2
       with:
         ref: main
+    
+    - name: Install jq
+      run: brew install jq
 
     - name: Check version in Podspec
       run: |
