@@ -15,11 +15,12 @@ import Foundation
 public typealias RulesTracer = (Bool, Rule, Context, RulesFailure?) -> Void
 
 public class RulesEngine<T: Rule> {
+    public let version = "1.0.0-beta.1"
     let evaluator: Evaluating
     let transformer: Transforming
     var tracer: RulesTracer?
     var rules = [T]()
-
+    
     public init(evaluator: Evaluating, transformer: Transforming = Transformer()) {
         self.evaluator = evaluator
         self.transformer = transformer

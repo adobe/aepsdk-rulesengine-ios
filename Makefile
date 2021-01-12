@@ -30,3 +30,6 @@ latest-version:
 version-podspec-local:
 	(which jq)
 	(pod ipc spec AEPRulesEngine.podspec | jq '.version' | tr -d '"')
+
+version-source-code:
+	(cat ./Sources/AEPRulesEngine/RulesEngine.swift | egrep '\s*version\s*=\s*\"(.*)\"' | ruby -e "puts gets.scan(/\"(.*)\"/)[0] " | tr -d '"')
