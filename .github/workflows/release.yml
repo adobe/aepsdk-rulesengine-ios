@@ -49,7 +49,7 @@ jobs:
       run: |
         set -eo pipefail
         gem install cocoapods
-        pod lib lint --allow-warnings
+        pod lib lint --allow-warnings --swift-version=5.1
     # pod trunk push SwiftRulesEngineTest.podspec --allow-warnings
       env:
         COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}

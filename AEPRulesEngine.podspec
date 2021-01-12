@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "AEPRulesEngine"
-  s.version          = "1.0.0-beta.1"
+  s.version          = "1.0.0-beta.2"
   s.summary          = "AEPRulesEngine"
   s.description      = <<-DESC
                       A simple, generic, extensible Rules Engine in Swift
@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '10.0'
   s.pod_target_xcconfig = { 'BUILD_LIBRARY_FOR_DISTRIBUTION' => 'YES' }
 
-  s.swift_version = '5.0'
+  s.swift_version = '5.1'
   s.source_files  = 'Sources/AEPRulesEngine/**/*.swift'
 
 end
