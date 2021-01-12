@@ -2,9 +2,22 @@ name: Build
 
 on:
   push:
-    branches: [ main, dev ]
+    branches:
+      - dev
+      - main
+      - dev-**
+    paths:
+      - 'Sources/**'
+      - 'Tests/**'
+
   pull_request:
-    branches: [ main, dev ]
+    branches:
+      - dev
+      - main
+      - dev-**
+    paths:
+      - 'Sources/**'
+      - 'Tests/**'
 
 jobs:
   build:
