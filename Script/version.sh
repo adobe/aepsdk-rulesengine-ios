@@ -23,10 +23,12 @@ BLUE='\033[0;34m'
 
 echo "Start to check the version in podspec file >"
 echo "Target version - ${BLUE}$1${NC}"
-# PODSPEC_VERSION=$(cat ./SwiftRulesEngineTest.podspec | egrep '^\s*s.version\s*=\s*\"(.*)\"' | ruby -e "puts gets.scan(/^\s*s.version\s*=\s*\"(.*)\"/)[0] ")
 PODSPEC_VERSION=$(pod ipc spec AEPRulesEngine.podspec | jq '.version' | tr -d '"')
 echo "Local podspec version - ${BLUE}${PODSPEC_VERSION}${NC}"
-if [[ "$1" == "$PODSPEC_VERSION" ]]; then
+SOUCE_CODE_VERSION=$(cat ./Sources/AEPRulesEngine/RulesEngine.swift | egrep '\s*version\s*=\s*\"(.*)\"' | ruby -e "puts gets.scan(/\"(.*)\"/)[0] " | tr -d '"')
+echo "Souce code version - ${BLUE}${SOUCE_CODE_VERSION}${NC}"
+
+if [[ "$1" == "$PODSPEC_VERSION" ]] && [[ "$1" == "$SOUCE_CODE_VERSION" ]]; then
     echo "${GREEN}Pass!"
     exit 0
 else
