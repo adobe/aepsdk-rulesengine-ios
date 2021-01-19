@@ -8,9 +8,6 @@ on [![Cocoapods](https://img.shields.io/cocoapods/v/AEPRulesEngine.svg?color=ora
 [![Code Coverage](https://img.shields.io/codecov/c/github/adobe/aepsdk-rulesengine-ios/main.svg?logo=codecov)](https://codecov.io/gh/adobe/aepsdk-rulesengine-ios/branch/main)
 [![GitHub](https://img.shields.io/github/license/adobe/aepsdk-rulesengine-ios)](https://github.com/adobe/aepsdk-rulesengine-ios/blob/main/LICENSE)
 
-## BETA
-
-AEPRulesEngine is currently in beta. Use of this code is by invitation only and not otherwise supported by Adobe. Please contact your Adobe Customer Success Manager to learn more.
 
 ## Overview
 

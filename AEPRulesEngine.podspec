@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "AEPRulesEngine"
-  s.version          = "1.0.0-beta.2"
+  s.version          = "1.0.0"
   s.summary          = "AEPRulesEngine"
   s.description      = <<-DESC
                       A simple, generic, extensible Rules Engine in Swift
