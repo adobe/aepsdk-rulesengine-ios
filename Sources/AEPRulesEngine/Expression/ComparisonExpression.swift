@@ -28,8 +28,8 @@ public struct ComparisonExpression<A, B>: Evaluable {
 
     public func evaluate(in context: Context) -> Result<Bool, RulesFailure> {
         Log.trace(label: LOG_TAG, "Evaluating \(lhs) - \(operationName) - \(rhs)")
-        let resolvedLhs = lhs(context)
-        let resolvedRhs = rhs(context)
+        let resolvedLhs = lhs.resolve(in: context)
+        let resolvedRhs = rhs.resolve(in: context)
         var result: Result<Bool, RulesFailure>
         if let resolvedLhs_ = resolvedLhs, let resolvedRhs_ = resolvedRhs {
             result = context.evaluator.evaluate(operation: operationName, lhs: resolvedLhs_, rhs: resolvedRhs_)

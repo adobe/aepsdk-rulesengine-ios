@@ -12,13 +12,12 @@
 
 import Foundation
 
-@dynamicCallable
 public enum Operand<T> {
     case none
     case some(T)
     case token(MustacheToken)
 
-    func dynamicallyCall(withArguments args: [Context]) -> T? {
+    func resolve(in context: Context) -> T? {
         switch self {
         case .none:
             return nil
@@ -26,7 +25,7 @@ public enum Operand<T> {
             return value
         case let .token(token):
 
-            if let result = token.resolve(in: args[0].transformer, data: args[0].data) {
+            if let result = token.resolve(in: context.transformer, data: context.data) {
                 return result as? T
             }
             return nil
