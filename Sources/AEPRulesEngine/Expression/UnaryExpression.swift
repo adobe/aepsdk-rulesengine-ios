@@ -24,7 +24,7 @@ public struct UnaryExpression<A>: Evaluable {
 
     public func evaluate(in context: Context) -> Result<Bool, RulesFailure> {
         Log.trace(label: LOG_TAG, "Evaluating \(operationName) - \(lhs)")
-        let resolvedLhs = lhs(context)
+        let resolvedLhs = lhs.resolve(in: context)
         if let resolvedLhs_ = resolvedLhs {
             return context.evaluator.evaluate(operation: operationName, lhs: resolvedLhs_)
         }
