@@ -87,11 +87,13 @@ public extension ConditionEvaluator {
 
         addComparisonOperator(operation: "equals", type: String.self, closure: ==)
         addComparisonOperator(operation: "equals", type: Int.self, closure: ==)
+        addComparisonOperator(operation: "equals", type: Int64.self, closure: ==)
         addComparisonOperator(operation: "equals", type: Double.self, closure: ==)
         addComparisonOperator(operation: "equals", type: Bool.self, closure: ==)
 
         addComparisonOperator(operation: "notEquals", type: String.self, closure: !=)
         addComparisonOperator(operation: "notEquals", type: Int.self, closure: !=)
+        addComparisonOperator(operation: "notEquals", type: Int64.self, closure: !=)
         addComparisonOperator(operation: "notEquals", type: Double.self, closure: !=)
         addComparisonOperator(operation: "notEquals", type: Bool.self, closure: !=)
 
@@ -101,15 +103,19 @@ public extension ConditionEvaluator {
         addComparisonOperator(operation: "notContains", type: String.self, closure: { !$0.contains($1) })
 
         addComparisonOperator(operation: "greaterThan", type: Int.self, closure: >)
+        addComparisonOperator(operation: "greaterThan", type: Int64.self, closure: >)
         addComparisonOperator(operation: "greaterThan", type: Double.self, closure: >)
 
         addComparisonOperator(operation: "greaterEqual", type: Int.self, closure: >=)
+        addComparisonOperator(operation: "greaterEqual", type: Int64.self, closure: >=)
         addComparisonOperator(operation: "greaterEqual", type: Double.self, closure: >=)
 
         addComparisonOperator(operation: "lessEqual", type: Int.self, closure: <=)
+        addComparisonOperator(operation: "lessEqual", type: Int64.self, closure: <=)
         addComparisonOperator(operation: "lessEqual", type: Double.self, closure: <=)
 
         addComparisonOperator(operation: "lessThan", type: Int.self, closure: <)
+        addComparisonOperator(operation: "lessThan", type: Int64.self, closure: <)
         addComparisonOperator(operation: "lessThan", type: Double.self, closure: <)
 
         addComparisonOperator(operation: "notExist", type: Any?.self, closure: { lhs, _ in
