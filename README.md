@@ -1,10 +1,8 @@
 # AEPRulesEngine
 
-<!--
-on [![Cocoapods](https://img.shields.io/cocoapods/v/AEPRulesEngine.svg?color=orange&label=AEPCore&logo=apple&logoColor=white)](https://cocoapods.org/pods/AEPRulesEngine)
--->
+[![Cocoapods](https://img.shields.io/cocoapods/v/AEPRulesEngine.svg?color=orange&label=AEPRulesEngine&logo=apple&logoColor=white)](https://cocoapods.org/pods/AEPRulesEngine)
 [![SPM](https://img.shields.io/badge/SPM-Supported-orange.svg?logo=apple&logoColor=white)](https://swift.org/package-manager/)
-[![CI](https://github.com/adobe/aepsdk-rulesengine-ios/workflows/CI/badge.svg)](https://github.com/adobe/aepsdk-rulesengine-ios/actions)
+[![Build](https://github.com/adobe/aepsdk-rulesengine-ios/actions/workflows/build.yml/badge.svg)](https://github.com/adobe/aepsdk-rulesengine-ios/actions/workflows/build.yml)
 [![Code Coverage](https://img.shields.io/codecov/c/github/adobe/aepsdk-rulesengine-ios/main.svg?logo=codecov)](https://codecov.io/gh/adobe/aepsdk-rulesengine-ios/branch/main)
 [![GitHub](https://img.shields.io/github/license/adobe/aepsdk-rulesengine-ios)](https://github.com/adobe/aepsdk-rulesengine-ios/blob/main/LICENSE)
 
