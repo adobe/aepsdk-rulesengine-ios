@@ -6,13 +6,13 @@ import PackageDescription
 let package = Package(
     name: "AEPRulesEngine",
     products: [
-        .library(name: "AEPRulesEngine", targets: ["AEPRulesEngine"])
+        .library(name: "AEPRulesEngine", targets: ["AEPRulesEngine"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
     ],
     targets: [
-        .target(name: "AEPRulesEngine", dependencies: [])
+        .target(name: "AEPRulesEngine", dependencies: []),
     ]
 )
