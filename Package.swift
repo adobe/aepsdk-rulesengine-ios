@@ -14,5 +14,6 @@ let package = Package(
     ],
     targets: [
         .target(name: "AEPRulesEngine", dependencies: []),
+        .testTarget(name: "AEPRulesEngineTests", dependencies: ["AEPRulesEngine"])
     ]
 )
