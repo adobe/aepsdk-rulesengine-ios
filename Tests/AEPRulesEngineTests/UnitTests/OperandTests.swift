@@ -35,4 +35,11 @@ class OperandTests: XCTestCase {
         let operand: Operand<String> = nil
         XCTAssertEqual("<None>", String(describing: operand))
     }
+    
+    func testFunctionValue() {
+        let operand: Operand<Int> = Operand(function: {
+            return 1
+        })
+        XCTAssertEqual(1, operand.resolve(in: Context(data: CustomTraverse(), evaluator: ConditionEvaluator(), transformer: Transformer())))
+    }
 }
