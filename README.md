@@ -1,10 +1,8 @@
 # AEPRulesEngine
 
-<!--
-on [![Cocoapods](https://img.shields.io/cocoapods/v/AEPRulesEngine.svg?color=orange&label=AEPCore&logo=apple&logoColor=white)](https://cocoapods.org/pods/AEPRulesEngine)
--->
+[![Cocoapods](https://img.shields.io/cocoapods/v/AEPRulesEngine.svg?color=orange&label=AEPRulesEngine&logo=apple&logoColor=white)](https://cocoapods.org/pods/AEPRulesEngine)
 [![SPM](https://img.shields.io/badge/SPM-Supported-orange.svg?logo=apple&logoColor=white)](https://swift.org/package-manager/)
-[![CI](https://github.com/adobe/aepsdk-rulesengine-ios/workflows/CI/badge.svg)](https://github.com/adobe/aepsdk-rulesengine-ios/actions)
+[![Build](https://github.com/adobe/aepsdk-rulesengine-ios/actions/workflows/build.yml/badge.svg)](https://github.com/adobe/aepsdk-rulesengine-ios/actions/workflows/build.yml)
 [![Code Coverage](https://img.shields.io/codecov/c/github/adobe/aepsdk-rulesengine-ios/main.svg?logo=codecov)](https://codecov.io/gh/adobe/aepsdk-rulesengine-ios/branch/main)
 [![GitHub](https://img.shields.io/github/license/adobe/aepsdk-rulesengine-ios)](https://github.com/adobe/aepsdk-rulesengine-ios/blob/main/LICENSE)
 
@@ -25,7 +23,7 @@ A simple, generic, extensible Rules Engine in Swift.
 use_frameworks!
 
 target 'YOUR_TARGET_NAME' do
-    pod 'AEPRulesEngine', :git => 'https://github.com/adobe/aepsdk-rulesengine-ios.git', :branch => 'main'    
+    pod 'AEPRulesEngine'
 end
 ```
 
@@ -43,19 +41,13 @@ To add the AEPRulesEngine package to your application, from the Xcode menu selec
 
 Enter the URL for the AEPRulesEngine package repository: `https://github.com/adobe/aepsdk-rulesengine-ios.git`.
 
-When prompted, make sure you change the branch to `main`.
-
-There are three options for selecting your dependencies as identified by the *suffix* of the library name:
-
-- "Dynamic" - the library will be linked dynamically
-- "Static" - the library will be linked statically
-- *(none)* - (default) SPM will determine whether the library will be linked dynamically or statically
+When prompted, input a specific version or a range of versions.
 
 Alternatively, if your project has a `Package.swift` file, you can add AEPRulesEngine directly to your dependencies:
 
 ```
 dependencies: [
-    .package(url: "https://github.com/adobe/aepsdk-rulesengine-ios.git", .branch("main"))
+    .package(url: "https://github.com/adobe/aepsdk-rulesengine-ios.git", .upToNextMajor(from: "1.0.1"))
 ]
 ```
 
