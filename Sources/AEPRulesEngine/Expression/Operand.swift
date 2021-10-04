@@ -60,7 +60,7 @@ extension Operand: CustomStringConvertible {
         case let .token(mustache):
             return "<Token: \(mustache)>"
         case let .function(fun):
-            return "<Function: \(String(describing: fun.self))>"
+            return "<Function: \(String(describing: fun.self))>"
         }
     }
 }
