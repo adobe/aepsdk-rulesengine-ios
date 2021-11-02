@@ -16,7 +16,7 @@ public enum Operand<T> {
     case none
     case some(T)
     case token(MustacheToken)
-    case function(() -> T)
+    case function(([Any]?) -> T, [Any]? = nil)
 
     func resolve(in context: Context) -> T? {
         switch self {
@@ -29,8 +29,8 @@ public enum Operand<T> {
                 return result as? T
             }
             return nil
-        case let .function(functionName):
-            return functionName()
+        case let .function(functionName, params):
+            return functionName(params)
         }
     }
 }
@@ -45,8 +45,8 @@ public extension Operand {
         }
     }
 
-    init(function: @escaping () -> T) {
-        self = .function(function)
+    init(function: @escaping ([Any]?) -> T, parameters: [Any]? = nil) {
+        self = .function(function, parameters)
     }
 }
 
@@ -59,8 +59,8 @@ extension Operand: CustomStringConvertible {
             return "<Value: \(value)>"
         case let .token(mustache):
             return "<Token: \(mustache)>"
-        case let .function(fun):
-            return "<Function: \(String(describing: fun.self))>"
+        case let .function(fun, params):
+            return "<Function: \(String(describing: fun.self)), Parameters: \(String(describing: params ?? nil))>"
         }
     }
 }
