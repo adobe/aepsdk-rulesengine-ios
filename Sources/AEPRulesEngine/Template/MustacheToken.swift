@@ -22,8 +22,8 @@ public indirect enum MustacheToken {
     public init(_ tokenString: String) {
         if let range = tokenString.range(of: #"\((.*\))+"#, options: .regularExpression) {
             let variable = String(tokenString[tokenString.index(after: range.lowerBound) ..< tokenString.index(before: range.upperBound)]).trimmingCharacters(in: .whitespacesAndNewlines)
-            let funtionName = String(tokenString[tokenString.startIndex ... tokenString.index(before: range.lowerBound)]).trimmingCharacters(in: .whitespacesAndNewlines)
-            self = .function(content: funtionName, inner: .variable(text: variable))
+            let functionName = String(tokenString[tokenString.startIndex ... tokenString.index(before: range.lowerBound)]).trimmingCharacters(in: .whitespacesAndNewlines)
+            self = .function(content: functionName, inner: .variable(text: variable))
         } else {
             self = .variable(text: tokenString)
         }

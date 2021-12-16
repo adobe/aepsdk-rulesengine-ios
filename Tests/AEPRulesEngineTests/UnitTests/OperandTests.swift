@@ -35,4 +35,28 @@ class OperandTests: XCTestCase {
         let operand: Operand<String> = nil
         XCTAssertEqual("<None>", String(describing: operand))
     }
+
+    func testFunctionValue() {
+        let operand: Operand<Int> = Operand(function: { _ in
+            1
+        })
+        XCTAssertEqual(1, operand.resolve(in: Context(data: CustomTraverse(), evaluator: ConditionEvaluator(), transformer: Transformer())))
+    }
+
+    func testFunctionWithParams() {
+        let parameters: [Any] = ["aString", 552]
+        let operand: Operand<Int> = Operand(function: { params in
+            guard let p = params else {
+                return 0
+            }
+            XCTAssertEqual(2, p.count)
+            XCTAssertEqual("aString", p[0] as? String)
+            XCTAssertEqual(552, p[1] as? Int)
+
+            return 1
+        }, parameters: parameters)
+
+        let result = operand.resolve(in: Context(data: CustomTraverse(), evaluator: ConditionEvaluator(), transformer: Transformer()))
+        XCTAssertEqual(1, result)
+    }
 }
