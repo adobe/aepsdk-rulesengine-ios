@@ -13,6 +13,8 @@ Pod::Spec.new do |s|
   s.requires_arc          = true
 
   s.ios.deployment_target = '10.0'
+  s.tvos.deployment_target = '10.0'
+
   s.pod_target_xcconfig = { 'BUILD_LIBRARY_FOR_DISTRIBUTION' => 'YES' }
 
   s.swift_version = '5.1'
