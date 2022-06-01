@@ -47,7 +47,7 @@ Alternatively, if your project has a `Package.swift` file, you can add AEPRulesE
 
 ```
 dependencies: [
-    .package(url: "https://github.com/adobe/aepsdk-rulesengine-ios.git", .upToNextMajor(from: "1.1.0"))
+    .package(url: "https://github.com/adobe/aepsdk-rulesengine-ios.git", .upToNextMajor(from: "1.2.0"))
 ]
 ```
 
