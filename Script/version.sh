@@ -26,7 +26,7 @@ echo "Target version - ${BLUE}$1${NC}"
 PODSPEC_VERSION=$(pod ipc spec AEPRulesEngine.podspec | jq '.version' | tr -d '"')
 echo "Local podspec version - ${BLUE}${PODSPEC_VERSION}${NC}"
 SOUCE_CODE_VERSION=$(cat ./Sources/AEPRulesEngine/RulesEngine.swift | egrep '\s*version\s*=\s*\"(.*)\"' | ruby -e "puts gets.scan(/\"(.*)\"/)[0] " | tr -d '"')
-echo "Souce code version - ${BLUE}${SOUCE_CODE_VERSION}${NC}"
+echo "Source code version - ${BLUE}${SOUCE_CODE_VERSION}${NC}"
 
 if [[ "$1" == "$PODSPEC_VERSION" ]] && [[ "$1" == "$SOUCE_CODE_VERSION" ]]; then
     echo "${GREEN}Pass!"
