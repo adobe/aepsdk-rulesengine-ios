@@ -17,7 +17,7 @@ swift package generate-xcodeproj
 # Create a Podfile with our pod as dependency.
 echo "
 target '$PROJECT_NAME' do
-  platform :ios, '11.0'
+  platform :ios, '10.0'
   use_frameworks!
   pod 'AEPRulesEngine', :path => '../'
 end
@@ -53,7 +53,7 @@ swift package generate-xcodeproj
 # Create a Podfile with our pod as dependency.
 echo "
 target '$PROJECT_NAME' do
-  platform :tvos, '11.0'
+  platform :tvos, '10.0'
   use_frameworks!
   pod 'AEPRulesEngine', :path => '../'
 end
