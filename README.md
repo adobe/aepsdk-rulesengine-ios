@@ -12,7 +12,7 @@
 A simple, generic, extensible Rules Engine in Swift.
 
 ## Requirements
-- Xcode 11.0 (or newer)
+- Xcode 14.0 (or newer)
 - Swift 5.1 (or newer)
 
 ## Installation
