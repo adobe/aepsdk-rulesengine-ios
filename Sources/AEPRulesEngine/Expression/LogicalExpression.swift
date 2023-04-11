@@ -30,9 +30,8 @@ public struct LogicalExpression: Evaluable {
         switch operationName {
         case "and":
             for evaluable in operands {
-                let result = evaluable.evaluate(in: context)
                 // Exit if any evaluation fails
-                if case .failure(let failure) = result {
+                if case .failure(let failure) = evaluable.evaluate(in: context) {
                     return .failure(failure)
                 }
             }
