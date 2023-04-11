@@ -27,21 +27,29 @@ public struct LogicalExpression: Evaluable {
     }
 
     public func evaluate(in context: Context) -> Result<Bool, RulesFailure> {
-        let operandsResolve = operands.map { Evaluable in
-            Evaluable.evaluate(in: context)
-        }
-
+        var operandsResults = [Result<Bool, RulesFailure>]()
+        
         switch operationName {
         case "and":
-            if operandsResolve.contains(where: { !$0.value }) {
-                return Result.failure(.innerFailures(message: "`And` returns false", errors: operandsResolve.filter { !$0.value }.map { $0.error! }))
+            for evaluable in operands {
+                let result = evaluable.evaluate(in: context)
+                // Exit if any evaluation fails
+                if case .failure(let failure) = result {
+                    return .failure(failure)
+                }
+                operandsResults.append(result)
             }
             return .success(true)
         case "or":
-            if operandsResolve.contains(where: { $0.value }) {
-                return .success(true)
+            for evaluable in operands {
+                let result = evaluable.evaluate(in: context)
+                // Succeed with any success
+                if case .success(_) = result {
+                    return .success(true)
+                }
+                operandsResults.append(result)
             }
-            return Result.failure(.innerFailures(message: "`Or` returns false", errors: operandsResolve.filter { !$0.value }.map { $0.error ?? RulesFailure.unknown }))
+            return Result.failure(.innerFailures(message: "`Or` returns false", errors: operandsResults.filter { !$0.value }.map { $0.error ?? RulesFailure.unknown }))
         default:
             return .failure(.missingOperator(message: "Unknown conjunction operator '\(operationName)'"))
         }
