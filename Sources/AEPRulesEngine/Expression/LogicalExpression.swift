@@ -27,8 +27,6 @@ public struct LogicalExpression: Evaluable {
     }
 
     public func evaluate(in context: Context) -> Result<Bool, RulesFailure> {
-        var operandsResults = [Result<Bool, RulesFailure>]()
-        
         switch operationName {
         case "and":
             for evaluable in operands {
@@ -37,10 +35,10 @@ public struct LogicalExpression: Evaluable {
                 if case .failure(let failure) = result {
                     return .failure(failure)
                 }
-                operandsResults.append(result)
             }
             return .success(true)
         case "or":
+            var operandsResults = [Result<Bool, RulesFailure>]()
             for evaluable in operands {
                 let result = evaluable.evaluate(in: context)
                 // Succeed with any success
