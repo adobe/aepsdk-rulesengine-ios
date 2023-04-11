@@ -31,7 +31,7 @@ public struct LogicalExpression: Evaluable {
         case "and":
             for evaluable in operands {
                 // Exit if any evaluation fails
-                if case .failure(let failure) = evaluable.evaluate(in: context) {
+                if case let .failure(failure) = evaluable.evaluate(in: context) {
                     return .failure(.innerFailure(message: "`And` returns false", error: failure))
                 }
             }
@@ -41,9 +41,9 @@ public struct LogicalExpression: Evaluable {
             for evaluable in operands {
                 let result = evaluable.evaluate(in: context)
                 // Succeed with any success
-                if case .success(_) = result {
+                if case .success = result {
                     return .success(true)
-                } else if case .failure(let failure) = result {
+                } else if case let .failure(failure) = result {
                     failureResults.append(failure)
                 }
             }
