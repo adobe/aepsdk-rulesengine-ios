@@ -32,21 +32,22 @@ public struct LogicalExpression: Evaluable {
             for evaluable in operands {
                 // Exit if any evaluation fails
                 if case .failure(let failure) = evaluable.evaluate(in: context) {
-                    return .failure(failure)
+                    return .failure(.innerFailure(message: "`And` returns false", error: failure))
                 }
             }
             return .success(true)
         case "or":
-            var operandsResults = [Result<Bool, RulesFailure>]()
+            var failureResults = [RulesFailure]()
             for evaluable in operands {
                 let result = evaluable.evaluate(in: context)
                 // Succeed with any success
                 if case .success(_) = result {
                     return .success(true)
+                } else if case .failure(let failure) = result {
+                    failureResults.append(failure)
                 }
-                operandsResults.append(result)
             }
-            return Result.failure(.innerFailures(message: "`Or` returns false", errors: operandsResults.filter { !$0.value }.map { $0.error ?? RulesFailure.unknown }))
+            return .failure(.innerFailures(message: "`Or` returns false", errors: failureResults))
         default:
             return .failure(.missingOperator(message: "Unknown conjunction operator '\(operationName)'"))
         }
