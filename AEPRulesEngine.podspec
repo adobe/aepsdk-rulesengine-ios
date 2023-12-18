@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
 
   s.pod_target_xcconfig = { 'BUILD_LIBRARY_FOR_DISTRIBUTION' => 'YES' }
 
-  s.swift_version = '5.1'
+  s.swift_version = '5.7'
   s.source_files  = 'Sources/AEPRulesEngine/**/*.swift'
 
 end
