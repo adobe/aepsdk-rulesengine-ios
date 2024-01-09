@@ -13,7 +13,7 @@ A simple, generic, extensible Rules Engine in Swift.
 
 ## Requirements
 - Xcode 15 (or newer)
-- Swift 5.1 (or newer)
+- Swift 5.9 (or newer)
 
 ## Installation
 
