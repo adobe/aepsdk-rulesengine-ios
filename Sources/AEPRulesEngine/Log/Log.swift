@@ -16,7 +16,7 @@ import Foundation
 /// To enable logging from the RulesEngine, implement a class that conforms to the
 /// `Logging` protocol and use an instance of it to set the `Log.logging` variable.
 public enum Log {
-    public static var logging: Logging?
+    nonisolated(unsafe) public static var logging: Logging?
     /// Used to print more verbose information.
     /// - Parameters:
     ///   - label: the name of the label to localize message
