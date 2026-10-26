@@ -23,7 +23,7 @@ targets:
     type: framework
     sources: Sources
     platform: iOS
-    deploymentTarget: "12.0"
+    deploymentTarget: "15.0"
     settings:
       GENERATE_INFOPLIST_FILE: YES
 " >>project.yml
@@ -33,7 +33,7 @@ xcodegen generate
 # Create a Podfile with our pod as dependency.
 echo "
 target '$PROJECT_NAME' do
-  platform :ios, '12.0'
+  platform :ios, '15.0'
   use_frameworks!
   pod 'AEPRulesEngine', :path => '../'
 end
@@ -75,7 +75,7 @@ targets:
     type: framework
     sources: Sources
     platform: tvOS
-    deploymentTarget: "12.0"
+    deploymentTarget: "15.0"
     settings:
       GENERATE_INFOPLIST_FILE: YES
 " >>project.yml
@@ -85,7 +85,7 @@ xcodegen generate
 # Create a Podfile with our pod as dependency.
 echo "
 target '$PROJECT_NAME' do
-  platform :tvos, '12.0'
+  platform :tvos, '15.0'
   use_frameworks!
   pod 'AEPRulesEngine', :path => '../'
 end

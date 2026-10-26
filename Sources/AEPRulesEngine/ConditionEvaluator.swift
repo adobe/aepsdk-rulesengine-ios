@@ -62,7 +62,7 @@ public extension ConditionEvaluator {
 }
 
 public extension ConditionEvaluator {
-    struct Options: OptionSet {
+    struct Options: OptionSet, Sendable {
         public let rawValue: Int
         public static let defaultOptions = Options(rawValue: 1 << 0)
         public static let caseInsensitive = Options(rawValue: 1 << 1)
