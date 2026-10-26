@@ -18,7 +18,7 @@ jobs:
         ref: main
     - uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode-version: 15.0.1
+        xcode-version: 15.3
     
     - name: Install jq
       run: brew install jq

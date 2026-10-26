@@ -35,4 +35,4 @@ version-source-code:
 	(cat ./Sources/AEPRulesEngine/RulesEngine.swift | egrep '\s*version\s*=\s*\"(.*)\"' | ruby -e "puts gets.scan(/\"(.*)\"/)[0] " | tr -d '"')
 
 pod-lint:
-	(pod lib lint --allow-warnings --verbose --swift-version=5.1)
+	(pod lib lint --allow-warnings --verbose --swift-version=5.10)
